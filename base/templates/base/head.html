@@ -1,0 +1,21 @@
+{% load static from staticfiles %}
+{% load i18n %}
+<head>
+	<meta charset="UTF-8">
+	<title>{% trans 'Censo' %}</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
+	<meta name="description" content="{% trans 'Sistema de censo' %}">
+	<meta name="author" content="William Páez (paez.william8 at gmail.com)">
+	<!-- Tell the browser to be responsive to screen width -->
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'node_modules/select2/dist/css/select2.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+	<link rel="stylesheet" href="{% static 'node_modules/@fortawesome/fontawesome-free/css/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+	<link rel="stylesheet" href="{% static 'node_modules/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/sb-admin.min.css' %}">
+	{% block extra_head %}
+
+	{% endblock %}
+</head>

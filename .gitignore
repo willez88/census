@@ -1,0 +1,6 @@
+*.pyc
+*.py~
+*.sqlite3
+settings.py
+migrations
+static/node_modules
