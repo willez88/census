@@ -1,15 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import User
+from base.models import Ubch
 
-class Municipality(models.Model):
+class Profile(models.Model):
     """!
-    Clase que contiene los municipios
+    Clase que contiene los datos del perfil de un usuario
 
     @author William Páez (paez.william8 at gmail.com)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Nombre del Municipio
-    name = models.CharField('nombre', max_length=50)
+    ## Relación con el modelo User
+    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='usuario')
 
     def __str__(self):
         """!
@@ -17,10 +19,10 @@ class Municipality(models.Model):
 
         @author William Páez (paez.william8 at gmail.com)
         @param self <b>{object}</b> Objeto que instancia la clase
-        @return string <b>{object}</b> Objeto con el nombre del municipio
+        @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return self.name
+        return self.user.first_name + ' ' + self.user.last_name
 
     class Meta:
         """!
@@ -29,22 +31,22 @@ class Municipality(models.Model):
         @author William Páez (paez.william8 at gmail.com)
         """
 
-        verbose_name = 'Municipio'
-        verbose_name_plural = 'Municipios'
+        verbose_name = 'Perfil'
+        verbose_name_plural = 'Perfiles'
 
-class Parish(models.Model):
+class UbchLevel(models.Model):
     """!
-    Clase que contiene las parroquias
+    Clase que contiene los datos de un usuario nivel de ubch
 
     @author William Páez (paez.william8 at gmail.com)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Nombre de la Parroquia
-    name = models.CharField('nombre', max_length=50)
+    ## Relación con el modelo Ubch
+    ubch = models.OneToOneField(Ubch, on_delete=models.CASCADE, verbose_name='ubch')
 
-    ## Municipio en el que se encuentra ubicada la Parroquia
-    municipality = models.ForeignKey(Municipality,on_delete=models.CASCADE, verbose_name='municipio')
+    ## Relación con el modelo Profile
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil')
 
     def __str__(self):
         """!
@@ -52,10 +54,10 @@ class Parish(models.Model):
 
         @author William Páez (paez.william8 at gmail.com)
         @param self <b>{object}</b> Objeto que instancia la clase
-        @return string <b>{object}</b> Objeto con el nombre de la parroquia
+        @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return self.name
+        return self.user.first_name + ' ' + self.user.last_name + ' | ' + str(self.ubch)
 
     class Meta:
         """!
@@ -64,25 +66,22 @@ class Parish(models.Model):
         @author William Páez (paez.william8 at gmail.com)
         """
 
-        verbose_name = 'Parroquia'
-        verbose_name_plural = 'Parroquias'
+        verbose_name = 'Nivel ubch'
+        verbose_name_plural = 'Nivel ubch'
 
-class Ubch(models.Model):
+class StreetLeader(models.Model):
     """!
-    Clase que contiene los datos de una UBCH
+    Clase que contiene los datos de un usuario líder de calle
 
     @author William Páez (paez.william8 at gmail.com)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Código de la ubch
-    code = models.CharField('código', max_length=15)
+    ## Relación con el modelo UbchLevel
+    ubch_level = models.ForeignKey(UbchLevel, on_delete=models.CASCADE, verbose_name='nivel ubch')
 
-    ## Nombre de la UBCH
-    name = models.CharField('nombre', max_length=500)
-
-    ## Parroquia donde se encuentra ubicada la ubch
-    parish = models.ForeignKey(Parish,on_delete=models.CASCADE, verbose_name='parroquia')
+    ## Relación con el modelo Profile
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil')
 
     def __str__(self):
         """!
@@ -90,10 +89,10 @@ class Ubch(models.Model):
 
         @author William Páez (paez.william8 at gmail.com)
         @param self <b>{object}</b> Objeto que instancia la clase
-        @return string <b>{object}</b> Objeto con el nombre
+        @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return self.name
+        return self.user.first_name + ' ' + self.user.last_name + ' | ' + str(self.ubch_level.ubch)
 
     class Meta:
         """!
@@ -102,5 +101,5 @@ class Ubch(models.Model):
         @author William Páez (paez.william8 at gmail.com)
         """
 
-        verbose_name = 'Ubch'
-        verbose_name_plural = 'Ubchs'
+        verbose_name = 'Líder de calle'
+        verbose_name_plural = 'Líderes de calle'
