@@ -1,7 +1,10 @@
 from django.urls import path, include, reverse_lazy
 from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
-#from .views import ProfileCreateView, ProfileUpdateView, ProfileDetailView
+from .views import (
+    ProfileUpdateView, CommunityLeaderListView, CommunityLeaderFormView, StreetLeaderListView,
+    StreetLeaderFormView
+)
 
 app_name = 'user'
 
@@ -21,6 +24,12 @@ urlpatterns = [
         success_url = reverse_lazy('user:password_change_done'))), name='password_change'),
     path('password-change-done/', login_required(views.PasswordChangeDoneView.as_view(template_name='user/password_change_done.html')),
         name='password_change_done'),
+
+    path('profile/update/<int:pk>/', login_required(ProfileUpdateView.as_view()), name='profile_update'),
+    path('community-leader/list/', login_required(CommunityLeaderListView.as_view()), name='community_leader_list'),
+    path('community-leader/create/', login_required(CommunityLeaderFormView.as_view()), name='community_leader_create'),
+    path('street-leader/list/', login_required(StreetLeaderListView.as_view()), name='street_leader_list'),
+    path('street-leader/create/', login_required(StreetLeaderFormView.as_view()), name='street_leader_create'),
     #path('profile-create/', ProfileCreateView.as_view(), name='profile_create'),
     #path('profile-update/<int:pk>/', login_required(ProfileUpdateView.as_view()), name='profile_update'),
     #path('profile-detail/<int:pk>/', ProfileDetailView.as_view(), name='profile_detail')

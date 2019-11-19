@@ -1,0 +1,2690 @@
+[
+{
+    "model": "base.municipality",
+    "pk": 1,
+    "fields": {
+        "name": "Alto Orinoco",
+        "estate": 1
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 2,
+    "fields": {
+        "name": "Atabapo",
+        "estate": 1
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 3,
+    "fields": {
+        "name": "Atures",
+        "estate": 1
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 4,
+    "fields": {
+        "name": "Autana",
+        "estate": 1
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 5,
+    "fields": {
+        "name": "Manapiare",
+        "estate": 1
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 6,
+    "fields": {
+        "name": "Maroa",
+        "estate": 1
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 7,
+    "fields": {
+        "name": "R\u00edo Negro",
+        "estate": 1
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 8,
+    "fields": {
+        "name": "Anaco",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 9,
+    "fields": {
+        "name": "Aragua",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 10,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 11,
+    "fields": {
+        "name": "Bruzual",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 12,
+    "fields": {
+        "name": "Carvajal",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 13,
+    "fields": {
+        "name": "Cajigal",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 14,
+    "fields": {
+        "name": "Diego Bautista Urbaneja",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 15,
+    "fields": {
+        "name": "Freites",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 16,
+    "fields": {
+        "name": "Guanta",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 17,
+    "fields": {
+        "name": "Guanipa",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 18,
+    "fields": {
+        "name": "Independencia",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 19,
+    "fields": {
+        "name": "Libertad",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 20,
+    "fields": {
+        "name": "McGregor",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 21,
+    "fields": {
+        "name": "Miranda",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 22,
+    "fields": {
+        "name": "Monagas",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 23,
+    "fields": {
+        "name": "Pe\u00f1alver",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 24,
+    "fields": {
+        "name": "P\u00edritu",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 25,
+    "fields": {
+        "name": "San Juan de Capistrano",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 26,
+    "fields": {
+        "name": "Santa Ana",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 27,
+    "fields": {
+        "name": "S\u00edm\u00f3n Rodr\u00edguez",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 28,
+    "fields": {
+        "name": "Sotillo",
+        "estate": 2
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 29,
+    "fields": {
+        "name": "Achaguas",
+        "estate": 3
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 30,
+    "fields": {
+        "name": "Biruaca",
+        "estate": 3
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 31,
+    "fields": {
+        "name": "Camejo",
+        "estate": 3
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 32,
+    "fields": {
+        "name": "Mu\u00f1oz",
+        "estate": 3
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 33,
+    "fields": {
+        "name": "P\u00e1ez",
+        "estate": 3
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 34,
+    "fields": {
+        "name": "R\u00f3mulo Gallegos",
+        "estate": 3
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 35,
+    "fields": {
+        "name": "San Fernando",
+        "estate": 3
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 36,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 37,
+    "fields": {
+        "name": "Camatagua",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 38,
+    "fields": {
+        "name": "Francisco Linares Alc\u00e1ntara",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 39,
+    "fields": {
+        "name": "Girardot",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 40,
+    "fields": {
+        "name": "Jos\u00e9 \u00c1ngel Lamas",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 41,
+    "fields": {
+        "name": "Jos\u00e9 F\u00e9liz Ribas",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 42,
+    "fields": {
+        "name": "Jos\u00e9 Rafael Revenga",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 43,
+    "fields": {
+        "name": "Libertador",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 44,
+    "fields": {
+        "name": "Mario Brice\u00f1o Iragorry",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 45,
+    "fields": {
+        "name": "Ocumare de la Costa de Oro",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 46,
+    "fields": {
+        "name": "San Casimiro",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 47,
+    "fields": {
+        "name": "San Sebasti\u00e1n",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 48,
+    "fields": {
+        "name": "Santiago Mari\u00f1o",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 49,
+    "fields": {
+        "name": "Santos Michelena",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 50,
+    "fields": {
+        "name": "Sucre",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 51,
+    "fields": {
+        "name": "Tovar",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 52,
+    "fields": {
+        "name": "Urdaneta",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 53,
+    "fields": {
+        "name": "Zamora",
+        "estate": 4
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 54,
+    "fields": {
+        "name": "Arismendi",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 55,
+    "fields": {
+        "name": "Barinas",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 56,
+    "fields": {
+        "name": "Blanco",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 57,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 58,
+    "fields": {
+        "name": "Cruz Paredes",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 59,
+    "fields": {
+        "name": "Obispos",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 60,
+    "fields": {
+        "name": "Pedraza",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 61,
+    "fields": {
+        "name": "Rojas",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 62,
+    "fields": {
+        "name": "Sosa",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 63,
+    "fields": {
+        "name": "Sucre",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 64,
+    "fields": {
+        "name": "Torrealba",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 65,
+    "fields": {
+        "name": "Zamora",
+        "estate": 5
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 66,
+    "fields": {
+        "name": "Angostura",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 67,
+    "fields": {
+        "name": "Caron\u00ed",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 68,
+    "fields": {
+        "name": "Cede\u00f1o",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 69,
+    "fields": {
+        "name": "Chien",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 70,
+    "fields": {
+        "name": "El Callao",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 71,
+    "fields": {
+        "name": "Gran Sabana",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 72,
+    "fields": {
+        "name": "Heres",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 73,
+    "fields": {
+        "name": "Piar",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 74,
+    "fields": {
+        "name": "Roscio",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 75,
+    "fields": {
+        "name": "Sifontes",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 76,
+    "fields": {
+        "name": "Sucre",
+        "estate": 6
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 77,
+    "fields": {
+        "name": "Bejuma",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 78,
+    "fields": {
+        "name": "Carlos Arvelo",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 79,
+    "fields": {
+        "name": "Diego Ibarra",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 80,
+    "fields": {
+        "name": "Guacara",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 81,
+    "fields": {
+        "name": "Juan Jos\u00e9 Mora",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 82,
+    "fields": {
+        "name": "Libertador",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 83,
+    "fields": {
+        "name": "Los Guayos",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 84,
+    "fields": {
+        "name": "Miranda",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 85,
+    "fields": {
+        "name": "Montalb\u00e1n",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 86,
+    "fields": {
+        "name": "Naguanagua",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 87,
+    "fields": {
+        "name": "Puerto Cabello",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 88,
+    "fields": {
+        "name": "San Diego",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 89,
+    "fields": {
+        "name": "San Joaqu\u00edn",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 90,
+    "fields": {
+        "name": "Valencia",
+        "estate": 7
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 91,
+    "fields": {
+        "name": "Anzo\u00e1tegui",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 92,
+    "fields": {
+        "name": "Pao de San Juan Bautista",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 93,
+    "fields": {
+        "name": "Tinaquillo",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 94,
+    "fields": {
+        "name": "Girardot",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 95,
+    "fields": {
+        "name": "Lima Blanco",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 96,
+    "fields": {
+        "name": "Ricaurte",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 97,
+    "fields": {
+        "name": "R\u00f3mulo Gallegos",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 98,
+    "fields": {
+        "name": "Ezequiel Zamora",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 99,
+    "fields": {
+        "name": "Tinaco",
+        "estate": 8
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 100,
+    "fields": {
+        "name": "Antonio D\u00edaz",
+        "estate": 9
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 101,
+    "fields": {
+        "name": "Casacoima",
+        "estate": 9
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 102,
+    "fields": {
+        "name": "Pedernales",
+        "estate": 9
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 103,
+    "fields": {
+        "name": "Tucupita",
+        "estate": 9
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 104,
+    "fields": {
+        "name": "Libertador",
+        "estate": 10
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 105,
+    "fields": {
+        "name": "Acosta",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 106,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 107,
+    "fields": {
+        "name": "Buchivacoa",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 108,
+    "fields": {
+        "name": "Carirubana",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 109,
+    "fields": {
+        "name": "Colina",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 110,
+    "fields": {
+        "name": "Dabajuro",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 111,
+    "fields": {
+        "name": "Democracia",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 112,
+    "fields": {
+        "name": "Falc\u00f3n",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 113,
+    "fields": {
+        "name": "Federaci\u00f3n",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 114,
+    "fields": {
+        "name": "Iturriza",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 115,
+    "fields": {
+        "name": "Jacura",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 116,
+    "fields": {
+        "name": "Los Taques",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 117,
+    "fields": {
+        "name": "Mauroa",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 118,
+    "fields": {
+        "name": "Manaure",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 119,
+    "fields": {
+        "name": "Miranda",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 120,
+    "fields": {
+        "name": "Palma Sola",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 121,
+    "fields": {
+        "name": "Petit",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 122,
+    "fields": {
+        "name": "P\u00edritu",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 123,
+    "fields": {
+        "name": "San Francisco",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 124,
+    "fields": {
+        "name": "Silva",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 125,
+    "fields": {
+        "name": "Sucre",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 126,
+    "fields": {
+        "name": "Toc\u00f3pero",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 127,
+    "fields": {
+        "name": "Uni\u00f3n",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 128,
+    "fields": {
+        "name": "Urumaco",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 129,
+    "fields": {
+        "name": "Zamora",
+        "estate": 11
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 130,
+    "fields": {
+        "name": "Camagu\u00e1n",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 131,
+    "fields": {
+        "name": "Chaguaramas",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 132,
+    "fields": {
+        "name": "El Socorro",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 133,
+    "fields": {
+        "name": "Infante",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 134,
+    "fields": {
+        "name": "Las Mercedes",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 135,
+    "fields": {
+        "name": "Mellado",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 136,
+    "fields": {
+        "name": "Miranda",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 137,
+    "fields": {
+        "name": "Monagas",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 138,
+    "fields": {
+        "name": "Ortiz",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 139,
+    "fields": {
+        "name": "Ribas",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 140,
+    "fields": {
+        "name": "Roscio",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 141,
+    "fields": {
+        "name": "San Ger\u00f3nimo de Guayabal",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 142,
+    "fields": {
+        "name": "San Jos\u00e9 de Guaribe",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 143,
+    "fields": {
+        "name": "Santa Mar\u00eda de Ipire",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 144,
+    "fields": {
+        "name": "Zaraza",
+        "estate": 12
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 145,
+    "fields": {
+        "name": "Andr\u00e9s Eloy Blanco",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 146,
+    "fields": {
+        "name": "Crespo",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 147,
+    "fields": {
+        "name": "Iribarren",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 148,
+    "fields": {
+        "name": "J\u00edmenez",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 149,
+    "fields": {
+        "name": "Mor\u00e1n",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 150,
+    "fields": {
+        "name": "Palavecino",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 151,
+    "fields": {
+        "name": "Sim\u00f3n Planas",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 152,
+    "fields": {
+        "name": "Torres",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 153,
+    "fields": {
+        "name": "Urdaneta",
+        "estate": 13
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 154,
+    "fields": {
+        "name": "Alberto Adriani",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 155,
+    "fields": {
+        "name": "Andr\u00e9s Bello",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 156,
+    "fields": {
+        "name": "Antonio Pinto Salinas",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 157,
+    "fields": {
+        "name": "Aricagua",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 158,
+    "fields": {
+        "name": "Arzobispo Chac\u00f3n",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 159,
+    "fields": {
+        "name": "Campo El\u00edas",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 160,
+    "fields": {
+        "name": "Caracciolo Parra Olmedo",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 161,
+    "fields": {
+        "name": "Cardenal Quintero",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 162,
+    "fields": {
+        "name": "Guaraque",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 163,
+    "fields": {
+        "name": "Julio C\u00e9sar Salas",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 164,
+    "fields": {
+        "name": "Justo Brice\u00f1o",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 165,
+    "fields": {
+        "name": "Libertador",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 166,
+    "fields": {
+        "name": "Miranda",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 167,
+    "fields": {
+        "name": "Obispo Ramos de Lora",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 168,
+    "fields": {
+        "name": "Padre Noguera",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 169,
+    "fields": {
+        "name": "Pueblo Llano",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 170,
+    "fields": {
+        "name": "R\u00e1ngel",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 171,
+    "fields": {
+        "name": "Rivas D\u00e1vila",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 172,
+    "fields": {
+        "name": "Santos Marquina",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 173,
+    "fields": {
+        "name": "Sucre",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 174,
+    "fields": {
+        "name": "Tovar",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 175,
+    "fields": {
+        "name": "Tulio Febres Cordero",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 176,
+    "fields": {
+        "name": "Zea",
+        "estate": 14
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 177,
+    "fields": {
+        "name": "Acevedo",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 178,
+    "fields": {
+        "name": "Andr\u00e9s Bello",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 179,
+    "fields": {
+        "name": "Baruta",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 180,
+    "fields": {
+        "name": "Bri\u00f3n",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 181,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 182,
+    "fields": {
+        "name": "Buroz",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 183,
+    "fields": {
+        "name": "Carrizal",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 184,
+    "fields": {
+        "name": "Chacao",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 185,
+    "fields": {
+        "name": "El Hatillo",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 186,
+    "fields": {
+        "name": "Guaicaipuro",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 187,
+    "fields": {
+        "name": "Gual",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 188,
+    "fields": {
+        "name": "Independencia",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 189,
+    "fields": {
+        "name": "Lander",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 190,
+    "fields": {
+        "name": "Los Salias",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 191,
+    "fields": {
+        "name": "P\u00e1ez",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 192,
+    "fields": {
+        "name": "Paz Castillo",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 193,
+    "fields": {
+        "name": "Plaza",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 194,
+    "fields": {
+        "name": "Rojas",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 195,
+    "fields": {
+        "name": "Urdaneta",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 196,
+    "fields": {
+        "name": "Sucre",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 197,
+    "fields": {
+        "name": "Zamora",
+        "estate": 15
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 198,
+    "fields": {
+        "name": "Acosta",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 199,
+    "fields": {
+        "name": "Aguasay",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 200,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 201,
+    "fields": {
+        "name": "Caripe",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 202,
+    "fields": {
+        "name": "Cede\u00f1o",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 203,
+    "fields": {
+        "name": "Libertador",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 204,
+    "fields": {
+        "name": "Matur\u00edn",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 205,
+    "fields": {
+        "name": "Piar",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 206,
+    "fields": {
+        "name": "Punceres",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 207,
+    "fields": {
+        "name": "Santa B\u00e1rbara",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 208,
+    "fields": {
+        "name": "Sotillo",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 209,
+    "fields": {
+        "name": "Uracoa",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 210,
+    "fields": {
+        "name": "Zamora",
+        "estate": 16
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 211,
+    "fields": {
+        "name": "Antol\u00edn del Campo",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 212,
+    "fields": {
+        "name": "Arismendi",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 213,
+    "fields": {
+        "name": "D\u00edaz",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 214,
+    "fields": {
+        "name": "Garc\u00eda",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 215,
+    "fields": {
+        "name": "G\u00f3mez",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 216,
+    "fields": {
+        "name": "Maneiro",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 217,
+    "fields": {
+        "name": "Marcano",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 218,
+    "fields": {
+        "name": "Mari\u00f1o",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 219,
+    "fields": {
+        "name": "Macanao",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 220,
+    "fields": {
+        "name": "Tubores",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 221,
+    "fields": {
+        "name": "Villalba",
+        "estate": 17
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 222,
+    "fields": {
+        "name": "Agua Blanca",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 223,
+    "fields": {
+        "name": "Araure",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 224,
+    "fields": {
+        "name": "Esteller",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 225,
+    "fields": {
+        "name": "Guanare",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 226,
+    "fields": {
+        "name": "Guanarito",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 227,
+    "fields": {
+        "name": "Jos\u00e9 Vicente de Unda",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 228,
+    "fields": {
+        "name": "Ospino",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 229,
+    "fields": {
+        "name": "P\u00e1ez",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 230,
+    "fields": {
+        "name": "Papel\u00f3n",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 231,
+    "fields": {
+        "name": "San Genaro de Bocono\u00edto",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 232,
+    "fields": {
+        "name": "San Rafael de Onoto",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 233,
+    "fields": {
+        "name": "Santa Rosal\u00eda",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 234,
+    "fields": {
+        "name": "Sucre",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 235,
+    "fields": {
+        "name": "Tur\u00e9n",
+        "estate": 18
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 236,
+    "fields": {
+        "name": "Andr\u00e9s Eloy Blanco",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 237,
+    "fields": {
+        "name": "Andr\u00e9s Mata",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 238,
+    "fields": {
+        "name": "Arismendi",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 239,
+    "fields": {
+        "name": "Ben\u00edtez",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 240,
+    "fields": {
+        "name": "Berm\u00fadez",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 241,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 242,
+    "fields": {
+        "name": "Cajigal",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 243,
+    "fields": {
+        "name": "Cruz Salmer\u00f3n Acosta",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 244,
+    "fields": {
+        "name": "Libertador",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 245,
+    "fields": {
+        "name": "Mari\u00f1o",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 246,
+    "fields": {
+        "name": "Mej\u00eda",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 247,
+    "fields": {
+        "name": "Montes",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 248,
+    "fields": {
+        "name": "Ribero",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 249,
+    "fields": {
+        "name": "Sucre",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 250,
+    "fields": {
+        "name": "Valdez",
+        "estate": 19
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 251,
+    "fields": {
+        "name": "Andr\u00e9s Bello",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 252,
+    "fields": {
+        "name": "Antonio R\u00f3mulo Costa",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 253,
+    "fields": {
+        "name": "Ayacucho",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 254,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 255,
+    "fields": {
+        "name": "C\u00e1rdenas",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 256,
+    "fields": {
+        "name": "C\u00f3rdoba",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 257,
+    "fields": {
+        "name": "Fern\u00e1ndez Feo",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 258,
+    "fields": {
+        "name": "Francisco de Miranda",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 259,
+    "fields": {
+        "name": "Garc\u00eda de Hevia",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 260,
+    "fields": {
+        "name": "Gu\u00e1simos",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 261,
+    "fields": {
+        "name": "Independencia",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 262,
+    "fields": {
+        "name": "J\u00e1uregui",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 263,
+    "fields": {
+        "name": "Jos\u00e9 Mar\u00eda Vargas",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 264,
+    "fields": {
+        "name": "Jun\u00edn",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 265,
+    "fields": {
+        "name": "San Judas Tadeo",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 266,
+    "fields": {
+        "name": "Andr\u00e9s Bello",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 267,
+    "fields": {
+        "name": "Bocon\u00f3",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 268,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 269,
+    "fields": {
+        "name": "Candelaria",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 270,
+    "fields": {
+        "name": "Carache",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 271,
+    "fields": {
+        "name": "Carvajal",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 272,
+    "fields": {
+        "name": "Campo El\u00edas",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 273,
+    "fields": {
+        "name": "Escuque",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 274,
+    "fields": {
+        "name": "La Ceiba",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 275,
+    "fields": {
+        "name": "M\u00e1rquez Ca\u00f1izalez",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 276,
+    "fields": {
+        "name": "Miranda",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 277,
+    "fields": {
+        "name": "Monte Carmelo",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 278,
+    "fields": {
+        "name": "Motat\u00e1n",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 279,
+    "fields": {
+        "name": "Pamp\u00e1n",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 280,
+    "fields": {
+        "name": "Pampanito",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 281,
+    "fields": {
+        "name": "R\u00e1ngel",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 282,
+    "fields": {
+        "name": "Sucre",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 283,
+    "fields": {
+        "name": "Trujillo",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 284,
+    "fields": {
+        "name": "Urdaneta",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 285,
+    "fields": {
+        "name": "Valera",
+        "estate": 21
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 286,
+    "fields": {
+        "name": "Vargas",
+        "estate": 22
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 287,
+    "fields": {
+        "name": "Bastidas",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 288,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 289,
+    "fields": {
+        "name": "Bruzual",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 290,
+    "fields": {
+        "name": "Cocorote",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 291,
+    "fields": {
+        "name": "Independencia",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 292,
+    "fields": {
+        "name": "La Trinidad",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 293,
+    "fields": {
+        "name": "Monge",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 294,
+    "fields": {
+        "name": "Nirgua",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 295,
+    "fields": {
+        "name": "P\u00e1ez",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 296,
+    "fields": {
+        "name": "Pe\u00f1a",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 297,
+    "fields": {
+        "name": "San Felipe",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 298,
+    "fields": {
+        "name": "Sucre",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 299,
+    "fields": {
+        "name": "Urachiche",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 300,
+    "fields": {
+        "name": "Veroes",
+        "estate": 23
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 301,
+    "fields": {
+        "name": "Almirante Padilla",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 302,
+    "fields": {
+        "name": "Baralt",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 303,
+    "fields": {
+        "name": "Cabimas",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 304,
+    "fields": {
+        "name": "Catatumbo",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 305,
+    "fields": {
+        "name": "Col\u00f3n",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 306,
+    "fields": {
+        "name": "Francisco Javier Pulgar",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 307,
+    "fields": {
+        "name": "Jes\u00fas Enrique Lossada",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 308,
+    "fields": {
+        "name": "Jes\u00fas Mar\u00eda Sempr\u00fan",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 309,
+    "fields": {
+        "name": "La Ca\u00f1ada de Urdaneta",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 310,
+    "fields": {
+        "name": "Lagunillas",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 311,
+    "fields": {
+        "name": "Machiques de Perij\u00e1",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 312,
+    "fields": {
+        "name": "Mara",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 313,
+    "fields": {
+        "name": "Maracaibo",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 314,
+    "fields": {
+        "name": "Miranda",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 315,
+    "fields": {
+        "name": "Guajira",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 316,
+    "fields": {
+        "name": "Rosario de Perij\u00e1",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 317,
+    "fields": {
+        "name": "San Francisco",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 318,
+    "fields": {
+        "name": "Santa Rita",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 319,
+    "fields": {
+        "name": "Sim\u00f3n Bol\u00edvar",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 320,
+    "fields": {
+        "name": "Sucre",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 321,
+    "fields": {
+        "name": "Valmore Rodr\u00edguez",
+        "estate": 24
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 322,
+    "fields": {
+        "name": "Libertad",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 323,
+    "fields": {
+        "name": "Libertador",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 324,
+    "fields": {
+        "name": "Lobatera",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 325,
+    "fields": {
+        "name": "Michelena",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 326,
+    "fields": {
+        "name": "Panamericano",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 327,
+    "fields": {
+        "name": "Pedro Mar\u00eda Ure\u00f1a",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 328,
+    "fields": {
+        "name": "Rafael Urdaneta",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 329,
+    "fields": {
+        "name": "Samuel Dar\u00edo Maldonado",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 330,
+    "fields": {
+        "name": "San Crist\u00f3bal",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 331,
+    "fields": {
+        "name": "Seboruco",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 332,
+    "fields": {
+        "name": "Sim\u00f3n Rodr\u00edguez",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 333,
+    "fields": {
+        "name": "Sucre",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 334,
+    "fields": {
+        "name": "Torbes",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 335,
+    "fields": {
+        "name": "Uribante",
+        "estate": 20
+    }
+},
+{
+    "model": "base.municipality",
+    "pk": 336,
+    "fields": {
+        "name": "P\u00e1ez",
+        "estate": 24
+    }
+}
+]

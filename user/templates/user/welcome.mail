@@ -1,0 +1,29 @@
+Ud ha sido registrado en Sistema Censo
+
+Datos del administrador de la Ubch:
+
+{{ first_name }} {{ last_name }}, {{ email }}
+Nombre: {{ ubch }}, {{ ubch.parish }}, {{ ubch.parish.municipality }}, {{ ubch.parish.municipality.estate }}
+
+Las credenciales de su cuenta son:
+
+usuario: {{ username }}
+contraseña: {{ password }}
+
+Para entrar al sistema visite la siguiente dirección:
+
+{{ url }}
+
+Cambie su clave inmediatamente al entrar a su cuenta.
+
+Si usted cree que este correo es spam o no fue utilizado en el registro de usuarios bajo su consentimiento,
+haga caso omiso del mismo y elimínelo inmediatamente.
+
+Recomendamos agregar el correo {{ emailapp|safe }} a su lista de contacto para futuros correos enviados por el sistema y
+para que su proveedor de correo no lo archive como spam.
+
+Bienvenido a Censo
+
+Administrador del Sistema
+{{ admin|safe }}
+{{ admin_email|safe }}

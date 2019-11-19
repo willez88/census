@@ -1,3 +1,4 @@
+{% load auth_extra %}
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top" id="mainNav">
   <a class="navbar-brand mr-1" href="{% url 'base:home' %}">Censo</a>
   <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
@@ -23,8 +24,7 @@
           {{ request.user.username }}
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-          <a class="dropdown-item" href="#">Detalles</a>
-          <a class="dropdown-item" href="#">Perfil</a>
+          <a class="dropdown-item" href="{% url 'user:profile_update' request.user.profile.id %}">Perfil</a>
           <a class="dropdown-item" href="{% url 'user:password_change' %}">Cambiar Contraseña</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="{% url 'user:logout' %}"><i class="fas fa-sign-out-alt"></i>Salir</a>

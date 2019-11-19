@@ -1,0 +1,202 @@
+[
+{
+    "model": "base.estate",
+    "pk": 1,
+    "fields": {
+        "name": "Amazonas",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 2,
+    "fields": {
+        "name": "Anzo\u00e1tegui",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 3,
+    "fields": {
+        "name": "Apure",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 4,
+    "fields": {
+        "name": "Aragua",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 5,
+    "fields": {
+        "name": "Barinas",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 6,
+    "fields": {
+        "name": "Bol\u00edvar",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 7,
+    "fields": {
+        "name": "Carabobo",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 8,
+    "fields": {
+        "name": "Cojedes",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 9,
+    "fields": {
+        "name": "Delta Amacuro",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 10,
+    "fields": {
+        "name": "Distrito Capital",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 11,
+    "fields": {
+        "name": "Falc\u00f3n",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 12,
+    "fields": {
+        "name": "Gu\u00e1rico",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 13,
+    "fields": {
+        "name": "Lara",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 14,
+    "fields": {
+        "name": "M\u00e9rida",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 15,
+    "fields": {
+        "name": "Miranda",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 16,
+    "fields": {
+        "name": "Monagas",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 17,
+    "fields": {
+        "name": "Nueva Esparta",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 18,
+    "fields": {
+        "name": "Portuguesa",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 19,
+    "fields": {
+        "name": "Sucre",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 20,
+    "fields": {
+        "name": "T\u00e1chira",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 21,
+    "fields": {
+        "name": "Trujillo",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 22,
+    "fields": {
+        "name": "Vargas",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 23,
+    "fields": {
+        "name": "Yaracuy",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 24,
+    "fields": {
+        "name": "Zulia",
+        "country": 191
+    }
+},
+{
+    "model": "base.estate",
+    "pk": 25,
+    "fields": {
+        "name": "Dependencias Federales",
+        "country": 191
+    }
+}
+]

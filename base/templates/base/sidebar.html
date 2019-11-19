@@ -1,3 +1,4 @@
+{% load auth_extra %}
 <ul class="sidebar navbar-nav">
   <li class="nav-item" id="ba">
     <a class="nav-link" href="{% url 'base:home' %}">
@@ -6,11 +7,27 @@
     </a>
   </li>
   {% if request.user.is_authenticated %}
-    <li class="nav-item" id="pe">
-      <a class="nav-link" href="#">
-        <i class="fas fa-fw fa-user-plus"></i>
-        <span>Personas</span>
-      </a>
-    </li>
+    {% if request.user|has_group:'Nivel Ubch' %}
+      <li class="nav-item" id="nivel_ubch">
+        <a class="nav-link" href="{% url 'user:community_leader_list' %}">
+          <i class="fas fa-fw fa-user-plus"></i>
+          <span>Líder de Comunidad</span>
+        </a>
+      </li>
+    {% elif request.user|has_group:'Líder de Comunidad' %}
+      <li class="nav-item" id="pe">
+        <a class="nav-link" href="{% url 'user:street_leader_list' %}">
+          <i class="fas fa-fw fa-user-plus"></i>
+          <span>Líder de Calle</span>
+        </a>
+      </li>
+    {% elif request.user|has_group:'Líder de Calle' %}
+      <li class="nav-item" id="pe">
+        <a class="nav-link" href="#">
+          <i class="fas fa-fw fa-user-plus"></i>
+          <span>Personas</span>
+        </a>
+      </li>
+    {% endif %}
   {% endif %}
 </ul>

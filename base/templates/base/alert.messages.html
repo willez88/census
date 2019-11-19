@@ -1,18 +1,15 @@
-{% load i18n %}
 {% for message in messages %}
   {% if message %}
-    <script type="text/javascript">
+    <script>
       var msg = "{{ message }}";
       var modal = bootbox.dialog({
+        size: "medium",
         message: msg,
-        title: "{% trans 'Aviso' %}",
+        backdrop: true,
         buttons: {
           success: {
-            label: "{% trans 'Cerrar' %}",
-            className: "btn-info",
-            callback: function() {
-
-            }
+            label: "Cerrar",
+            className: "btn-info rounded text-light"
           }
         }
       });

@@ -4,11 +4,14 @@ from base.models import Ubch
 
 class Profile(models.Model):
     """!
-    Clase que contiene los datos del perfil de un usuario
+    Clase que contiene los datos del perfil de usuario
 
     @author William Páez (paez.william8 at gmail.com)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     """
+
+    ## Cédula de identidad
+    id_number = models.CharField('cédula de identidad', max_length=8, unique=True)
 
     ## Relación con el modelo User
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='usuario')
@@ -22,7 +25,7 @@ class Profile(models.Model):
         @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return self.user.first_name + ' ' + self.user.last_name
+        return self.user.first_name + ' ' + self.user.last_name + ' - ' + self.id_number
 
     class Meta:
         """!
@@ -46,7 +49,7 @@ class UbchLevel(models.Model):
     ubch = models.OneToOneField(Ubch, on_delete=models.CASCADE, verbose_name='ubch')
 
     ## Relación con el modelo Profile
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil')
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True)
 
     def __str__(self):
         """!
@@ -57,7 +60,9 @@ class UbchLevel(models.Model):
         @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return self.user.first_name + ' ' + self.user.last_name + ' | ' + str(self.ubch)
+        return str(self.profile) + ' | ' + str(self.ubch) + \
+            ' - ' + str(self.ubch.parish) + ' - ' + str(self.ubch.parish.municipality) + \
+            ' - ' + str(self.ubch.parish.municipality.estate)
 
     class Meta:
         """!
@@ -67,11 +72,11 @@ class UbchLevel(models.Model):
         """
 
         verbose_name = 'Nivel ubch'
-        verbose_name_plural = 'Nivel ubch'
+        verbose_name_plural = 'Niveles ubch'
 
-class StreetLeader(models.Model):
+class CommunityLeader(models.Model):
     """!
-    Clase que contiene los datos de un usuario líder de calle
+    Clase que contiene los datos de un usuario líder de comunidad
 
     @author William Páez (paez.william8 at gmail.com)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
@@ -81,7 +86,7 @@ class StreetLeader(models.Model):
     ubch_level = models.ForeignKey(UbchLevel, on_delete=models.CASCADE, verbose_name='nivel ubch')
 
     ## Relación con el modelo Profile
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil')
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True)
 
     def __str__(self):
         """!
@@ -92,7 +97,43 @@ class StreetLeader(models.Model):
         @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return self.user.first_name + ' ' + self.user.last_name + ' | ' + str(self.ubch_level.ubch)
+        return str(self.ubch_level)
+
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Líder de comunidad'
+        verbose_name_plural = 'Líderes de comunidad'
+
+class StreetLeader(models.Model):
+    """!
+    Clase que contiene los datos de un usuario líder de calle
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    ## Relación con el modelo CommunityLeader
+    community_leader = models.ForeignKey(CommunityLeader, on_delete=models.CASCADE, verbose_name='líder de comunidad')
+
+    ## Relación con el modelo Profile
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True)
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre y apellido
+        """
+
+        return str(self.community_leader)
 
     class Meta:
         """!
