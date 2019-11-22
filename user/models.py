@@ -144,3 +144,42 @@ class StreetLeader(models.Model):
 
         verbose_name = 'Líder de calle'
         verbose_name_plural = 'Líderes de calle'
+
+class FamilyGroup(models.Model):
+    """!
+    Clase que contiene los datos de un usuario que gestiona su grupo familiar
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    ## Relación con el modelo StreetLeader
+    street_leader = models.ForeignKey(
+        StreetLeader,on_delete=models.CASCADE, verbose_name='líder de calle'
+    )
+
+    ## Relación con el modelo Profile
+    profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE, verbose_name='perfil'
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre y apellido
+        """
+
+        return self.street_leader
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Grupo Familiar'
+        verbose_name_plural = 'Grupos Familiares'

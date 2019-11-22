@@ -16,7 +16,6 @@ class Country(models.Model):
         Función para representar la clase de forma amigable
 
         @author William Páez (paez.william8 at gmail.com)
-        @date 06-07-2018
         @param self <b>{object}</b> Objeto que instancia la clase
         @return string <b>{object}</b> Objeto con el nombre del país
         """
@@ -175,3 +174,43 @@ class Ubch(models.Model):
 
         verbose_name = 'Ubch'
         verbose_name_plural = 'Ubchs'
+
+class CommunalCouncil(models.Model):
+    """!
+    Clase que contiene los datos de un consejo comunal
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    ## Número de rif del Consejo Comunal
+    rif = models.CharField(
+        max_length=10, unique=True
+    )
+
+    ## Nombre del Consejo Comunal
+    name = models.CharField('nombre', max_length=500)
+
+    ## Relación con el modelo Ubch
+    ubch = models.ForeignKey(Ubch,on_delete=models.CASCADE, verbose_name='ubch')
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el rif y el nombre
+        """
+
+        return self.rif + ' | ' + self.name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Consejo comunal'
+        verbose_name_plural = 'Consejos comunales'
