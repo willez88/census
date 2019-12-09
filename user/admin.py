@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, UbchLevel, CommunityLeader, StreetLeader
+from .models import Profile, UbchLevel, CommunityLeader, StreetLeader, FamilyGroup, Person
 from .forms import UbchLevelAdminForm
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -52,3 +52,27 @@ class StreetLeaderAdmin(admin.ModelAdmin):
     ## Mostrar los campos de la clase
     list_display = ('community_leader','profile')
 admin.site.register(StreetLeader, StreetLeaderAdmin)
+
+class FamilyGroupAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo FamilyGroup al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    ## Mostrar los campos de la clase
+    list_display = ('street_leader','profile')
+admin.site.register(FamilyGroup, FamilyGroupAdmin)
+
+class PersonAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo Person al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    ## Mostrar los campos de la clase
+    list_display = ('first_name','last_name','id_number')
+admin.site.register(Person, PersonAdmin)

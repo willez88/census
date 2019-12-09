@@ -23,9 +23,9 @@
       </li>
     {% elif request.user|has_group:'Líder de Calle' %}
       <li class="nav-item" id="pe">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{% url 'user:family_group_list' %}">
           <i class="fas fa-fw fa-user-plus"></i>
-          <span>Personas</span>
+          <span>Grupo Familiar</span>
         </a>
       </li>
     {% endif %}

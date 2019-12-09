@@ -3,7 +3,9 @@ from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
 from .views import (
     ProfileUpdateView, CommunityLeaderListView, CommunityLeaderFormView, StreetLeaderListView,
-    StreetLeaderFormView
+    StreetLeaderFormView, FamilyGroupListView, FamilyGroupCreateTemplateView,
+    FamilyGroupSaveView, FamilyGroupUpdateTemplateView, FamilyGroupDetailView,
+    FamilyGroupUpdateView
 )
 
 app_name = 'user'
@@ -30,7 +32,14 @@ urlpatterns = [
     path('community-leader/create/', login_required(CommunityLeaderFormView.as_view()), name='community_leader_create'),
     path('street-leader/list/', login_required(StreetLeaderListView.as_view()), name='street_leader_list'),
     path('street-leader/create/', login_required(StreetLeaderFormView.as_view()), name='street_leader_create'),
-    #path('profile-create/', ProfileCreateView.as_view(), name='profile_create'),
-    #path('profile-update/<int:pk>/', login_required(ProfileUpdateView.as_view()), name='profile_update'),
-    #path('profile-detail/<int:pk>/', ProfileDetailView.as_view(), name='profile_detail')
+    path('family-group/list/', login_required(FamilyGroupListView.as_view()), name='family_group_list'),
+    #path('family_group/create/', login_required(FamilyGroupFormView.as_view()), name='family_group_create'),
+
+    path('family-group/create/', login_required(FamilyGroupCreateTemplateView.as_view()), name='family_group_create'),
+    path('family-group/save/', login_required(FamilyGroupSaveView.as_view()), name='family_group_save'),
+
+    path('family-group/edit/<int:pk>/', login_required(FamilyGroupUpdateTemplateView.as_view()), name='family_group_edit'),
+    path('family-group/update/<int:pk>/', login_required(FamilyGroupUpdateView.as_view()), name='family_group_update'),
+
+    path('family-group/detail/<int:pk>/', login_required(FamilyGroupDetailView.as_view()), name='family_group_detail'),
 ]

@@ -1,4 +1,4 @@
-{% load static from staticfiles %}
+{% load static %}
 {% load i18n %}
 <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'node_modules/popper.js/dist/umd/popper.min.js' %}" type="text/javascript"></script>
@@ -20,6 +20,8 @@
 <script src="{% static 'node_modules/pdfmake/build/vfs_fonts.js' %}" type="text/javascript"></script>
 <script src="{% static 'node_modules/bootbox/bootbox.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/sb-admin.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'node_modules/vue/dist/vue.min.js' %}" type="text/javascript"></script>
+<script src="{% static 'node_modules/axios/dist/axios.min.js' %}" type="text/javascript"></script>
 {% include 'base/alert.messages.html' %}
 <script type="text/javascript">
   $(document).ready(function(){

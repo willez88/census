@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from base.models import Ubch
+from django.core import validators
 
 class Profile(models.Model):
     """!
@@ -172,7 +173,7 @@ class FamilyGroup(models.Model):
         @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return self.street_leader
+        return str(self.street_leader)
 
     class Meta:
         """!
@@ -183,3 +184,61 @@ class FamilyGroup(models.Model):
 
         verbose_name = 'Grupo Familiar'
         verbose_name_plural = 'Grupos Familiares'
+
+class Person(models.Model):
+    """!
+    Clase que contiene los datos principales de las personas
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    ## Nombres
+    first_name = models.CharField('nombre', max_length=100)
+
+    ## Apellidos
+    last_name = models.CharField('nombre', max_length=100)
+
+    ## Cédula de identidad
+    id_number = models.CharField(
+        'cédula de identidad', max_length=11, unique=True,
+        validators=[
+            validators.RegexValidator(
+                r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8}-([\d]{1}|[\d]{2})))$',
+                'Introduzca una cédula de identidad válido'
+            ),
+        ]
+    )
+
+    ## Correo electrónico
+    email = models.CharField('correo electrónico', max_length=100, null=True, blank=True)
+
+    # Teléfono (04160708340)
+    phone = models.CharField('teléfono', max_length=11, null=True, blank=True)
+
+    ## Estalece si la persona es jefe familiar o no
+    family_head = models.BooleanField()
+
+    ## Relación con el modelo FamilyGroup
+    family_group = models.ForeignKey(FamilyGroup,on_delete=models.CASCADE, verbose_name='grupo familiar')
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con los nombres y apellidos
+        """
+
+        return self.first_name + ' ' + self.last_name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Persona'
+        verbose_name_plural = 'Personas'
