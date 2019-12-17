@@ -69,7 +69,7 @@ class ProfileUpdateView(UpdateView):
         """
 
         self.object = form.save()
-        self.object.id_number = form.cleaned_data['id_number']
+        self.object.phone = form.cleaned_data['phone']
         self.object.save()
 
         user = User.objects.get(username=self.object.user.username)
@@ -216,7 +216,7 @@ class CommunityLeaderFormView(FormView):
         self.object.groups.add(Group.objects.get(name='Líder de Comunidad'))
 
         profile = Profile.objects.create(
-            id_number=form.cleaned_data['id_number'],
+            phone=form.cleaned_data['phone'],
             user= self.object
         )
 
@@ -373,7 +373,7 @@ class StreetLeaderFormView(FormView):
         self.object.groups.add(Group.objects.get(name='Líder de Calle'))
 
         profile = Profile.objects.create(
-            id_number=form.cleaned_data['id_number'],
+            phone=form.cleaned_data['phone'],
             user= self.object
         )
 
@@ -547,15 +547,15 @@ class FamilyGroupSaveView(View):
             errors['email'] = ['correo electrónico: el campo es inválido']
 
         ## Validar nombres
-        if not record['first_name']:
-            errors['first_name'] = ['nombres: este campo es requerido']
+        #if not record['first_name']:
+        #    errors['first_name'] = ['nombres: este campo es requerido']
 
         ## Validar apellidos
-        if not record['last_name']:
-            errors['last_name'] = ['apellidos: este campo es requerido']
+        #if not record['last_name']:
+        #    errors['last_name'] = ['apellidos: este campo es requerido']
 
-        if Profile.objects.filter(id_number=record['id_number']):
-            errors['id_number'] = ['cédula de identidad: el campo ya existe']
+        #if Profile.objects.filter(id_number=record['id_number']):
+        #    errors['id_number'] = ['cédula de identidad: el campo ya existe']
 
         i = 0
         j = 0
@@ -566,7 +566,7 @@ class FamilyGroupSaveView(View):
             field_3 = 'email_' + str(i)
             field_4 = 'phone' + str(i)
 
-            if person['family_head'] == 'true':
+            if person['family_head']:
                 j = j + 1
 
             ## Validar nombres
@@ -597,12 +597,9 @@ class FamilyGroupSaveView(View):
                 if not result:
                     errors[field_4] = ['teléfono_' + str(i) + ': el campo es inválido']
 
-            #if Person.objects.filter(family_group__street_leader__profile=self.request.user.profile,family_head=True).count() > 1:
-            #    errors[field_5] = ['jefe familiar_' + str(i) + ': solo puede haber 1 jefe familiar']
-
             i = i + 1
 
-        if j >= 2:
+        if j >= 2 or j==0:
             errors['family_head'] = ['jefe familiar: solo puede haber 1 jefe familiar']
 
         if errors:
@@ -614,14 +611,14 @@ class FamilyGroupSaveView(View):
             record['email'],
             password,
         )
-        user.first_name = record['first_name']
-        user.last_name = record['last_name']
+        #user.first_name = record['first_name']
+        #user.last_name = record['last_name']
         user.is_active = False
         user.save()
         user.groups.add(Group.objects.get(name='Grupo Familiar'))
 
         profile = Profile.objects.create(
-            id_number=record['id_number'],
+            #phone=record['phone'],
             user= user
         )
 
@@ -634,7 +631,7 @@ class FamilyGroupSaveView(View):
         c = 1
         for person in record['people']:
             if person['has_id_number'] == 'y':
-                if person['family_head'] == 'true':
+                if person['family_head']:
                     value = True
                 else:
                     value = False
@@ -673,7 +670,7 @@ class FamilyGroupSaveView(View):
 
         return JsonResponse({'status':'true','message':'Datos guardados con éxito'}, status=200)
 
-class FamilyGroupUpdateTemplateView(TemplateView):
+class FamilyGroupEditTemplateView(TemplateView):
     """!
     Clase que permite a los usuarios del líder de calle, actualizar usuarios grupos familiares
 
@@ -695,7 +692,8 @@ class FamilyGroupUpdateTemplateView(TemplateView):
         @return Redirecciona al usuario a la página de error de permisos si no es su perfil
         """
 
-        if self.request.user.groups.filter(name='Líder de Calle') and FamilyGroup.objects.filter(id=kwargs['pk']):
+        street_leader = StreetLeader.objects.get(profile=self.request.user.profile)
+        if self.request.user.groups.filter(name='Líder de Calle') and FamilyGroup.objects.filter(id=kwargs['pk'],street_leader=street_leader):
             return super().dispatch(request, *args, **kwargs)
         else:
             return redirect('base:error_403')
@@ -705,57 +703,11 @@ class FamilyGroupUpdateTemplateView(TemplateView):
         family_group_id = kwargs['pk']
         if FamilyGroup.objects.filter(id=family_group_id):
             context['family_group'] = FamilyGroup.objects.get(id=family_group_id)
-            print(FamilyGroup.objects.get(id=family_group_id))
         return context
-
-class FamilyGroupDetailView(View):
-    """!
-    Clase que permite a los usuarios del líder de calle, ver detalles de usuarios grupos familiares
-
-    @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
-    """
-
-    def dispatch(self, request, *args, **kwargs):
-        """!
-        Metodo que valida si el usuario del sistema tiene permisos para entrar a esta vista
-
-        @author William Páez (paez.william8 at gmail.com)
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene la petición
-        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
-        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
-        @return Redirecciona al usuario a la página de error de permisos si no es su perfil
-        """
-
-        if self.request.user.groups.filter(name='Líder de Calle'):
-            return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
-
-    def get(self, request, *args, **kwargs):
-        family_group_id = kwargs['pk']
-        family_group = FamilyGroup.objects.get(pk=family_group_id)
-        people = Person.objects.filter(family_group=family_group)
-        person = []
-        for p in people:
-            person.append({
-                'id': p.id, 'first_name': p.first_name, 'last_name': p.last_name,
-                'has_id_number': 'y', 'id_number': p.id_number, 'email': p.email,
-                'phone': p.phone, 'family_head': p.family_head
-            })
-        record = {
-            'id': family_group.id, 'username': family_group.profile.user.username,
-            'email': family_group.profile.user.email, 'first_name': family_group.profile.user.first_name,
-            'last_name': family_group.profile.user.last_name, 'id_number': family_group.profile.id_number,
-            'people': person
-        }
-        return JsonResponse({'status':'true','record': record}, status=200)
 
 class FamilyGroupUpdateView(View):
     """!
     Clase que permite a los usuarios del líder de calle, actualizar usuarios grupos familiares
-    (En desarrollo)
 
     @author William Páez (paez.william8 at gmail.com)
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
@@ -773,7 +725,8 @@ class FamilyGroupUpdateView(View):
         @return Redirecciona al usuario a la página de error de permisos si no es su perfil
         """
 
-        if self.request.user.groups.filter(name='Líder de Calle'):
+        street_leader = StreetLeader.objects.get(profile=self.request.user.profile)
+        if self.request.user.groups.filter(name='Líder de Calle') and FamilyGroup.objects.filter(id=kwargs['pk'],street_leader=street_leader):
             return super().dispatch(request, *args, **kwargs)
         else:
             return redirect('base:error_403')
@@ -793,7 +746,7 @@ class FamilyGroupUpdateView(View):
             field_3 = 'email_' + str(i)
             field_4 = 'phone' + str(i)
 
-            if person['family_head'] == 'true':
+            if person['family_head']:
                 j = j + 1
 
             ## Validar nombres
@@ -824,43 +777,118 @@ class FamilyGroupUpdateView(View):
 
             i = i + 1
 
-        if j >= 2:
+        if j >= 2 or j==0:
             errors['family_head'] = ['jefe familiar: solo puede haber 1 jefe familiar']
 
         if errors:
             return JsonResponse({'status':'false','message':'Error en los campos','errors': errors }, status=422)
 
-        Person.objects.filter(family_group=family_group).delete()
+        c = Person.objects.filter(family_group=family_group, id_number__contains='-').count() + 1
 
-        c = 1
         for person in record['people']:
             if person['has_id_number'] == 'y':
                 Person.objects.update_or_create(
-                    id_number=person['id_number'], email=person['email'],
+                    id_number=person['id_number'],
                     defaults={
                         'first_name': person['first_name'],
                         'last_name': person['last_name'],
                         'id_number': person['id_number'],
                         'email': person['email'],
                         'phone': person['phone'],
-                        'family_head': True if(person['family_head'] == 'true') else False,
+                        'family_head': person['family_head'],
                         'family_group': family_group
                     }
                 )
             elif person['has_id_number'] == 'n':
                 p = Person.objects.get(family_group=family_group, family_head=True)
                 Person.objects.update_or_create(
-                    id_number=person['id_number'], email=person['email'],
+                    id_number=person['id_number'],
                     defaults={
                         'first_name': person['first_name'],
                         'last_name': person['last_name'],
                         'id_number': p.id_number + '-' + str(c),
                         'email': person['email'],
                         'phone': person['phone'],
-                        'family_head': True if(person['family_head'] == 'true') else False,
+                        'family_head': person['family_head'],
                         'family_group': family_group
                     }
                 )
                 c = c + 1
 
         return JsonResponse({'status':'true','message': 'Datos actualizados con éxito'}, status=200)
+
+class FamilyGroupDetailView(View):
+    """!
+    Clase que permite a los usuarios del líder de calle, ver detalles de usuarios grupos familiares
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no es su perfil
+        """
+
+        street_leader = StreetLeader.objects.get(profile=self.request.user.profile)
+        if self.request.user.groups.filter(name='Líder de Calle') and FamilyGroup.objects.filter(id=kwargs['pk'],street_leader=street_leader):
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('base:error_403')
+
+    def get(self, request, *args, **kwargs):
+        family_group_id = kwargs['pk']
+        family_group = FamilyGroup.objects.get(pk=family_group_id)
+        people = Person.objects.filter(family_group=family_group)
+        person = []
+        for p in people:
+            person.append({
+                'id': p.id, 'first_name': p.first_name, 'last_name': p.last_name,
+                'has_id_number': 'y', 'id_number': p.id_number, 'email': p.email,
+                'phone': p.phone, 'family_head': p.family_head
+            })
+        record = {
+            'id': family_group.id, 'username': family_group.profile.user.username,
+            'email': family_group.profile.user.email, 'people': person
+        }
+        return JsonResponse({'status':'true','record': record}, status=200)
+
+class PersonDeleteView(View):
+    """!
+    Clase que permite a los usuarios del líder de calle, eliminar integrantes del grupo familiar
+    (En desarrollo)
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no es su perfil
+        """
+
+        street_leader = StreetLeader.objects.get(profile=self.request.user.profile)
+        family_group = FamilyGroup.objects.get(street_leader=street_leader)
+        if self.request.user.groups.filter(name='Líder de Calle') and Person.objects.filter(id=kwargs['pk'],family_group=family_group):
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('base:error_403')
+
+    def get(self, request, *args, **kwargs):
+        person_id = kwargs['pk']
+        Person.objects.filter(pk=person_id).delete()
+        return JsonResponse({'status':'true','message': 'Datos eliminados con éxito'}, status=200)

@@ -11,8 +11,8 @@ class Profile(models.Model):
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Cédula de identidad
-    id_number = models.CharField('cédula de identidad', max_length=8, unique=True)
+    ## Teléfono (04160000000)
+    phone = models.CharField('teléfono', max_length=11, null=True, blank=True)
 
     ## Relación con el modelo User
     user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='usuario')
@@ -26,7 +26,7 @@ class Profile(models.Model):
         @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return self.user.first_name + ' ' + self.user.last_name + ' - ' + self.id_number
+        return self.user.first_name + ' ' + self.user.last_name
 
     class Meta:
         """!
@@ -213,7 +213,7 @@ class Person(models.Model):
     ## Correo electrónico
     email = models.CharField('correo electrónico', max_length=100, null=True, blank=True)
 
-    # Teléfono (04160708340)
+    ## Teléfono (04160000000)
     phone = models.CharField('teléfono', max_length=11, null=True, blank=True)
 
     ## Estalece si la persona es jefe familiar o no

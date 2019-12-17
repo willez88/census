@@ -2,6 +2,7 @@ from django import forms
 from base.models import Estate, Municipality, Parish, Ubch
 from django.contrib.auth.models import User
 from .models import Profile
+from django.core import validators
 
 class UbchLevelAdminForm(forms.ModelForm):
     """!
@@ -99,14 +100,21 @@ class ProfileForm(forms.ModelForm):
         )
     )
 
-    id_number = forms.CharField(
-        label='Cédula de Identidad:', max_length=8,
+    phone = forms.CharField(
+        label='Teléfono:', max_length=11,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip',
-                'title': 'Indique la cédula de identidad',
+                'title': 'Indique el teléfono',
             }
-        )
+        ),
+        validators=[
+            validators.RegexValidator(
+                r'^[\d]{11}$',
+                'Número telefónico inválido'
+            ),
+        ],
+        help_text='Formato: 04160000000'
     )
 
     def clean_email(self):
@@ -114,12 +122,6 @@ class ProfileForm(forms.ModelForm):
         if User.objects.filter(email=email):
             raise forms.ValidationError('El correo ya está registrado')
         return email
-
-    def clean_id_number(self):
-        id_number = self.cleaned_data['id_number']
-        if Profile.objects.filter(id_number=id_number):
-            raise forms.ValidationError('La cédula de identidad ya está registrada')
-        return id_number
 
     class Meta:
         """!
@@ -130,7 +132,7 @@ class ProfileForm(forms.ModelForm):
 
         model = User
         fields = [
-            'username','first_name','last_name','email','id_number'
+            'username','first_name','last_name','email','phone'
         ]
 
 class ProfileUpdateForm(ProfileForm):
@@ -148,21 +150,14 @@ class ProfileUpdateForm(ProfileForm):
             raise forms.ValidationError('El correo ya esta registrado')
         return email
 
-    def clean_id_number(self):
-        id_number = self.cleaned_data['id_number']
-        username = self.cleaned_data.get('username')
-        if Profile.objects.filter(id_number=id_number).exclude(user__username=username):
-            raise forms.ValidationError('La cédula de identidad ya está registrada')
-        return id_number
-
     class Meta:
         """!
         Meta clase del formulario que establece algunas propiedades
 
-        @author William Páez (wpaez at cenditel.gob.ve)
+        @author William Páez (paez.william8 at gmail.com)
         """
 
         model = Profile
         fields = [
-            'username','first_name','last_name','email','id_number'
+            'username','first_name','last_name','email','phone'
         ]

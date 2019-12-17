@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load i18n %}
 {% block breadcrumb %}
-  <li class="breadcrumb-item"><a href="#">Grupo Familiar</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'user:family_group_list' %}">Grupo Familiar</a></li>
   <li class="breadcrumb-item active">{% if not form.instance.pk %}Registrar{% else %}Actualizar{% endif %}</li>
 {% endblock %}
 {% block content %}
@@ -43,49 +43,10 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-            <div class="form-group ">
-              <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="id_first_name">
-                Nombres: <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
-              </label>
-              <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
-                <div class="form-inline">
-                  <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique los nombres" v-model="record.first_name">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-            <div class="form-group ">
-              <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="id_last_name">
-                Apellidos: <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
-              </label>
-              <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
-                <div class="form-inline">
-                  <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique los apellidos" v-model="record.last_name">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-            <div class="form-group ">
-              <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="id_id_number">
-                Cédula de Identidad: <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
-              </label>
-              <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
-                <div class="form-inline">
-                  <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique la cédula de identidad" v-model="record.id_number">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+      <hr>
+      <div class="card-body">
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
             <h6>
@@ -130,16 +91,16 @@
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
             <div class="form-group">
-              <select title="¿Es Jefe Familiar?" v-model="person.family_head">
-                <option value="true">Si</option>
-                <option value="false">No</option>
-              </select>
+              <label class="control-label" for="">
+                ¿Jefe Familiar?
+              </label>
+              <input type="checkbox" v-model="person.family_head">
             </div>
           </div>
           <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1">
             <div class="form-group">
               <button class="btn btn-sm btn-danger btn-action" type="button"
-                @click="removeRow(index, record.people)"
+                @click="deletePerson(index, record.people)"
                 title="Eliminar este dato" data-toggle="tooltip" data-placement="right">
                 <i class="fa fa-minus-circle"></i>
               </button>
@@ -173,10 +134,7 @@
         record: {
           id: '',
           username: '',
-          first_name: '',
-          last_name: '',
           email: '',
-          id_number: '',
           people: [],
         },
         errors: [],
@@ -191,7 +149,7 @@
     				id_number: '',
             email: '',
             phone: '',
-            family_head: 'false',
+            family_head: false,
     			});
     		},
 
@@ -203,10 +161,7 @@
           this.record = {
             'id': '',
             'username': '',
-            'first_name': '',
-            'last_name': '',
             'email': '',
-            'id_number': '',
             'people': [],
           }
         },
@@ -216,19 +171,15 @@
             this.updateRecord();
           }
           else {
-            axios.post('/user/family/save/', {
+            axios.post('/user/family-group/save/', {
               username: this.record.username,
-              first_name: this.record.first_name,
-              last_name: this.record.last_name,
               email: this.record.email,
-              id_number: this.record.id_number,
               people: this.record.people,
             }).then(response => {
               this.reset();
               this.errors = [];
               window.location.href = '/user/family-group/list/';
             }).catch(error => {
-              console.log(error.response.data.errors);
               this.errors = [];
               if (typeof(error.response) !="undefined") {
                 for (var index in error.response.data.errors) {
@@ -245,10 +196,7 @@
           axios.put('/user/family-group/update/' + this.record.id + '/', {
             id: this.record.id,
             username: this.record.username,
-            first_name: this.record.first_name,
-            last_name: this.record.last_name,
             email: this.record.email,
-            id_number: this.record.id_number,
             people: this.record.people,
           }).then(response => {
             window.location.href = '/user/family-group/list/';
@@ -269,6 +217,18 @@
   					this.record = response.data.record;
   				});
   			},
+
+        deletePerson(index, el) {
+          if( typeof(el[index].id) != 'undefined' ) {
+            axios.get('/user/person/delete/' + el[index].id + '/').then(response => {
+    					console.log('Persona eliminada');
+              el.splice(index, 1);
+    				});
+          }
+          else {
+            el.splice(index, 1);
+          }
+        }
       },
       mounted: function () {
         {% if family_group.id %}

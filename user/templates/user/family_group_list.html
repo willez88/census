@@ -18,9 +18,7 @@
             <thead>
               <tr>
                 <th>Usuario</th>
-                <th>Nombres</th>
-                <th>Apellidos</th>
-                <th>Cédula de Identidad</th>
+                <th>Correo Electrónico</th>
                 <th>Integrantes del Núcleo Familiar</th>
                 <th>Activar/desactivar</th>
               </tr>
@@ -28,10 +26,8 @@
             <tbody>
               {% for family_group in object_list %}
                 <tr>
-                  <td> {{ family_group.profile.user.username }} </td>
-                  <td> {{ family_group.profile.user.first_name }} </td>
-                  <td> {{ family_group.profile.user.last_name }} </td>
-                  <td> {{ family_group.profile.id_number }} </td>
+                  <td> <a href="{% url 'user:family_group_edit' family_group.id %}"> {{ family_group.profile.user.username }} </a> </td>
+                  <td> {{ family_group.profile.user.email }} </td>
                   <td> {{ family_group.person_set.all|length }} </td>
                   {% if family_group.profile.user.is_active %}
                     <td>

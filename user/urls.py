@@ -4,8 +4,8 @@ from django.contrib.auth.decorators import login_required
 from .views import (
     ProfileUpdateView, CommunityLeaderListView, CommunityLeaderFormView, StreetLeaderListView,
     StreetLeaderFormView, FamilyGroupListView, FamilyGroupCreateTemplateView,
-    FamilyGroupSaveView, FamilyGroupUpdateTemplateView, FamilyGroupDetailView,
-    FamilyGroupUpdateView
+    FamilyGroupSaveView, FamilyGroupEditTemplateView, FamilyGroupDetailView,
+    FamilyGroupUpdateView, PersonDeleteView
 )
 
 app_name = 'user'
@@ -38,8 +38,10 @@ urlpatterns = [
     path('family-group/create/', login_required(FamilyGroupCreateTemplateView.as_view()), name='family_group_create'),
     path('family-group/save/', login_required(FamilyGroupSaveView.as_view()), name='family_group_save'),
 
-    path('family-group/edit/<int:pk>/', login_required(FamilyGroupUpdateTemplateView.as_view()), name='family_group_edit'),
+    path('family-group/edit/<int:pk>/', login_required(FamilyGroupEditTemplateView.as_view()), name='family_group_edit'),
     path('family-group/update/<int:pk>/', login_required(FamilyGroupUpdateView.as_view()), name='family_group_update'),
 
     path('family-group/detail/<int:pk>/', login_required(FamilyGroupDetailView.as_view()), name='family_group_detail'),
+
+    path('person/delete/<int:pk>/', login_required(PersonDeleteView.as_view()), name='person_delete'),
 ]

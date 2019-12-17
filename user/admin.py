@@ -11,7 +11,7 @@ class ProfileAdmin(admin.ModelAdmin):
     """
 
     ## Mostrar los campos de la clase
-    list_display = ('id_number','user')
+    list_display = ('phone','user')
 admin.site.register(Profile, ProfileAdmin)
 
 class UbchLevelAdmin(admin.ModelAdmin):
