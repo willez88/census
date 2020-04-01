@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from base.models import Ubch
+from base.models import Ubch, CommunalCouncil
 from django.core import validators
 
 class Profile(models.Model):
@@ -83,8 +83,8 @@ class CommunityLeader(models.Model):
     @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Relación con el modelo UbchLevel
-    ubch_level = models.ForeignKey(UbchLevel, on_delete=models.CASCADE, verbose_name='nivel ubch')
+    ## Relación con el modelo CommunalCouncil
+    communal_council = models.OneToOneField(CommunalCouncil, on_delete=models.CASCADE, verbose_name='consejo comunal', null=True)
 
     ## Relación con el modelo Profile
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True)
@@ -98,7 +98,9 @@ class CommunityLeader(models.Model):
         @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return str(self.ubch_level)
+        return str(self.profile) + ' | ' + str(self.communal_council) + \
+            ' - ' + str(self.communal_council.ubch.parish) + ' - ' + str(self.communal_council.ubch.parish.municipality) + \
+            ' - ' + str(self.communal_council.ubch.parish.municipality.estate)
 
 
     class Meta:

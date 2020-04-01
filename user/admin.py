@@ -38,7 +38,7 @@ class CommunityLeaderAdmin(admin.ModelAdmin):
     """
 
     ## Mostrar los campos de la clase
-    list_display = ('ubch_level','profile')
+    list_display = ('communal_council','profile')
 admin.site.register(CommunityLeader, CommunityLeaderAdmin)
 
 class StreetLeaderAdmin(admin.ModelAdmin):

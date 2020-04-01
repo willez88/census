@@ -125,7 +125,7 @@ class CommunityLeaderListView(ListView):
 
         if UbchLevel.objects.filter(profile=self.request.user.profile):
             ubch_level = UbchLevel.objects.get(profile=self.request.user.profile)
-            queryset = CommunityLeader.objects.filter(ubch_level=ubch_level)
+            queryset = CommunityLeader.objects.filter(communal_council__ubch=ubch_level.ubch)
             return queryset
 
     def post(self, *args, **kwargs):
@@ -220,9 +220,9 @@ class CommunityLeaderFormView(FormView):
             user= self.object
         )
 
-        ubch_level = UbchLevel.objects.get(profile=self.request.user.profile)
+        communal_council = CommunalCouncil.objects.get(pk=form.cleaned_data['communal_council'])
         community_leader = CommunityLeader.objects.create(
-            ubch_level = ubch_level,
+            communal_council = communal_council,
             profile = profile
         )
 
@@ -230,6 +230,8 @@ class CommunityLeaderFormView(FormView):
         if settings.ADMINS:
             admin = settings.ADMINS[0][0]
             admin_email = settings.ADMINS[0][1]
+
+        ubch_level = UbchLevel.objects.get(profile=self.request.user.profile)
 
         send_email(self.object.email, 'user/welcome.mail', 'Bienvenido a Censo', {'first_name':self.request.user.first_name,
             'last_name':self.request.user.last_name, 'email':self.request.user.email,'ubch':ubch_level.ubch,

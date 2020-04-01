@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block breadcrumb %}
   <li class="breadcrumb-item"><a href="{% url 'user:family_group_list' %}">Grupo Familiar</a></li>
-  <li class="breadcrumb-item active">{% if not form.instance.pk %}Registrar{% else %}Actualizar{% endif %}</li>
+  <li class="breadcrumb-item active">Registrar</li>
 {% endblock %}
 {% block content %}
   <div class="card" id="app">
@@ -106,10 +106,6 @@
               </button>
             </div>
           </div>
-        </div>
-
-        <div class="row">
-          <pre>[[ $data ]]</pre>
         </div>
 
       </div>

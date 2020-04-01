@@ -1,5 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, View
+from openpyxl import Workbook
+from openpyxl.writer.excel import save_virtual_workbook
+from openpyxl.styles import colors
+from openpyxl.styles import Font, Color, Alignment, PatternFill
+from django.http import HttpResponse
+import datetime
+from user.models import CommunityLeader, StreetLeader, FamilyGroup, Person
 
 class HomeView(TemplateView):
     """!
@@ -20,3 +27,185 @@ class Error403View(TemplateView):
     """
 
     template_name = 'base/error.403.html'
+
+class ExportExcelView(View):
+    """!
+    Clase que descarga datos relacionados a los usuarios Líder de Comunidad
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-3.0.html'>GNU Public License versión 3 (GPLv3)</a>
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Función que valida si el usuario del sistema tiene permisos para entrar a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene los datos de la petición
+        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return super <b>{object}</b> Entra a la vista correspondiente
+            sino redirecciona hacia la vista de error de permisos
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('base:error_403')
+
+    def get(self, request, *args, **kwargs):
+        """!
+        Función que descarga un archivo excel
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Retorna datos en un archivo excel
+        """
+
+        ft = Font(color=colors.RED)
+        workbook = Workbook()
+        worksheet1 = workbook.active
+        worksheet1.title = 'Hoja 1'
+        worksheet1.merge_cells('A1:H1')
+        worksheet1.merge_cells('A2:H2')
+        worksheet1.merge_cells('A3:H3')
+        worksheet1.column_dimensions['A'].width = 20
+        worksheet1['A1'] = 'VICEPRESIDENCIA TERRITORIAL PSUV ESTADOS MÉRIDA - TRUJILLO'
+        worksheet1['A1'].font = ft
+        worksheet1['A2'] = 'EQUIPO POLÍTICO ESTADAL PSUV MÉRIDA'
+        worksheet1['A2'].font = ft
+        worksheet1['A3'] = 'COMISIÓN DE ORGANIZACIÓN PSUV MÉRIDA'
+        worksheet1['A3'].font = ft
+        worksheet1['A6'] = 'CENSO RAAS'
+
+        date = datetime.datetime.now()
+        worksheet1['A8'] = 'FECHA DE ACTUALIZACIÓN: ' + '%s-%s-%s %s-%s Hrs' % \
+            (date.day, date.month, date.year, date.hour, date.minute)
+
+        community_leader = CommunityLeader.objects.get(profile=self.request.user.profile)
+        worksheet1['A10'] = 'Municipio:'
+        worksheet1['B10'] = str(community_leader.communal_council.ubch.parish.municipality)
+
+        worksheet1['A11'] = 'Parroquia:'
+        worksheet1['B11'] = str(community_leader.communal_council.ubch.parish)
+
+        worksheet1['A12'] = 'Código UBCH:'
+        worksheet1['B12'] = community_leader.communal_council.ubch.code
+
+        worksheet1['A13'] = 'Nombre UBCH:'
+        worksheet1['B13'] = community_leader.communal_council.ubch.name
+
+        worksheet1['A14'] = 'Código Comunidad:'
+
+        worksheet1['A15'] = 'Nombre Comunidad:'
+        worksheet1['B15'] = community_leader.communal_council.name
+
+        worksheet1['A17'] = 'Calles Registradas:'
+        worksheet1['B17'] = str(len(StreetLeader.objects.filter(community_leader=community_leader)))
+
+        ## Hojas con los censos
+        i = 2
+        for street_leader in StreetLeader.objects.filter(community_leader=community_leader):
+            worksheet = workbook.create_sheet(title='Hoja ' + str(i))
+            worksheet.merge_cells('A1:H1')
+            worksheet.merge_cells('A2:H2')
+            worksheet.merge_cells('A3:H3')
+            worksheet.column_dimensions['A'].width = 16
+            worksheet.column_dimensions['B'].width = 25
+            worksheet.column_dimensions['C'].width = 16
+            worksheet.column_dimensions['D'].width = 25
+            worksheet['A1'] = 'VICEPRESIDENCIA TERRITORIAL PSUV ESTADOS MÉRIDA - TRUJILLO'
+            worksheet['A1'].font = ft
+            worksheet['A2'] = 'EQUIPO POLÍTICO ESTADAL PSUV MÉRIDA'
+            worksheet['A2'].font = ft
+            worksheet['A3'] = 'COMISIÓN DE ORGANIZACIÓN PSUV MÉRIDA'
+            worksheet['A3'].font = ft
+            worksheet['A6'] = 'CENSO CALLE RAAS'
+
+            date = datetime.datetime.now()
+            worksheet['A8'] = 'FECHA DE ACTUALIZACIÓN: ' + '%s-%s-%s %s-%s Hrs' % \
+                (date.day, date.month, date.year, date.hour, date.minute)
+
+            community_leader = CommunityLeader.objects.get(profile=self.request.user.profile)
+            worksheet['A10'] = 'Municipio:'
+            worksheet['B10'] = str(community_leader.communal_council.ubch.parish.municipality)
+
+            worksheet['A11'] = 'Parroquia:'
+            worksheet['B11'] = str(community_leader.communal_council.ubch.parish)
+
+            worksheet['A12'] = 'Código UBCH:'
+            worksheet['B12'] = community_leader.communal_council.ubch.code
+
+            worksheet['A13'] = 'Nombre UBCH:'
+            worksheet['B13'] = community_leader.communal_council.ubch.name
+
+            worksheet['A14'] = 'Código Comunidad:'
+
+            worksheet['A15'] = 'Nombre Comunidad:'
+            worksheet['B15'] = community_leader.communal_council.name
+
+            worksheet['A16'] = 'Lider de Calle:'
+            worksheet['B16'] = str(street_leader.profile)
+
+            worksheet.merge_cells('A19:H19')
+            worksheet.merge_cells('A20:H20')
+            worksheet['A19'] = 'CENSO REGISTRADO'
+            worksheet['A19'].alignment = Alignment(horizontal='center')
+            worksheet['A20'] = 'NOTA: TIPO DE VOTOS PERMITIDOS: DURO, BLANDO, OPOSITOR | ESTATUS DE CONTACTADO: SI O NO \
+                | JEFE DE FAMILIA: SI O NO | RECIBIÓ CLAP EN LOS ÚLTIMOS TRES MESES: SI O NO'
+
+            worksheet['A21'].fill = PatternFill(start_color='FF0000', fill_type = 'solid')
+            worksheet['A21'].font = Font(color=colors.WHITE)
+            worksheet['A21'].alignment = Alignment(horizontal='center')
+
+            worksheet['B21'].fill = PatternFill(start_color='FF0000', fill_type = 'solid')
+            worksheet['B21'].font = Font(color=colors.WHITE)
+            worksheet['B21'].alignment = Alignment(horizontal='center')
+
+            worksheet['C21'].fill = PatternFill(start_color='FF0000', fill_type = 'solid')
+            worksheet['C21'].font = Font(color=colors.WHITE)
+            worksheet['C21'].alignment = Alignment(horizontal='center')
+
+            worksheet['D21'].fill = PatternFill(start_color='FF0000', fill_type = 'solid')
+            worksheet['D21'].font = Font(color=colors.WHITE)
+            worksheet['D21'].alignment = Alignment(horizontal='center')
+
+            worksheet['A21'] = 'CÉDULA'
+            worksheet['B21'] = 'NOMBRES Y APELLIDOS'
+            worksheet['C21'] = 'TELÉFONO'
+            worksheet['D21'] = 'ES JEFE DE FAMILIA'
+            c = 22
+            for family_group in FamilyGroup.objects.filter(street_leader=street_leader):
+                #print(Person.objects.filter(family_group=family_group))
+                for person in Person.objects.filter(family_group=family_group):
+                    column1 = 'A'+str(c)
+                    worksheet[column1] = person.id_number
+
+                    column2 = 'B'+str(c)
+                    worksheet[column2] = person.first_name + ' ' + person.last_name
+
+                    column3 = 'C'+str(c)
+                    worksheet[column3] = person.phone
+
+                    column4 = 'D'+str(c)
+                    if person.family_head:
+                        worksheet[column4] = 'SI'
+                    else:
+                        worksheet[column4] = 'No'
+
+                    c = c + 1
+
+                column5 = 'A'+str(c)
+                worksheet[column5] = ' '
+                c = c + 1
+
+            i = i + 1
+
+        response = HttpResponse(content=save_virtual_workbook(workbook), content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename="data.xlsx"'
+        #response.write(u'\ufeff'.encode('utf8'))
+        return response
