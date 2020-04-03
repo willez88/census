@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, View
 from openpyxl import Workbook
 from openpyxl.writer.excel import save_virtual_workbook
-from openpyxl.styles import colors
-from openpyxl.styles import Font, Color, Alignment, PatternFill
+from openpyxl.styles import Font, Color, colors, Alignment, PatternFill
 from django.http import HttpResponse
 import datetime
 from user.models import CommunityLeader, StreetLeader, FamilyGroup, Person
+from .models import VoteType, Relationship
+from django.http import JsonResponse
 
 class HomeView(TemplateView):
     """!
@@ -66,7 +67,6 @@ class ExportExcelView(View):
         @return Retorna datos en un archivo excel
         """
 
-        ft = Font(color=colors.RED)
         workbook = Workbook()
         worksheet1 = workbook.active
         worksheet1.title = 'Hoja 1'
@@ -75,11 +75,11 @@ class ExportExcelView(View):
         worksheet1.merge_cells('A3:H3')
         worksheet1.column_dimensions['A'].width = 20
         worksheet1['A1'] = 'VICEPRESIDENCIA TERRITORIAL PSUV ESTADOS MÉRIDA - TRUJILLO'
-        worksheet1['A1'].font = ft
+        worksheet1['A1'].font = Font(color=colors.RED)
         worksheet1['A2'] = 'EQUIPO POLÍTICO ESTADAL PSUV MÉRIDA'
-        worksheet1['A2'].font = ft
+        worksheet1['A2'].font = Font(color=colors.RED)
         worksheet1['A3'] = 'COMISIÓN DE ORGANIZACIÓN PSUV MÉRIDA'
-        worksheet1['A3'].font = ft
+        worksheet1['A3'].font = Font(color=colors.RED)
         worksheet1['A6'] = 'CENSO RAAS'
 
         date = datetime.datetime.now()
@@ -118,12 +118,15 @@ class ExportExcelView(View):
             worksheet.column_dimensions['B'].width = 25
             worksheet.column_dimensions['C'].width = 16
             worksheet.column_dimensions['D'].width = 25
+            worksheet.column_dimensions['E'].width = 20
+            worksheet.column_dimensions['F'].width = 20
+            worksheet.column_dimensions['G'].width = 20
             worksheet['A1'] = 'VICEPRESIDENCIA TERRITORIAL PSUV ESTADOS MÉRIDA - TRUJILLO'
-            worksheet['A1'].font = ft
+            worksheet['A1'].font = Font(color=colors.RED)
             worksheet['A2'] = 'EQUIPO POLÍTICO ESTADAL PSUV MÉRIDA'
-            worksheet['A2'].font = ft
+            worksheet['A2'].font = Font(color=colors.RED)
             worksheet['A3'] = 'COMISIÓN DE ORGANIZACIÓN PSUV MÉRIDA'
-            worksheet['A3'].font = ft
+            worksheet['A3'].font = Font(color=colors.RED)
             worksheet['A6'] = 'CENSO CALLE RAAS'
 
             date = datetime.datetime.now()
@@ -174,10 +177,25 @@ class ExportExcelView(View):
             worksheet['D21'].font = Font(color=colors.WHITE)
             worksheet['D21'].alignment = Alignment(horizontal='center')
 
+            worksheet['E21'].fill = PatternFill(start_color='FF0000', fill_type = 'solid')
+            worksheet['E21'].font = Font(color=colors.WHITE)
+            worksheet['E21'].alignment = Alignment(horizontal='center')
+
+            worksheet['F21'].fill = PatternFill(start_color='FF0000', fill_type = 'solid')
+            worksheet['F21'].font = Font(color=colors.WHITE)
+            worksheet['F21'].alignment = Alignment(horizontal='center')
+
+            worksheet['G21'].fill = PatternFill(start_color='FF0000', fill_type = 'solid')
+            worksheet['G21'].font = Font(color=colors.WHITE)
+            worksheet['G21'].alignment = Alignment(horizontal='center')
+
             worksheet['A21'] = 'CÉDULA'
             worksheet['B21'] = 'NOMBRES Y APELLIDOS'
             worksheet['C21'] = 'TELÉFONO'
-            worksheet['D21'] = 'ES JEFE DE FAMILIA'
+            worksheet['D21'] = 'Correo'
+            worksheet['E21'] = 'TIPO DE VOTO'
+            worksheet['F21'] = 'PARENTESCO'
+            worksheet['G21'] = 'ES JEFE DE FAMILIA'
             c = 22
             for family_group in FamilyGroup.objects.filter(street_leader=street_leader):
                 #print(Person.objects.filter(family_group=family_group))
@@ -192,15 +210,24 @@ class ExportExcelView(View):
                     worksheet[column3] = person.phone
 
                     column4 = 'D'+str(c)
+                    worksheet[column4] = person.email
+
+                    column5 = 'E'+str(c)
+                    worksheet[column5] = str(person.vote_type)
+
+                    column6 = 'F'+str(c)
+                    worksheet[column6] = str(person.relationship)
+
+                    column7 = 'G'+str(c)
                     if person.family_head:
-                        worksheet[column4] = 'SI'
+                        worksheet[column7] = 'SI'
                     else:
-                        worksheet[column4] = 'No'
+                        worksheet[column7] = 'No'
 
                     c = c + 1
 
-                column5 = 'A'+str(c)
-                worksheet[column5] = ' '
+                column8 = 'A'+str(c)
+                worksheet[column8] = ' '
                 c = c + 1
 
             i = i + 1
@@ -209,3 +236,43 @@ class ExportExcelView(View):
         response['Content-Disposition'] = 'attachment; filename="data.xlsx"'
         #response.write(u'\ufeff'.encode('utf8'))
         return response
+
+class VoteTypeListView(View):
+    """!
+    Clase que retorna un json con los datos de tipos de voto
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def get(self, request, *args, **kwargs):
+        vote_types = VoteType.objects.all()
+        vote_type_list = []
+        vote_type_list.append({
+            'id': '', 'text': 'Seleccione...'
+        })
+        for vote_type in vote_types:
+            vote_type_list.append({
+                'id': vote_type.id, 'text': vote_type.name
+            })
+        return JsonResponse({'status':'true','list':vote_type_list}, status=200)
+
+class RelationshipListView(View):
+    """!
+    Clase que retorna un json con los datos de parentescos
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def get(self, request, *args, **kwargs):
+        relationships = Relationship.objects.all()
+        relationship_list = []
+        relationship_list.append({
+            'id': '', 'text': 'Seleccione...'
+        })
+        for relationship in relationships:
+            relationship_list.append({
+                'id': relationship.id, 'text': relationship.name
+            })
+        return JsonResponse({'status':'true','list':relationship_list}, status=200)

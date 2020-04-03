@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from base.models import Ubch, CommunalCouncil
+from base.models import Ubch, CommunalCouncil, VoteType, Relationship
 from django.core import validators
 
 class Profile(models.Model):
@@ -220,6 +220,12 @@ class Person(models.Model):
 
     ## Estalece si la persona es jefe familiar o no
     family_head = models.BooleanField()
+
+    ## Relación con el modelo VoteType
+    vote_type = models.ForeignKey(VoteType,on_delete=models.CASCADE, verbose_name='tipo de voto', null=True)
+
+    ## Relación con el modelo Relationship
+    relationship = models.ForeignKey(Relationship,on_delete=models.CASCADE, verbose_name='parentesco', null=True)
 
     ## Relación con el modelo FamilyGroup
     family_group = models.ForeignKey(FamilyGroup,on_delete=models.CASCADE, verbose_name='grupo familiar')

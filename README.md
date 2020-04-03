@@ -110,7 +110,7 @@ Hacer las migraciones
 
     (census) ~$ python manage.py migrate
 
-    (census) ~$ python manage.py loaddata 1_country 2_estate 3_municipality 4_parish.json auth_group
+    (census) ~$ python manage.py loaddata 1_country 2_estate 3_municipality 4_parish.json auth_group initial_data.json
 
 Crear usuario administrador
 

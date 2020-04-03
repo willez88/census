@@ -1,0 +1,149 @@
+[
+{
+    "model": "base.votetype",
+    "pk": 1,
+    "fields": {
+        "name": "Duro"
+    }
+},
+{
+    "model": "base.votetype",
+    "pk": 2,
+    "fields": {
+        "name": "Blando"
+    }
+},
+{
+    "model": "base.votetype",
+    "pk": 3,
+    "fields": {
+        "name": "Opositor"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 1,
+    "fields": {
+        "name": "Madre"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 2,
+    "fields": {
+        "name": "Padre"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 3,
+    "fields": {
+        "name": "Esposo(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 4,
+    "fields": {
+        "name": "Concubino(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 5,
+    "fields": {
+        "name": "Hijo(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 6,
+    "fields": {
+        "name": "Yerno(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 7,
+    "fields": {
+        "name": "Suegro(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 8,
+    "fields": {
+        "name": "Abuelo(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 9,
+    "fields": {
+        "name": "Nieto(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 10,
+    "fields": {
+        "name": "Hermano(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 11,
+    "fields": {
+        "name": "Cu\u00f1ado(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 12,
+    "fields": {
+        "name": "Bisabuelo(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 13,
+    "fields": {
+        "name": "Bisnieto(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 14,
+    "fields": {
+        "name": "T\u00edo(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 15,
+    "fields": {
+        "name": "Sobrino(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 16,
+    "fields": {
+        "name": "Primo(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 17,
+    "fields": {
+        "name": "Tio(a) Abuelo(a)"
+    }
+},
+{
+    "model": "base.relationship",
+    "pk": 18,
+    "fields": {
+        "name": "Ninguno"
+    }
+}
+]

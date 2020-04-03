@@ -214,3 +214,67 @@ class CommunalCouncil(models.Model):
 
         verbose_name = 'Consejo comunal'
         verbose_name_plural = 'Consejos comunales'
+
+class VoteType(models.Model):
+    """!
+    Clase que contiene los tipo de votos
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    ## Nombre del tipo de voto
+    name = models.CharField('nombre', max_length=80)
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre del tipo de voto
+        """
+
+        return self.name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Tipo de voto'
+        verbose_name_plural = 'Tipos de voto'
+
+class Relationship(models.Model):
+    """!
+    Clase que contiene los parentescos
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    ## Nombre del parentesco
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre del parentesco
+        """
+
+        return self.name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Parentesco'
+        verbose_name_plural = 'Parentescos'

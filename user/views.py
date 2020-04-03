@@ -11,6 +11,7 @@ from django.conf import settings
 import json
 from django.http import HttpResponse, JsonResponse
 import re
+from base.models import VoteType, Relationship
 
 class ProfileUpdateView(UpdateView):
     """!
@@ -566,7 +567,9 @@ class FamilyGroupSaveView(View):
             field_1 = 'last_name_' + str(i)
             field_2 = 'id_number_' + str(i)
             field_3 = 'email_' + str(i)
-            field_4 = 'phone' + str(i)
+            field_4 = 'phone_' + str(i)
+            field_5 = 'vote_type_id_' + str(i)
+            field_6 = 'relationship_id_' + str(i)
 
             if person['family_head']:
                 j = j + 1
@@ -598,6 +601,14 @@ class FamilyGroupSaveView(View):
                 result = re.match(r'^[\d]{11}$', person['phone'])
                 if not result:
                     errors[field_4] = ['teléfono_' + str(i) + ': el campo es inválido']
+
+            ## Validar tipo de voto
+            if not person['vote_type_id']:
+                errors[field_5] = ['tipo de voto_' + str(i) + ': este campo es requerido']
+
+            ## Validar tipo de voto
+            if not person['relationship_id']:
+                errors[field_6] = ['parentesco_' + str(i) + ': este campo es requerido']
 
             i = i + 1
 
@@ -632,6 +643,8 @@ class FamilyGroupSaveView(View):
 
         c = 1
         for person in record['people']:
+            vote_type = VoteType.objects.get(pk=person['vote_type_id'])
+            relationship = Relationship.objects.get(pk=person['relationship_id'])
             if person['has_id_number'] == 'y':
                 if person['family_head']:
                     value = True
@@ -643,6 +656,8 @@ class FamilyGroupSaveView(View):
                     id_number = person['id_number'],
                     email = person['email'],
                     phone = person['phone'],
+                    vote_type = vote_type,
+                    relationship = relationship,
                     family_head = value,
                     family_group = family_group
                 )
@@ -654,6 +669,8 @@ class FamilyGroupSaveView(View):
                     id_number = p.id_number + '-' + str(c),
                     email = person['email'],
                     phone = person['phone'],
+                    vote_type = vote_type,
+                    relationship = relationship,
                     family_head = False,
                     family_group = family_group
                 )
@@ -665,7 +682,7 @@ class FamilyGroupSaveView(View):
             admin_email = settings.ADMINS[0][1]
 
         send_email(user.email, 'user/welcome.mail', 'Bienvenido a Censo', {'first_name':self.request.user.first_name,
-            'last_name':self.request.user.last_name, 'email':self.request.user.email,'ubch':street_leader.community_leader.ubch_level.ubch,
+            'last_name':self.request.user.last_name, 'email':self.request.user.email,'ubch':street_leader.community_leader.communal_council.ubch,
             'username':user.username, 'password':password, 'admin':admin, 'admin_email':admin_email,
             'emailapp':settings.EMAIL_HOST_USER, 'url':get_current_site(self.request).name
         })
@@ -746,7 +763,9 @@ class FamilyGroupUpdateView(View):
             field_1 = 'last_name_' + str(i)
             field_2 = 'id_number_' + str(i)
             field_3 = 'email_' + str(i)
-            field_4 = 'phone' + str(i)
+            field_4 = 'phone_' + str(i)
+            field_5 = 'vote_type_id_' + str(i)
+            field_6 = 'relationship_id_' + str(i)
 
             if person['family_head']:
                 j = j + 1
@@ -777,6 +796,14 @@ class FamilyGroupUpdateView(View):
                 if not result:
                     errors[field_4] = ['teléfono_' + str(i) + ': el campo es inválido']
 
+            ## Validar tipo de voto
+            if not person['vote_type_id']:
+                errors[field_5] = ['tipo de voto_' + str(i) + ': este campo es requerido']
+
+            ## Validar parentesco
+            if not person['relationship_id']:
+                errors[field_6] = ['parentesco_' + str(i) + ': este campo es requerido']
+
             i = i + 1
 
         if j >= 2 or j==0:
@@ -788,6 +815,8 @@ class FamilyGroupUpdateView(View):
         c = Person.objects.filter(family_group=family_group, id_number__contains='-').count() + 1
 
         for person in record['people']:
+            vote_type = VoteType.objects.get(pk=person['vote_type_id'])
+            relationship = Relationship.objects.get(pk=person['relationship_id'])
             if person['has_id_number'] == 'y':
                 Person.objects.update_or_create(
                     id_number=person['id_number'],
@@ -797,6 +826,8 @@ class FamilyGroupUpdateView(View):
                         'id_number': person['id_number'],
                         'email': person['email'],
                         'phone': person['phone'],
+                        'vote_type': vote_type,
+                        'relationship_id': relationship,
                         'family_head': person['family_head'],
                         'family_group': family_group
                     }
@@ -811,6 +842,8 @@ class FamilyGroupUpdateView(View):
                         'id_number': p.id_number + '-' + str(c),
                         'email': person['email'],
                         'phone': person['phone'],
+                        'vote_type': vote_type,
+                        'relationship': relationship,
                         'family_head': person['family_head'],
                         'family_group': family_group
                     }
@@ -854,6 +887,8 @@ class FamilyGroupDetailView(View):
             person.append({
                 'id': p.id, 'first_name': p.first_name, 'last_name': p.last_name,
                 'has_id_number': 'y', 'id_number': p.id_number, 'email': p.email,
+                'vote_type_id': p.vote_type.id if p.vote_type else '' ,
+                'relationship_id': p.relationship.id if p.relationship else '' ,
                 'phone': p.phone, 'family_head': p.family_head
             })
         record = {
