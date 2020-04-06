@@ -90,6 +90,18 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
+
+    #'default': {
+    #    'ENGINE': 'django.db.backends.mysql',
+    #    'NAME': 'census',
+    #    'USER':'admin',
+    #    'PASSWORD':'123',
+    #    'HOST':'localhost',
+    #    'PORT':'3306',
+    #    'OPTIONS': {
+    #        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+    #    }
+    #}
 }
 
 
