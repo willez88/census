@@ -10,11 +10,15 @@ Cuando accedemos al usuario root del sistema, en el terminal se mostrará el sig
 
 Probado en últimas versiones estables de Debian y Ubuntu. Instalar los siguientes programas
 
-    ~# apt install curl git graphviz graphviz-dev postgresql python3-dev virtualenv
+    ~# apt install curl git graphviz graphviz-dev phppgadmin postgresql python3-dev virtualenv
 
 Para instalar npm hacer lo siguiente
 
-    ~# curl -sL https://deb.nodesource.com/setup_13.x | bash -
+    // Ubuntu
+    ~$ curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
+    // Debian
+    ~# curl -sL https://deb.nodesource.com/setup_12.x | bash -
 
     ~# apt install -y nodejs
 

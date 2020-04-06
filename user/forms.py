@@ -1,7 +1,7 @@
 from django import forms
-from base.models import Estate, Municipality, Parish, Ubch
+from base.models import Estate, Municipality, Parish, Ubch, CommunalCouncil
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, UbchLevel, CommunityLeader
 from django.core import validators
 
 class UbchLevelAdminForm(forms.ModelForm):
@@ -160,4 +160,42 @@ class ProfileUpdateForm(ProfileForm):
         model = Profile
         fields = [
             'username','first_name','last_name','email','phone'
+        ]
+
+class CommunityLeaderForm(ProfileForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        ubch_level = UbchLevel.objects.get(profile=user.profile)
+        cl_list = [('','Selecione...')]
+        for cc in CommunalCouncil.objects.filter(ubch=ubch_level.ubch):
+            cl_list.append( (cc.id,cc) )
+        self.fields['communal_council'].choices = cl_list
+
+    communal_council = forms.ChoiceField(
+        label='Consejo Comunal:',
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control select2', 'data-toggle': 'tooltip',
+                'title': 'Seleccione el consejo comunal',
+            }
+        )
+    )
+
+    def clean_communal_council(self):
+        communal_council = self.cleaned_data['communal_council']
+        if CommunityLeader.objects.filter(communal_council=communal_council):
+            raise forms.ValidationError('Ya existe un usuario asignado a esta comunidad')
+        return communal_council
+
+    class Meta:
+        """!
+        Meta clase del formulario que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        model = User
+        fields = [
+            'username','first_name','last_name','email','phone','communal_council'
         ]

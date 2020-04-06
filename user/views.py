@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from .models import Profile, UbchLevel, CommunityLeader, StreetLeader, FamilyGroup, Person
-from .forms import ProfileForm, ProfileUpdateForm
+from .forms import ProfileForm, ProfileUpdateForm, CommunityLeaderForm
 from django.views.generic import ListView, FormView, UpdateView, TemplateView, View
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
@@ -11,7 +11,7 @@ from django.conf import settings
 import json
 from django.http import HttpResponse, JsonResponse
 import re
-from base.models import VoteType, Relationship
+from base.models import VoteType, Relationship, CommunalCouncil
 
 class ProfileUpdateView(UpdateView):
     """!
@@ -174,8 +174,8 @@ class CommunityLeaderFormView(FormView):
     """
 
     model = User
-    form_class = ProfileForm
-    template_name = 'user/profile_create.html'
+    form_class = CommunityLeaderForm
+    template_name = 'user/community_leader_create.html'
     success_url = reverse_lazy('user:community_leader_list')
 
     def dispatch(self, request, *args, **kwargs):
@@ -194,6 +194,11 @@ class CommunityLeaderFormView(FormView):
             return super().dispatch(request, *args, **kwargs)
         else:
             return redirect('base:error_403')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         """!
@@ -392,7 +397,7 @@ class StreetLeaderFormView(FormView):
             admin_email = settings.ADMINS[0][1]
 
         send_email(self.object.email, 'user/welcome.mail', 'Bienvenido a Censo', {'first_name':self.request.user.first_name,
-            'last_name':self.request.user.last_name, 'email':self.request.user.email,'ubch':community_leader.ubch_level.ubch,
+            'last_name':self.request.user.last_name, 'email':self.request.user.email,'ubch':community_leader.communal_council.ubch,
             'username':self.object.username, 'password':password, 'admin':admin, 'admin_email':admin_email,
             'emailapp':settings.EMAIL_HOST_USER, 'url':get_current_site(self.request).name
         })

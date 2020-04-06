@@ -8,14 +8,14 @@
   </li>
   {% if request.user.is_authenticated %}
     {% if request.user|has_group:'Nivel Ubch' %}
-      <li class="nav-item" id="nivel_ubch">
+      <li class="nav-item" id="ubch">
         <a class="nav-link" href="{% url 'user:community_leader_list' %}">
           <i class="fas fa-fw fa-user-plus"></i>
           <span>Líder de Comunidad</span>
         </a>
       </li>
     {% elif request.user|has_group:'Líder de Comunidad' %}
-      <li class="nav-item" id="pe">
+      <li class="nav-item" id="lc">
         <a class="nav-link" href="{% url 'user:street_leader_list' %}">
           <i class="fas fa-fw fa-user-plus"></i>
           <span>Líder de Calle</span>

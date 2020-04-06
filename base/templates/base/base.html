@@ -53,17 +53,27 @@
       $(document).ready(function()
         {
           //obtiene la url actual del sistema
-          var route = "{{ request.path }}";
-          //rutas de la app persona
-          var pe = "/person/list/";
+          var route = '{{ request.path }}';
 
-          if( route == "/" )
+          //rutas de un nivel ubch
+          var ubch_list = '/user/community-leader/list/';
+          var ubch_create = '/user/community-leader/create/';
+
+          //rutas de un lider de comunidad
+          var lc_list = '/user/street-leader/list/';
+          var lc_create = '/user/street-leader/create/';
+
+          if( route == '/' )
           {
-            $("#ba").addClass("active");
+            $('#ba').addClass('active');
           }
-          else if( route == pe )
+          else if( route == ubch_list || route == ubch_create )
           {
-            $("#pe").addClass("active");
+            $('#ubch').addClass('active');
+          }
+          else if( route == lc_list || route == lc_create )
+          {
+            $('#lc').addClass('active');
           }
         });
     </script>
