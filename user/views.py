@@ -12,6 +12,8 @@ import json
 from django.http import HttpResponse, JsonResponse
 import re
 from base.models import VoteType, Relationship, CommunalCouncil
+import logging
+logger = logging.getLogger('user')
 
 class ProfileUpdateView(UpdateView):
     """!
@@ -239,11 +241,17 @@ class CommunityLeaderFormView(FormView):
 
         ubch_level = UbchLevel.objects.get(profile=self.request.user.profile)
 
-        send_email(self.object.email, 'user/welcome.mail', 'Bienvenido a Censo', {'first_name':self.request.user.first_name,
+        sent = send_email(self.object.email, 'user/welcome.mail', 'Bienvenido a Censo', {'first_name':self.request.user.first_name,
             'last_name':self.request.user.last_name, 'email':self.request.user.email,'ubch':ubch_level.ubch,
             'username':self.object.username, 'password':password, 'admin':admin, 'admin_email':admin_email,
             'emailapp':settings.EMAIL_HOST_USER, 'url':get_current_site(self.request).name
         })
+
+        if not sent:
+            logger.warning(
+                str('Ocurrió un inconveniente al enviar por correo las credenciales del usuario [%s]' % self.object.username)
+            )
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -396,11 +404,17 @@ class StreetLeaderFormView(FormView):
             admin = settings.ADMINS[0][0]
             admin_email = settings.ADMINS[0][1]
 
-        send_email(self.object.email, 'user/welcome.mail', 'Bienvenido a Censo', {'first_name':self.request.user.first_name,
+        sent = send_email(self.object.email, 'user/welcome.mail', 'Bienvenido a Censo', {'first_name':self.request.user.first_name,
             'last_name':self.request.user.last_name, 'email':self.request.user.email,'ubch':community_leader.communal_council.ubch,
             'username':self.object.username, 'password':password, 'admin':admin, 'admin_email':admin_email,
             'emailapp':settings.EMAIL_HOST_USER, 'url':get_current_site(self.request).name
         })
+
+        if not sent:
+            logger.warning(
+                str('Ocurrió un inconveniente al enviar por correo las credenciales del usuario [%s]' % self.object.username)
+            )
+            
         return super().form_valid(form)
 
     def form_invalid(self, form):

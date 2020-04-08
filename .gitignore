@@ -1,6 +1,7 @@
 *.pyc
 *.py~
 *.sqlite3
+*.log
 settings.py
 migrations
 static/node_modules

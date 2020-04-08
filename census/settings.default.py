@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 ADMINS = [
-    ('William Páez', 'paez.william8@gmail.com'),
+    ('Email Email', 'email@email.com'),
 ]
 
 # Application definition
@@ -167,3 +167,39 @@ EMAIL_HOST_USER = 'email@email.com'
 #EMAIL_HOST_PASSWORD = 'password'
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+## Configuración de los niveles de vitácoras (logs) a registrar
+LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
+    'std': {
+        'format': '%(asctime)s %(levelname)-8s [modulo: %(module)s, funcion: %(funcName)s, linea: %(lineno)d]. %(message)s',
+    }
+}, handlers={
+    'null': {
+        'level': 'DEBUG',
+        'class': 'logging.NullHandler'
+    },
+    'user': {
+        'class': 'logging.handlers.TimedRotatingFileHandler',
+        'level': 'DEBUG',
+        'formatter': 'std',
+        'filename': os.path.join(BASE_DIR+'/user', 'user.log'),
+        'when': 'w6',
+        'interval': 1,
+        'backupCount': 52
+    },
+}, loggers={
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['user']
+    },
+    'user': {
+        'level': 'DEBUG',
+        'handlers': ['user'],
+        'qualname': 'user'
+    },
+    'django.request': {
+        'handlers': ['null'],
+        'level': 'ERROR',
+        'propagate': False,
+    }
+})
