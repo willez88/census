@@ -1,21 +1,25 @@
-from django.db import models
+from base.models import CommunalCouncil, Relationship, Ubch, VoteType
 from django.contrib.auth.models import User
-from base.models import Ubch, CommunalCouncil, VoteType, Relationship
 from django.core import validators
+from django.db import models
+
 
 class Profile(models.Model):
     """!
     Clase que contiene los datos del perfil de usuario
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Teléfono (04160000000)
+    # Teléfono (04160000000)
     phone = models.CharField('teléfono', max_length=11, null=True, blank=True)
 
-    ## Relación con el modelo User
-    user = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='usuario')
+    # Relación con el modelo User
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, verbose_name='usuario'
+    )
 
     def __str__(self):
         """!
@@ -38,19 +42,25 @@ class Profile(models.Model):
         verbose_name = 'Perfil'
         verbose_name_plural = 'Perfiles'
 
+
 class UbchLevel(models.Model):
     """!
     Clase que contiene los datos de un usuario nivel de ubch
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Relación con el modelo Ubch
-    ubch = models.OneToOneField(Ubch, on_delete=models.CASCADE, verbose_name='ubch')
+    # Relación con el modelo Ubch
+    ubch = models.OneToOneField(
+        Ubch, on_delete=models.CASCADE, verbose_name='ubch'
+    )
 
-    ## Relación con el modelo Profile
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True)
+    # Relación con el modelo Profile
+    profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True
+    )
 
     def __str__(self):
         """!
@@ -62,7 +72,8 @@ class UbchLevel(models.Model):
         """
 
         return str(self.profile) + ' | ' + str(self.ubch) + \
-            ' - ' + str(self.ubch.parish) + ' - ' + str(self.ubch.parish.municipality) + \
+            ' - ' + str(self.ubch.parish) + ' - ' +\
+            str(self.ubch.parish.municipality) + \
             ' - ' + str(self.ubch.parish.municipality.estate)
 
     class Meta:
@@ -75,19 +86,26 @@ class UbchLevel(models.Model):
         verbose_name = 'Nivel ubch'
         verbose_name_plural = 'Niveles ubch'
 
+
 class CommunityLeader(models.Model):
     """!
     Clase que contiene los datos de un usuario líder de comunidad
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Relación con el modelo CommunalCouncil
-    communal_council = models.OneToOneField(CommunalCouncil, on_delete=models.CASCADE, verbose_name='consejo comunal', null=True)
+    # Relación con el modelo CommunalCouncil
+    communal_council = models.OneToOneField(
+        CommunalCouncil, on_delete=models.CASCADE,
+        verbose_name='consejo comunal', null=True
+    )
 
-    ## Relación con el modelo Profile
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True)
+    # Relación con el modelo Profile
+    profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True
+    )
 
     def __str__(self):
         """!
@@ -99,9 +117,9 @@ class CommunityLeader(models.Model):
         """
 
         return str(self.profile) + ' | ' + str(self.communal_council) + \
-            ' - ' + str(self.communal_council.ubch.parish) + ' - ' + str(self.communal_council.ubch.parish.municipality) + \
+            ' - ' + str(self.communal_council.ubch.parish) + ' - ' +\
+            str(self.communal_council.ubch.parish.municipality) + \
             ' - ' + str(self.communal_council.ubch.parish.municipality.estate)
-
 
     class Meta:
         """!
@@ -113,19 +131,26 @@ class CommunityLeader(models.Model):
         verbose_name = 'Líder de comunidad'
         verbose_name_plural = 'Líderes de comunidad'
 
+
 class StreetLeader(models.Model):
     """!
     Clase que contiene los datos de un usuario líder de calle
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Relación con el modelo CommunityLeader
-    community_leader = models.ForeignKey(CommunityLeader, on_delete=models.CASCADE, verbose_name='líder de comunidad')
+    # Relación con el modelo CommunityLeader
+    community_leader = models.ForeignKey(
+        CommunityLeader, on_delete=models.CASCADE,
+        verbose_name='líder de comunidad'
+    )
 
-    ## Relación con el modelo Profile
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True)
+    # Relación con el modelo Profile
+    profile = models.OneToOneField(
+        Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True
+    )
 
     def __str__(self):
         """!
@@ -148,20 +173,22 @@ class StreetLeader(models.Model):
         verbose_name = 'Líder de calle'
         verbose_name_plural = 'Líderes de calle'
 
+
 class FamilyGroup(models.Model):
     """!
     Clase que contiene los datos de un usuario que gestiona su grupo familiar
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Relación con el modelo StreetLeader
+    # Relación con el modelo StreetLeader
     street_leader = models.ForeignKey(
-        StreetLeader,on_delete=models.CASCADE, verbose_name='líder de calle'
+        StreetLeader, on_delete=models.CASCADE, verbose_name='líder de calle'
     )
 
-    ## Relación con el modelo Profile
+    # Relación con el modelo Profile
     profile = models.OneToOneField(
         Profile, on_delete=models.CASCADE, verbose_name='perfil'
     )
@@ -187,21 +214,23 @@ class FamilyGroup(models.Model):
         verbose_name = 'Grupo Familiar'
         verbose_name_plural = 'Grupos Familiares'
 
+
 class Person(models.Model):
     """!
     Clase que contiene los datos principales de las personas
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>GNU Public License versión 2 (GPLv2)</a>
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
     """
 
-    ## Nombres
+    # Nombres
     first_name = models.CharField('nombre', max_length=100)
 
-    ## Apellidos
+    # Apellidos
     last_name = models.CharField('nombre', max_length=100)
 
-    ## Cédula de identidad
+    # Cédula de identidad
     id_number = models.CharField(
         'cédula de identidad', max_length=11, unique=True,
         validators=[
@@ -212,23 +241,33 @@ class Person(models.Model):
         ]
     )
 
-    ## Correo electrónico
-    email = models.CharField('correo electrónico', max_length=100, null=True, blank=True)
+    # Correo electrónico
+    email = models.CharField(
+        'correo electrónico', max_length=100, null=True, blank=True
+    )
 
-    ## Teléfono (04160000000)
+    # Teléfono (04160000000)
     phone = models.CharField('teléfono', max_length=11, null=True, blank=True)
 
-    ## Estalece si la persona es jefe familiar o no
+    # Estalece si la persona es jefe familiar o no
     family_head = models.BooleanField()
 
-    ## Relación con el modelo VoteType
-    vote_type = models.ForeignKey(VoteType,on_delete=models.CASCADE, verbose_name='tipo de voto', null=True)
+    # Relación con el modelo VoteType
+    vote_type = models.ForeignKey(
+        VoteType, on_delete=models.CASCADE, verbose_name='tipo de voto',
+        null=True
+    )
 
-    ## Relación con el modelo Relationship
-    relationship = models.ForeignKey(Relationship,on_delete=models.CASCADE, verbose_name='parentesco', null=True)
+    # Relación con el modelo Relationship
+    relationship = models.ForeignKey(
+        Relationship, on_delete=models.CASCADE, verbose_name='parentesco',
+        null=True
+    )
 
-    ## Relación con el modelo FamilyGroup
-    family_group = models.ForeignKey(FamilyGroup,on_delete=models.CASCADE, verbose_name='grupo familiar')
+    # Relación con el modelo FamilyGroup
+    family_group = models.ForeignKey(
+        FamilyGroup, on_delete=models.CASCADE, verbose_name='grupo familiar'
+    )
 
     def __str__(self):
         """!

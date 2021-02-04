@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'census.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    #'default': {
-    #    'ENGINE': 'django.db.backends.sqlite3',
-    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #}
+    # 'default': {
+    #   'ENGINE': 'django.db.backends.sqlite3',
+    #   'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -94,7 +94,7 @@ DATABASES = {
         'PORT': '5432',
     }
 
-    #'default': {
+    # 'default': {
     #    'ENGINE': 'django.db.backends.mysql',
     #    'NAME': 'census',
     #    'USER':'admin',
@@ -104,7 +104,7 @@ DATABASES = {
     #    'OPTIONS': {
     #        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
     #    }
-    #}
+    # }
 }
 
 
@@ -113,16 +113,20 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.\
+            UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.\
+            MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.\
+            CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.\
+            NumericPasswordValidator',
     },
 ]
 
@@ -160,18 +164,19 @@ LOGOUT_REDIRECT_URL = 'user:login'
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
-#EMAIL_USE_TLS = True
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
 EMAIL_HOST_USER = 'email@email.com'
-#EMAIL_HOST_PASSWORD = 'password'
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST_PASSWORD = 'password'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-## Configuración de los niveles de vitácoras (logs) a registrar
+# Configuración de los niveles de vitácoras (logs) a registrar
 LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
     'std': {
-        'format': '%(asctime)s %(levelname)-8s [modulo: %(module)s, funcion: %(funcName)s, linea: %(lineno)d]. %(message)s',
+        'format': '%(asctime)s %(levelname)-8s [modulo: %(module)s,\
+            funcion: %(funcName)s, linea: %(lineno)d]. %(message)s',
     }
 }, handlers={
     'null': {
@@ -182,7 +187,7 @@ LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
         'class': 'logging.handlers.TimedRotatingFileHandler',
         'level': 'DEBUG',
         'formatter': 'std',
-        'filename': os.path.join(BASE_DIR+'/user', 'user.log'),
+        'filename': os.path.join(BASE_DIR + '/logs/', 'user.log'),
         'when': 'w6',
         'interval': 1,
         'backupCount': 52
