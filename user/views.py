@@ -762,6 +762,7 @@ class FamilyGroupSaveView(View):
             ]
 
         if errors:
+            print(errors)
             return JsonResponse(
                 {
                     'status': 'false', 'message': 'Error en los campos',
@@ -938,11 +939,11 @@ class FamilyGroupUpdateView(View):
         else:
             return redirect('base:error_403')
 
-    def put(self, request, *args, **kwargs):
+    def put(self, *args, **kwargs):
         errors = {}
         family_group_id = kwargs['pk']
         family_group = FamilyGroup.objects.get(pk=family_group_id)
-        record = json.loads(request.body.decode('utf-8'))
+        record = json.loads(self.request.body.decode('utf-8'))
 
         i = 0
         j = 0
@@ -1049,7 +1050,7 @@ class FamilyGroupUpdateView(View):
                         'email': person['email'],
                         'phone': person['phone'],
                         'vote_type': vote_type,
-                        'relationship_id': relationship,
+                        'relationship': relationship,
                         'family_head': person['family_head'],
                         'family_group': family_group
                     }

@@ -20,8 +20,25 @@
 <script src="{% static 'node_modules/pdfmake/build/vfs_fonts.js' %}" type="text/javascript"></script>
 <script src="{% static 'node_modules/bootbox/bootbox.min.js' %}" type="text/javascript"></script>
 <script src="{% static 'js/sb-admin.min.js' %}" type="text/javascript"></script>
-<script src="{% static 'node_modules/vue/dist/vue.min.js' %}" type="text/javascript"></script>
+
+<script src="{% static 'node_modules/vue/dist/vue.js' %}" type="text/javascript">
+  // vuejs para desarrollo
+</script>
+
+{% comment %}
+<script src="{% static 'node_modules/vue/dist/vue.min.js' %}" type="text/javascript">
+  // vuejs para producción
+</script>
+{% endcomment %}
+
 <script src="{% static 'node_modules/axios/dist/axios.min.js' %}" type="text/javascript"></script>
+<script>
+  axios.defaults.xsrfCookieName = 'csrftoken';
+  axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
+</script>
+<script src="{% static 'fronted/mixins.js' %}" type="text/javascript"></script>
+<script src="{% static 'fronted/components.js' %}" type="text/javascript"></script>
+
 {% include 'base/alert.messages.html' %}
 <script type="text/javascript">
   $(document).ready(function(){

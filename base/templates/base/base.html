@@ -8,7 +8,7 @@
     <div id="wrapper">
       {% include 'base/sidebar.html' %}
       <div id="content-wrapper">
-        <div class="container-fluid">
+        <div class="container-fluid" id="app">
 
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
@@ -76,6 +76,12 @@
             $('#lc').addClass('active');
           }
         });
+    </script>
+    <script>
+      /** @type {object} Constante que crea el elemento Vue */
+      var app = new Vue({
+        el: '#app',
+      });
     </script>
   </body>
 </html>
