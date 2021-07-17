@@ -1,7 +1,11 @@
-from base.models import CommunalCouncil, Estate, Municipality, Parish, Ubch
+from base.models import (
+    CommunalCouncil, Estate, Municipality, Parish, Relationship,
+    Ubch, VoteType
+)
 from django import forms
 from django.contrib.auth.models import User
 from django.core import validators
+from django.forms import BaseFormSet, formset_factory
 
 from .models import CommunityLeader, Profile, UbchLevel
 
@@ -217,3 +221,191 @@ class CommunityLeaderForm(ProfileForm):
             'username', 'first_name', 'last_name', 'email', 'phone',
             'communal_council'
         ]
+
+
+class FamilyGroupForm(forms.Form):
+    """!
+    Clase que contiene los campos del formulario
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombre de usuario
+    username = forms.CharField(
+        label='Usuario:', max_length=100,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique el nombre de usuario',
+            }
+        )
+    )
+
+    # Correo electrónico
+    email = forms.EmailField(
+        label='Correo Electrónico:', max_length=100,
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique el correo electrónico'
+            }
+        )
+    )
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username):
+            raise forms.ValidationError(
+                'Este campo ya está registrado'
+            )
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email):
+            raise forms.ValidationError('Este campo ya está registrado')
+        return email
+
+
+class PersonForm(forms.Form):
+    """!
+    Clase que contiene los campos del formulario
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombres del usuario
+    first_name = forms.CharField(
+        label='Nombres:', max_length=100,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique los Nombres',
+            }
+        )
+    )
+
+    # Apellidos del usuario
+    last_name = forms.CharField(
+        label='Apellidos:', max_length=100,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique los Apellidos',
+            }
+        )
+    )
+
+    # ¿Tiene cédula de identidad?
+    has_id_number = forms.ChoiceField(
+        label='¿Tiene cédula de identidad?',
+        choices=[
+            ('y', 'Si'),
+            ('n', 'No'),
+        ],
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione una opción',
+        })
+    )
+
+    # Cédula de identidad
+    id_number = forms.CharField(
+        label='Cédula de identidad:', max_length=100,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique los Apellidos',
+            }
+        ),
+        validators=[
+            validators.RegexValidator(
+                r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8}-([\d]{1}|[\d]{2})))$',
+                'Este campo es inválido'
+            ),
+        ],
+    )
+
+    # Correo electrónico
+    email = forms.EmailField(
+        label='Correo Electrónico:', max_length=100,
+        widget=forms.EmailInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique el correo electrónico'
+            }
+        )
+    )
+
+    # Número telefónico
+    phone = forms.CharField(
+        label='Teléfono:', max_length=11,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique el número telefónico',
+            }
+        ),
+        validators=[
+            validators.RegexValidator(
+                r'^[\d]{11}$',
+                'Este campo es inválido. Formato: 04160000000'
+            ),
+        ],
+        help_text='Formato: 04160000000'
+    )
+
+    # Tipo de voto
+    vote_type_id = forms.ModelChoiceField(
+        label='Tipo de Voto:', queryset=VoteType.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el tipo de voto',
+        })
+    )
+
+    # Parentesco
+    relationship_id = forms.ModelChoiceField(
+        label='Parentesco:', queryset=Relationship.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el parentesco',
+        })
+    )
+
+    # Jefe familiar
+    family_head = forms.BooleanField(
+        label='Jefe Familiar:', required=False
+    )
+
+    def clean_family_head(self):
+        family_head = self.cleaned_data['family_head']
+        return family_head
+
+
+class BasePersonFormSet(BaseFormSet):
+    def clean(self):
+        """Checks that no two articles have the same title."""
+        if any(self.errors):
+            # Don't bother validating the formset unless each form is valid on
+            # its own
+            return
+        i = 0
+        for form in self.forms:
+            if form.cleaned_data['family_head']:
+                i = i + 1
+        if i >= 2 or i == 0:
+            raise forms.ValidationError(
+                'Solo puede haber 1 jefe familiar'
+            )
+
+
+PersonFormSet = formset_factory(
+    PersonForm, min_num=1, validate_min=True, formset=BasePersonFormSet
+)

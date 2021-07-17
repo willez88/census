@@ -56,7 +56,11 @@ Vue.component('person', {
       vote_types: [],
       relationships: [],
       url: 'user/family-group/save',
-      errors: [],
+      errors: {
+        username: [],
+        email: [],
+        people: [],
+      },
     }
   },
 
@@ -86,6 +90,17 @@ Vue.component('person', {
      * @author  William Páez <paez.william8@gmail.com>
      */
     addPeople() {
+      /*this.errors.people.push({
+        first_name: '',
+        last_name: '',
+        has_id_number: 'y',
+        id_number: '',
+        email: '',
+        phone: '',
+        vote_type_id: '',
+        relationship_id: '',
+        family_head: false,
+      });*/
       this.record.people.push({
         first_name: '',
         last_name: '',
@@ -109,10 +124,12 @@ Vue.component('person', {
         axios.get('/user/person/delete/' + el[index].id + '/').then(response => {
           console.log('Persona eliminada');
           el.splice(index, 1);
+          //this.errors.people.pop();
         });
       }
       else {
         el.splice(index, 1);
+        //this.errors.people.pop();
       }
     },
 
@@ -141,14 +158,9 @@ Vue.component('person', {
       Registrar
     </div>
       <div class="card-body">
-        <div class="alert alert-danger" v-if="errors.length > 0">
-            <ul>
-                <li v-for="error in errors">{{ error }}</li>
-            </ul>
-        </div>
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-            <div class="form-group ">
+            <div class="form-group">
               <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="id_username">
                 Usuario: <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
               </label>
@@ -158,6 +170,11 @@ Vue.component('person', {
                   <input type="hidden" v-model="record.id">
                 </div>
               </div>
+            </div>
+            <div class="alert alert-danger" v-if="errors['username'].length > 0">
+              <ul>
+                <li v-for="error in errors['username']">{{ error }}</li>
+              </ul>
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
@@ -171,12 +188,24 @@ Vue.component('person', {
                 </div>
               </div>
             </div>
+            <div class="alert alert-danger" v-if="errors['email'].length > 0">
+              <ul>
+                <li v-for="error in errors['email']">{{ error }}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
       <hr>
       <div class="card-body">
+        <div v-if="errors.people.general_error">
+          <div class="alert alert-danger" v-if="errors.people.general_error.length > 0">
+            <ul>
+              <li v-for="error in errors.people.general_error">{{ error }}</li>
+            </ul>
+          </div>
+        </div>
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
             <h6>
@@ -189,6 +218,13 @@ Vue.component('person', {
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
             <div class="form-group ">
               <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique los nombres" placeholder="Nombres" v-model="person.first_name">
+            </div>
+            <div v-if="errors.people[index]">
+              <div class="alert alert-danger" v-if="errors.people[index].first_name.length > 0">
+                <ul>
+                  <li v-for="error in errors.people[index].first_name">{{ error }}</li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">

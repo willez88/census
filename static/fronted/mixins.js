@@ -95,7 +95,7 @@ Vue.mixin({
         for (var index in this.record) {
           fields[index] = this.record[index];
         }
-        axios.post('/' + url, fields).then(response => {
+        axios.post('/' + url + '/', fields).then(response => {
           if (typeof(response.data.redirect) !== "undefined") {
             location.href = response.data.redirect;
           }
@@ -105,12 +105,15 @@ Vue.mixin({
             //vm.showMessage('store');
           }
         }).catch(error => {
-          vm.errors = [];
-
+          vm.errors = {
+            username: [],
+            email: [],
+            people: [],
+          };
           if (typeof(error.response) !="undefined") {
             for (var index in error.response.data.errors) {
               if (error.response.data.errors[index]) {
-                vm.errors.push(error.response.data.errors[index][0]);
+                vm.errors[index] = error.response.data.errors[index];
               }
             }
           }

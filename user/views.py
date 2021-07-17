@@ -15,7 +15,10 @@ from django.views.generic import (
     FormView, ListView, TemplateView, UpdateView, View,
 )
 
-from .forms import CommunityLeaderForm, ProfileForm, ProfileUpdateForm
+from .forms import (
+    CommunityLeaderForm, FamilyGroupForm, PersonFormSet,
+    ProfileForm, ProfileUpdateForm
+)
 from .models import (
     CommunityLeader, FamilyGroup, Person, Profile, StreetLeader, UbchLevel,
 )
@@ -601,14 +604,13 @@ class FamilyGroupCreateTemplateView(TemplateView):
 
     template_name = 'user/family_group_create.html'
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, *args, **kwargs):
         """!
         Metodo que valida si el usuario del sistema tiene permisos para entrar
         a esta vista
 
         @author William Páez (paez.william8 at gmail.com)
         @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene la petición
         @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
         @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
         @return Redirecciona al usuario a la página de error de permisos si no
@@ -616,7 +618,7 @@ class FamilyGroupCreateTemplateView(TemplateView):
         """
 
         if self.request.user.groups.filter(name='Líder de Calle'):
-            return super().dispatch(request, *args, **kwargs)
+            return super().dispatch(*args, **kwargs)
         else:
             return redirect('base:error_403')
 
@@ -631,7 +633,7 @@ class FamilyGroupSaveView(View):
         GNU Public License versión 2 (GPLv2)</a>
     """
 
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, *args, **kwargs):
         """!
         Metodo que valida si el usuario del sistema tiene permisos para entrar
         a esta vista
@@ -646,42 +648,69 @@ class FamilyGroupSaveView(View):
         """
 
         if self.request.user.groups.filter(name='Líder de Calle'):
-            return super().dispatch(request, *args, **kwargs)
+            return super().dispatch(*args, **kwargs)
         else:
             return redirect('base:error_403')
 
     def post(self, request, *args, **kwargs):
         record = json.loads(request.body.decode('utf-8'))
-        errors = {}
-        required_field = 'Este campo es obligatorio'
-
-        # Validar nombre de usuario
-        if not record['username']:
-            errors['username'] = ['nombre de usuario: este campo es requerido']
-        elif User.objects.filter(username=record['username']):
-            errors['username'] = ['nombre de usuario: el usuario ya existe']
-
-        # Vaidar correo del usuario
-        result = re.match(
-            r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$', record['email']
-        )
-        if not result:
-            errors['email'] = ['correo electrónico: el campo es inválido']
-
-        # Validar nombres
-        # if not record['first_name']:
-        #   errors['first_name'] = ['nombres: este campo es requerido']
-
-        # Validar apellidos
-        # if not record['last_name']:
-        #   errors['last_name'] = ['apellidos: este campo es requerido']
-
-        # if Profile.objects.filter(id_number=record['id_number']):
-        #   errors['id_number'] = ['cédula de identidad: el campo ya existe']
-
+        family_group_form = FamilyGroupForm(record)
+        if not family_group_form.is_valid():
+            return JsonResponse(
+                {
+                    'status': 'false', 'message': 'Error en los campos',
+                    'errors': family_group_form.errors
+                },
+                status=422
+            )
         i = 0
-        j = 0
+        data = {}
         for person in record['people']:
+            for key, value in person.items():
+                form_name = 'form-' + str(i) + '-' + key
+                data[form_name] = value
+            i = i + 1
+        data['form-TOTAL_FORMS'] = i
+        data['form-INITIAL_FORMS'] = 0
+        # print(data)
+        personformset = PersonFormSet(data)
+        print(personformset.non_form_errors())
+        if not personformset.is_valid():
+            if record['people']:
+                errors = personformset.errors
+            else:
+                errors = {'general_error': personformset.non_form_errors()}
+            return JsonResponse(
+                {
+                    'status': 'false', 'message': 'Error en los campos',
+                    'errors': {'people': errors}
+                },
+                status=422
+            )
+
+        """
+        for person in record['people']:
+            person_form = PersonForm(person)
+            if person_form.is_valid():
+                print('Formulario válido')
+                # print(person_form.errors)
+                return JsonResponse(
+                    {
+                        'status': 'true',
+                        'message': 'Datos guardados con éxito'
+                    },
+                    status=200
+                )
+            else:
+                print('No válido')
+                # print(person_form.errors)
+                return JsonResponse(
+                    {
+                        'status': 'false', 'message': 'Error en los campos',
+                        'errors': {'people': personformset.errors}
+                    },
+                    status=422
+                )
             field_0 = 'first_name_' + str(i)
             field_1 = 'last_name_' + str(i)
             field_2 = 'id_number_' + str(i)
@@ -760,43 +789,43 @@ class FamilyGroupSaveView(View):
             errors['family_head'] = [
                 'jefe familiar: solo puede haber 1 jefe familiar'
             ]
+        """
 
-        if errors:
-            print(errors)
-            return JsonResponse(
-                {
-                    'status': 'false', 'message': 'Error en los campos',
-                    'errors': errors
-                },
-                status=422
-            )
+        #if errors:
+        #    return JsonResponse(
+        #        {
+        #            'status': 'false', 'message': 'Error en los campos',
+        #            'errors': errors
+        #        },
+        #        status=422
+        #    )
 
-        password = User.objects.make_random_password()
-        user = User.objects.create_user(
-            record['username'],
-            record['email'],
-            password,
-        )
+        # password = User.objects.make_random_password()
+        # user = User.objects.create_user(
+        #    record['username'],
+        #    record['email'],
+        #    password,
+        # )
         # user.first_name = record['first_name']
         # user.last_name = record['last_name']
-        user.is_active = False
-        user.save()
-        user.groups.add(Group.objects.get(name='Grupo Familiar'))
+        # user.is_active = False
+        # user.save()
+        # user.groups.add(Group.objects.get(name='Grupo Familiar'))
 
-        profile = Profile.objects.create(
-            # phone=record['phone'],
-            user=user
-        )
+        # profile = Profile.objects.create(
+        #    phone=record['phone'],
+        #    user=user
+        # )
 
-        street_leader = StreetLeader.objects.get(
-            profile=self.request.user.profile
-        )
-        family_group = FamilyGroup.objects.create(
-            street_leader=street_leader,
-            profile=profile
-        )
+        # street_leader = StreetLeader.objects.get(
+        #    profile=self.request.user.profile
+        # )
+        # family_group = FamilyGroup.objects.create(
+        #    street_leader=street_leader,
+        #    profile=profile
+        # )
 
-        c = 1
+        """c = 1
         for person in record['people']:
             vote_type = VoteType.objects.get(pk=person['vote_type_id'])
             relationship = Relationship.objects.get(
@@ -852,11 +881,19 @@ class FamilyGroupSaveView(View):
                 'emailapp': settings.EMAIL_HOST_USER,
                 'url': get_current_site(self.request).name
             }
-        )
+        )"""
         return JsonResponse(
-            {'status': 'true', 'message': 'Datos guardados con éxito'},
+            {
+                'status': 'true', 'message': 'Datos guardados con éxito'
+            },
             status=200
         )
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        return super().form_invalid(form)
 
 
 class FamilyGroupEditTemplateView(TemplateView):
