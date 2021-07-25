@@ -106,11 +106,13 @@ Vue.mixin({
           }
         }).catch(error => {
           vm.errors = {
-            username: [],
-            email: [],
-            people: [],
+            family_group: {
+              username: [],
+              email: [],
+            },
+            people: [{}],
           };
-          if (typeof(error.response) !="undefined") {
+          if (typeof(error.response) != "undefined") {
             for (var index in error.response.data.errors) {
               if (error.response.data.errors[index]) {
                 vm.errors[index] = error.response.data.errors[index];
@@ -141,15 +143,21 @@ Vue.mixin({
         else {
           vm.readRecords(url);
           vm.reset();
-          vm.showMessage('update');
+          //vm.showMessage('update');
         }
       }).catch(error => {
-        vm.errors = [];
-
-        if (typeof(error.response) !="undefined") {
+        vm.errors = {
+          family_group: {
+            username: [],
+            email: [],
+          },
+          people: [{}],
+        };
+        if (typeof(error.response) != "undefined") {
           for (var index in error.response.data.errors) {
             if (error.response.data.errors[index]) {
-              vm.errors.push(error.response.data.errors[index][0]);
+              //vm.errors.push(error.response.data.errors[index][0]);
+              vm.errors[index] = error.response.data.errors[index];
             }
           }
         }

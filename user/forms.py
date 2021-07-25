@@ -324,10 +324,11 @@ class PersonForm(forms.Form):
         ),
         validators=[
             validators.RegexValidator(
-                r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8}-([\d]{1}|[\d]{2})))$',
+                r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8})-([\d]{1}|[\d]{2}))$',
                 'Este campo es inválido'
             ),
         ],
+        required=False
     )
 
     # Correo electrónico
@@ -384,9 +385,12 @@ class PersonForm(forms.Form):
         label='Jefe Familiar:', required=False
     )
 
-    def clean_family_head(self):
-        family_head = self.cleaned_data['family_head']
-        return family_head
+    def clean_id_number(self):
+        id_number = self.cleaned_data['id_number']
+        has_id_number = self.cleaned_data.get('has_id_number')
+        if has_id_number == 'y' and not id_number:
+            raise forms.ValidationError('Este campo es obligatorio.')
+        return id_number
 
 
 class BasePersonFormSet(BaseFormSet):

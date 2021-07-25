@@ -19,7 +19,7 @@ function combo_update(option, app, mod, field, n_value, n_text, combo_target, bd
   $.ajaxSetup({
     async: false
   });
-  $.getJSON(URL_COMBO_UPDATE, {
+  $.getJSON("/ajax/combo-update/", {
     option:option, app:app, mod:mod, field:field, n_value:n_value, n_text: n_text, bd:bd
   }, function(data) {
 

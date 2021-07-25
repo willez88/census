@@ -49,17 +49,17 @@ Vue.component('person', {
         id: '',
         username: '',
         email: '',
-        vote_type_id: '',
-        relationship_id: '',
         people: [],
       },
       vote_types: [],
       relationships: [],
       url: 'user/family-group/save',
       errors: {
-        username: [],
-        email: [],
-        people: [],
+        family_group: {
+          username: [],
+          email: [],
+        },
+        people: [{}],
       },
     }
   },
@@ -90,7 +90,7 @@ Vue.component('person', {
      * @author  William Páez <paez.william8@gmail.com>
      */
     addPeople() {
-      /*this.errors.people.push({
+      this.errors.people.push({
         first_name: '',
         last_name: '',
         has_id_number: 'y',
@@ -100,7 +100,7 @@ Vue.component('person', {
         vote_type_id: '',
         relationship_id: '',
         family_head: false,
-      });*/
+      });
       this.record.people.push({
         first_name: '',
         last_name: '',
@@ -124,12 +124,12 @@ Vue.component('person', {
         axios.get('/user/person/delete/' + el[index].id + '/').then(response => {
           console.log('Persona eliminada');
           el.splice(index, 1);
-          //this.errors.people.pop();
+          this.errors.people.pop();
         });
       }
       else {
         el.splice(index, 1);
-        //this.errors.people.pop();
+        this.errors.people.pop();
       }
     },
 
@@ -141,6 +141,19 @@ Vue.component('person', {
     getFamilyGroup() {
       axios.get('/user/family-group/detail/' + this.family_group_id + '/').then(response => {
         this.record = response.data.record;
+        for (var index in this.record.people) {
+          this.errors.people.push({
+            first_name: '',
+            last_name: '',
+            has_id_number: 'y',
+            id_number: '',
+            email: '',
+            phone: '',
+            vote_type_id: '',
+            relationship_id: '',
+            family_head: false,
+          });
+        }
       });
     },
   },
@@ -171,9 +184,9 @@ Vue.component('person', {
                 </div>
               </div>
             </div>
-            <div class="alert alert-danger" v-if="errors['username'].length > 0">
+            <div class="alert alert-danger" v-if="errors.family_group.username.length > 0">
               <ul>
-                <li v-for="error in errors['username']">{{ error }}</li>
+                <li v-for="error in errors.family_group.username">{{ error }}</li>
               </ul>
             </div>
           </div>
@@ -188,9 +201,9 @@ Vue.component('person', {
                 </div>
               </div>
             </div>
-            <div class="alert alert-danger" v-if="errors['email'].length > 0">
+            <div class="alert alert-danger" v-if="errors.family_group.email.length > 0">
               <ul>
-                <li v-for="error in errors['email']">{{ error }}</li>
+                <li v-for="error in errors.family_group.email">{{ error }}</li>
               </ul>
             </div>
           </div>
@@ -199,10 +212,10 @@ Vue.component('person', {
 
       <hr>
       <div class="card-body">
-        <div v-if="errors.people.general_error">
-          <div class="alert alert-danger" v-if="errors.people.general_error.length > 0">
+        <div v-if="errors.general_error">
+          <div class="alert alert-danger" v-if="errors.general_error.length > 0">
             <ul>
-              <li v-for="error in errors.people.general_error">{{ error }}</li>
+              <li v-for="error in errors.general_error">{{ error }}</li>
             </ul>
           </div>
         </div>
@@ -219,7 +232,7 @@ Vue.component('person', {
             <div class="form-group ">
               <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique los nombres" placeholder="Nombres" v-model="person.first_name">
             </div>
-            <div v-if="errors.people[index]">
+            <div v-if="errors.people[index].first_name">
               <div class="alert alert-danger" v-if="errors.people[index].first_name.length > 0">
                 <ul>
                   <li v-for="error in errors.people[index].first_name">{{ error }}</li>
@@ -231,11 +244,18 @@ Vue.component('person', {
             <div class="form-group ">
               <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique los apellidos" placeholder="Apellidos" v-model="person.last_name">
             </div>
+            <div v-if="errors.people[index].last_name">
+              <div class="alert alert-danger" v-if="errors.people[index].last_name.length > 0">
+                <ul>
+                  <li v-for="error in errors.people[index].last_name">{{ error }}</li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
             <div class="form-inline">
               <div class="form-group">
-                <select title="¿Tiene cédula de identidad?" v-model="person.has_id_number">
+                <select class="select2" title="¿Tiene cédula de identidad?" v-model="person.has_id_number">
                   <option value="y">Si</option>
                   <option value="n">No</option>
                 </select>
@@ -243,16 +263,37 @@ Vue.component('person', {
               <div class="form-group" v-show="person.has_id_number=='y'">
                 <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique la cédula de identidad" placeholder="Cédula de Identidad" v-model="person.id_number">
               </div>
+              <div v-if="errors.people[index].id_number">
+                <div class="alert alert-danger" v-if="errors.people[index].id_number.length > 0">
+                  <ul>
+                    <li v-for="error in errors.people[index].id_number">{{ error }}</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
             <div class="form-group ">
               <input type="email" class="form-control input-sm" data-toggle="tooltip" title="Indique el correo electrónico" placeholder="Correo Electrónico" v-model="person.email">
             </div>
+            <div v-if="errors.people[index].email">
+              <div class="alert alert-danger" v-if="errors.people[index].email.length > 0">
+                <ul>
+                  <li v-for="error in errors.people[index].email">{{ error }}</li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
             <div class="form-group ">
               <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique el número telefónico" placeholder="Número Telefónico" v-model="person.phone">
+            </div>
+            <div v-if="errors.people[index].phone">
+              <div class="alert alert-danger" v-if="errors.people[index].phone.length > 0">
+                <ul>
+                  <li v-for="error in errors.people[index].phone">{{ error }}</li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
@@ -264,6 +305,13 @@ Vue.component('person', {
                 v-model="person.vote_type_id">
               </select2>
             </div>
+            <div v-if="errors.people[index].vote_type_id">
+              <div class="alert alert-danger" v-if="errors.people[index].vote_type_id.length > 0">
+                <ul>
+                  <li v-for="error in errors.people[index].vote_type_id">{{ error }}</li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
             <div class="form-group ">
@@ -273,6 +321,13 @@ Vue.component('person', {
               <select2 :options="relationships"
                 v-model="person.relationship_id">
               </select2>
+            </div>
+            <div v-if="errors.people[index].relationship_id">
+              <div class="alert alert-danger" v-if="errors.people[index].relationship_id.length > 0">
+                <ul>
+                  <li v-for="error in errors.people[index].relationship_id">{{ error }}</li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">

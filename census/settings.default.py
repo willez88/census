@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+from pathlib import Path
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -149,7 +149,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    BASE_DIR / 'static/',
 )
 
 LOGIN_URL = 'user:login'
@@ -188,7 +188,7 @@ LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
         'class': 'logging.handlers.TimedRotatingFileHandler',
         'level': 'DEBUG',
         'formatter': 'std',
-        'filename': os.path.join(BASE_DIR + '/logs/', 'user.log'),
+        'filename': BASE_DIR / 'logs/user.log',
         'when': 'w6',
         'interval': 1,
         'backupCount': 52
@@ -209,3 +209,8 @@ LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
         'propagate': False,
     }
 })
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

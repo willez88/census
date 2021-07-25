@@ -658,8 +658,11 @@ class FamilyGroupSaveView(View):
         if not family_group_form.is_valid():
             return JsonResponse(
                 {
-                    'status': 'false', 'message': 'Error en los campos',
-                    'errors': family_group_form.errors
+                    'status': False, 'message': 'Error en los campos',
+                    'errors': {
+                        'family_group': family_group_form.errors,
+                        'people': [{}]
+                    }
                 },
                 status=422
             )
@@ -672,160 +675,42 @@ class FamilyGroupSaveView(View):
             i = i + 1
         data['form-TOTAL_FORMS'] = i
         data['form-INITIAL_FORMS'] = 0
-        # print(data)
         personformset = PersonFormSet(data)
-        print(personformset.non_form_errors())
         if not personformset.is_valid():
-            if record['people']:
-                errors = personformset.errors
-            else:
-                errors = {'general_error': personformset.non_form_errors()}
             return JsonResponse(
                 {
-                    'status': 'false', 'message': 'Error en los campos',
-                    'errors': {'people': errors}
+                    'status': False,
+                    'message': 'Error en los campos',
+                    'errors': {
+                        'people': personformset.errors,
+                        'general_error': personformset.non_form_errors()
+                    }
                 },
                 status=422
             )
-
-        """
-        for person in record['people']:
-            person_form = PersonForm(person)
-            if person_form.is_valid():
-                print('Formulario válido')
-                # print(person_form.errors)
-                return JsonResponse(
-                    {
-                        'status': 'true',
-                        'message': 'Datos guardados con éxito'
-                    },
-                    status=200
-                )
-            else:
-                print('No válido')
-                # print(person_form.errors)
-                return JsonResponse(
-                    {
-                        'status': 'false', 'message': 'Error en los campos',
-                        'errors': {'people': personformset.errors}
-                    },
-                    status=422
-                )
-            field_0 = 'first_name_' + str(i)
-            field_1 = 'last_name_' + str(i)
-            field_2 = 'id_number_' + str(i)
-            field_3 = 'email_' + str(i)
-            field_4 = 'phone_' + str(i)
-            field_5 = 'vote_type_id_' + str(i)
-            field_6 = 'relationship_id_' + str(i)
-
-            if person['family_head']:
-                j = j + 1
-
-            # Validar nombres
-            if not person['first_name']:
-                errors[field_0] = [
-                    'nombres_' + str(i) + ': este campo es requerido'
-                ]
-
-            # Validar apellidos
-            if not person['last_name']:
-                errors[field_1] = [
-                    'apellidos_' + str(i) + ': este campo es requerido'
-                ]
-
-            # Vaidar cédula de identidad
-            if person['has_id_number'] == 'y':
-                result = re.match(
-                    r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8}-([\d]{1}|[\d]{2})))$',
-                    person['id_number']
-                )
-                if not result:
-                    errors[field_2] = [
-                        'cédula de identidad_' + str(i) +
-                        ': el campo es inválido'
-                    ]
-                elif Person.objects.filter(id_number=person['id_number']):
-                    errors[field_2] = [
-                        'cédula de identidad_' + str(i) +
-                        ': el campo ya existe'
-                    ]
-
-            # Vaidar correo de la persona
-            if not person['email'] == '':
-                result = re.match(
-                    r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$',
-                    person['email']
-                )
-                if not result:
-                    errors[field_3] = [
-                        'correo electrónico_' + str(i) +
-                        ': el campo es inválido'
-                    ]
-
-            # Validar teléfono
-            if not person['phone'] == '':
-                result = re.match(r'^[\d]{11}$', person['phone'])
-                if not result:
-                    errors[field_4] = [
-                        'teléfono_' + str(i) + ': el campo es inválido'
-                    ]
-
-            # Validar tipo de voto
-            if not person['vote_type_id']:
-                errors[field_5] = [
-                    'tipo de voto_' + str(i) + ': este campo es requerido'
-                ]
-
-            # Validar tipo de voto
-            if not person['relationship_id']:
-                errors[field_6] = [
-                    'parentesco_' + str(i) + ': este campo es requerido'
-                ]
-
-            i = i + 1
-
-        if j >= 2 or j == 0:
-            errors['family_head'] = [
-                'jefe familiar: solo puede haber 1 jefe familiar'
-            ]
-        """
-
-        #if errors:
-        #    return JsonResponse(
-        #        {
-        #            'status': 'false', 'message': 'Error en los campos',
-        #            'errors': errors
-        #        },
-        #        status=422
-        #    )
-
-        # password = User.objects.make_random_password()
-        # user = User.objects.create_user(
-        #    record['username'],
-        #    record['email'],
-        #    password,
-        # )
+        password = User.objects.make_random_password()
+        user = User.objects.create_user(
+            record['username'],
+            record['email'],
+            password,
+        )
         # user.first_name = record['first_name']
         # user.last_name = record['last_name']
-        # user.is_active = False
-        # user.save()
-        # user.groups.add(Group.objects.get(name='Grupo Familiar'))
-
-        # profile = Profile.objects.create(
-        #    phone=record['phone'],
-        #    user=user
-        # )
-
-        # street_leader = StreetLeader.objects.get(
-        #    profile=self.request.user.profile
-        # )
-        # family_group = FamilyGroup.objects.create(
-        #    street_leader=street_leader,
-        #    profile=profile
-        # )
-
-        """c = 1
+        user.is_active = False
+        user.save()
+        user.groups.add(Group.objects.get(name='Grupo Familiar'))
+        profile = Profile.objects.create(
+            # phone=record['phone'],
+            user=user
+        )
+        street_leader = StreetLeader.objects.get(
+            profile=self.request.user.profile
+        )
+        family_group = FamilyGroup.objects.create(
+            street_leader=street_leader,
+            profile=profile
+        )
+        c = 1
         for person in record['people']:
             vote_type = VoteType.objects.get(pk=person['vote_type_id'])
             relationship = Relationship.objects.get(
@@ -863,7 +748,6 @@ class FamilyGroupSaveView(View):
                     family_group=family_group
                 )
                 c = c + 1
-
         admin, admin_email = '', ''
         if settings.ADMINS:
             admin = settings.ADMINS[0][0]
@@ -881,10 +765,12 @@ class FamilyGroupSaveView(View):
                 'emailapp': settings.EMAIL_HOST_USER,
                 'url': get_current_site(self.request).name
             }
-        )"""
+        )
         return JsonResponse(
             {
-                'status': 'true', 'message': 'Datos guardados con éxito'
+                'status': True,
+                'message': 'Datos guardados con éxito',
+                'redirect': '/user/family-group/list/',
             },
             status=200
         )
@@ -977,101 +863,35 @@ class FamilyGroupUpdateView(View):
             return redirect('base:error_403')
 
     def put(self, *args, **kwargs):
-        errors = {}
         family_group_id = kwargs['pk']
         family_group = FamilyGroup.objects.get(pk=family_group_id)
         record = json.loads(self.request.body.decode('utf-8'))
 
         i = 0
-        j = 0
+        data = {}
         for person in record['people']:
-            field_0 = 'first_name_' + str(i)
-            field_1 = 'last_name_' + str(i)
-            field_2 = 'id_number_' + str(i)
-            field_3 = 'email_' + str(i)
-            field_4 = 'phone_' + str(i)
-            field_5 = 'vote_type_id_' + str(i)
-            field_6 = 'relationship_id_' + str(i)
-
-            if person['family_head']:
-                j = j + 1
-
-            # Validar nombres
-            if not person['first_name']:
-                errors[field_0] = [
-                    'nombres_' + str(i) + ': este campo es requerido'
-                ]
-
-            # Validar apellidos
-            if not person['last_name']:
-                errors[field_1] = [
-                    'apellidos_' + str(i) + ': este campo es requerido'
-                ]
-
-            # Vaidar cédula de identidad
-            if person['has_id_number'] == 'y':
-                result = re.match(
-                    r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8}-([\d]{1}|[\d]{2})))$',
-                    person['id_number']
-                )
-                if not result:
-                    errors[field_2] = [
-                        'cédula de identidad_' + str(i) +
-                        ': el campo es inválido'
-                    ]
-
-            # Vaidar correo de la persona
-            if not person['email'] == '':
-                result = re.match(
-                    r'^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$',
-                    person['email']
-                )
-                if not result:
-                    errors[field_3] = [
-                        'correo electrónico_' + str(i) +
-                        ': el campo es inválido'
-                    ]
-
-            # Validar teléfono
-            if not person['phone'] == '':
-                result = re.match(r'^[\d]{11}$', person['phone'])
-                if not result:
-                    errors[field_4] = [
-                        'teléfono_' + str(i) + ': el campo es inválido'
-                    ]
-
-            # Validar tipo de voto
-            if not person['vote_type_id']:
-                errors[field_5] = [
-                    'tipo de voto_' + str(i) + ': este campo es requerido'
-                ]
-
-            # Validar parentesco
-            if not person['relationship_id']:
-                errors[field_6] = [
-                    'parentesco_' + str(i) + ': este campo es requerido'
-                ]
-
+            for key, value in person.items():
+                form_name = 'form-' + str(i) + '-' + key
+                data[form_name] = value
             i = i + 1
-
-        if j >= 2 or j == 0:
-            errors['family_head'] = [
-                'jefe familiar: solo puede haber 1 jefe familiar'
-            ]
-
-        if errors:
+        data['form-TOTAL_FORMS'] = i
+        data['form-INITIAL_FORMS'] = 0
+        personformset = PersonFormSet(data)
+        if not personformset.is_valid():
             return JsonResponse(
                 {
-                    'status': 'false', 'message': 'Error en los campos',
-                    'errors': errors
+                    'status': False,
+                    'message': 'Error en los campos',
+                    'errors': {
+                        'people': personformset.errors,
+                        'general_error': personformset.non_form_errors()
+                    }
                 },
                 status=422
             )
-
         c = Person.objects.filter(
             family_group=family_group, id_number__contains='-'
         ).count() + 1
-
         for person in record['people']:
             vote_type = VoteType.objects.get(pk=person['vote_type_id'])
             relationship = Relationship.objects.get(
@@ -1111,9 +931,12 @@ class FamilyGroupUpdateView(View):
                     }
                 )
                 c = c + 1
-
         return JsonResponse(
-            {'status': 'true', 'message': 'Datos actualizados con éxito'},
+            {
+                'status': True,
+                'message': 'Datos actualizados con éxito',
+                'redirect': '/user/family-group/list/',
+            },
             status=200
         )
 
@@ -1172,7 +995,7 @@ class FamilyGroupDetailView(View):
             'username': family_group.profile.user.username,
             'email': family_group.profile.user.email, 'people': person
         }
-        return JsonResponse({'status': 'true', 'record': record}, status=200)
+        return JsonResponse({'status': True, 'record': record}, status=200)
 
 
 class PersonDeleteView(View):

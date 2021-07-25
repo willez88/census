@@ -235,7 +235,7 @@ class Person(models.Model):
         'cédula de identidad', max_length=11, unique=True,
         validators=[
             validators.RegexValidator(
-                r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8}-([\d]{1}|[\d]{2})))$',
+                r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8})-([\d]{1}|[\d]{2}))$',
                 'Introduzca una cédula de identidad válido'
             ),
         ]
