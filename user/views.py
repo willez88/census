@@ -1,6 +1,5 @@
 import json
 import logging
-import re
 
 from base.functions import send_email
 from base.models import CommunalCouncil, Relationship, VoteType

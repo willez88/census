@@ -1,4 +1,6 @@
-from base.models import CommunalCouncil, Relationship, Ubch, VoteType
+from base.models import (
+    CommunalCouncil, Department, Relationship, Ubch, VoteType
+)
 from django.contrib.auth.models import User
 from django.core import validators
 from django.db import models
@@ -191,6 +193,12 @@ class FamilyGroup(models.Model):
     # Relación con el modelo Profile
     profile = models.OneToOneField(
         Profile, on_delete=models.CASCADE, verbose_name='perfil'
+    )
+
+    # Relación con el modelo Department
+    department = models.ForeignKey(
+        Department, on_delete=models.CASCADE, verbose_name='departamento',
+        null=True
     )
 
     def __str__(self):

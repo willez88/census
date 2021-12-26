@@ -238,6 +238,124 @@ class CommunalCouncil(models.Model):
         verbose_name_plural = 'Consejos comunales'
 
 
+class Block(models.Model):
+    """!
+    Clase que contiene los bloques
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombre
+    name = models.CharField('nombre', max_length=50)
+
+    # Relación con el modelo CommunalCouncil
+    communal_council = models.ForeignKey(
+        CommunalCouncil, on_delete=models.CASCADE,
+        verbose_name='consejo comunal'
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre
+        """
+
+        return self.name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Bloque'
+        verbose_name_plural = 'Bloques'
+
+
+class Building(models.Model):
+    """!
+    Clase que contiene los edificios
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombre
+    name = models.CharField('nombre', max_length=50)
+
+    # Relación con el modelo Block
+    block = models.ForeignKey(
+        Block, on_delete=models.CASCADE, verbose_name='bloque'
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre
+        """
+
+        return self.name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Edificio'
+        verbose_name_plural = 'Edificios'
+
+
+class Department(models.Model):
+    """!
+    Clase que contiene los departamentos
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombre
+    name = models.CharField('nombre', max_length=50)
+
+    # Relación con el modelo Block
+    building = models.ForeignKey(
+        Building, on_delete=models.CASCADE, verbose_name='edificio'
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre
+        """
+
+        return self.name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Departamento'
+        verbose_name_plural = 'Departamentos'
+
+
 class VoteType(models.Model):
     """!
     Clase que contiene los tipo de votos

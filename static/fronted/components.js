@@ -49,6 +49,7 @@ Vue.component('person', {
         id: '',
         username: '',
         email: '',
+        department: '',
         people: [],
       },
       vote_types: [],
@@ -58,6 +59,7 @@ Vue.component('person', {
         family_group: {
           username: [],
           email: [],
+          department: [],
         },
         people: [{}],
       },
@@ -121,7 +123,7 @@ Vue.component('person', {
      */
     deletePerson(index, el) {
       if( typeof(el[index].id) != 'undefined' ) {
-        axios.get('/user/person/delete/' + el[index].id + '/').then(response => {
+        axios.get(`/user/person/delete/${el[index].id}/`).then(response => {
           console.log('Persona eliminada');
           el.splice(index, 1);
           this.errors.people.pop();
@@ -139,7 +141,7 @@ Vue.component('person', {
      * @author  William Páez <paez.william8@gmail.com>
      */
     getFamilyGroup() {
-      axios.get('/user/family-group/detail/' + this.family_group_id + '/').then(response => {
+      axios.get(`/user/family-group/detail/${this.family_group_id}/`).then(response => {
         this.record = response.data.record;
         for (var index in this.record.people) {
           this.errors.people.push({
@@ -204,6 +206,25 @@ Vue.component('person', {
             <div class="alert alert-danger" v-if="errors.family_group.email.length > 0">
               <ul>
                 <li v-for="error in errors.family_group.email">{{ error }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+              <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="id_department">
+                Departamento: <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
+              </label>
+              <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                <div class="form-inline">
+                  <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique el departamento" v-model="record.department">
+                </div>
+              </div>
+            </div>
+            <div class="alert alert-danger" v-if="errors.family_group.department.length > 0">
+              <ul>
+                <li v-for="error in errors.family_group.department">{{ error }}</li>
               </ul>
             </div>
           </div>
