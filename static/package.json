@@ -10,7 +10,7 @@
     "jquery": "3.3.1",
     "jquery.easing": "1.4.1",
     "jquery-mask-plugin": "1.14.15",
-    "jszip": "3.1.5",
+    "jszip": "3.8.0",
     "pdfmake": "0.1.37",
     "select2": "4.0.6-rc.1",
     "bootbox": "v4.4.0",
