@@ -172,43 +172,37 @@ else:
     EMAIL_HOST_USER = 'email@email.com'
     EMAIL_HOST_PASSWORD = 'password'
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    SERVER_EMAIL = 'email@email.com'
 
 # Configuración de los niveles de vitácoras (logs) a registrar
-LOGGING = dict(version=1, disable_existing_loggers=True, formatters={
-    'std': {
-        'format': '%(asctime)s %(levelname)-8s [modulo: %(module)s,\
-            funcion: %(funcName)s, linea: %(lineno)d]. %(message)s',
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {funcName} {lineno} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'user': {
+            'formatter': 'verbose',
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': BASE_DIR / 'logs/user.log',
+            'when': 'w6',
+            'interval': 1,
+            'backupCount': 52,
+        },
+    },
+    'loggers': {
+        'user': {
+            'handlers': ['base'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
     }
-}, handlers={
-    'null': {
-        'level': 'DEBUG',
-        'class': 'logging.NullHandler'
-    },
-    'user': {
-        'class': 'logging.handlers.TimedRotatingFileHandler',
-        'level': 'DEBUG',
-        'formatter': 'std',
-        'filename': BASE_DIR / 'logs/user.log',
-        'when': 'w6',
-        'interval': 1,
-        'backupCount': 52
-    },
-}, loggers={
-    'root': {
-        'level': 'DEBUG',
-        'handlers': ['user']
-    },
-    'user': {
-        'level': 'DEBUG',
-        'handlers': ['user'],
-        'qualname': 'user'
-    },
-    'django.request': {
-        'handlers': ['null'],
-        'level': 'ERROR',
-        'propagate': False,
-    }
-})
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

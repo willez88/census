@@ -11,7 +11,7 @@ def send_email(email, template, subject, vars=None):
 
     @author Ing. Roldan Vargas (rvargas at cenditel.gob.ve)
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     @param email    <b>{string}</b> Dirección de correo electrónico del
         destinatario.

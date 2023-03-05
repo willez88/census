@@ -3,11 +3,18 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
 
 from .views import (
-    CommunityLeaderFormView, CommunityLeaderListView,
-    FamilyGroupCreateTemplateView, FamilyGroupDetailView,
-    FamilyGroupEditTemplateView, FamilyGroupListView, FamilyGroupSaveView,
-    FamilyGroupUpdateView, PersonDeleteView, ProfileUpdateView,
-    StreetLeaderFormView, StreetLeaderListView
+    CommunityLeaderFormView,
+    CommunityLeaderListView,
+    FamilyGroupCreateTemplateView,
+    FamilyGroupDetailView,
+    FamilyGroupEditTemplateView,
+    FamilyGroupListView,
+    FamilyGroupSaveView,
+    FamilyGroupUpdateView,
+    PersonDeleteView,
+    ProfileUpdateView,
+    StreetLeaderFormView,
+    StreetLeaderListView,
 )
 
 app_name = 'user'

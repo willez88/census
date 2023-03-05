@@ -6,7 +6,7 @@ class Country(models.Model):
     Clase que contiene los paises
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -40,7 +40,7 @@ class Estate(models.Model):
     Clase que contiene los estados
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -79,7 +79,7 @@ class Municipality(models.Model):
     Clase que contiene los municipios
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -118,7 +118,7 @@ class Parish(models.Model):
     Clase que contiene las parroquias
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -157,7 +157,7 @@ class Ubch(models.Model):
     Clase que contiene los datos de una UBCH
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -199,7 +199,7 @@ class CommunalCouncil(models.Model):
     Clase que contiene los datos de un consejo comunal
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -243,7 +243,7 @@ class Block(models.Model):
     Clase que contiene los bloques
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -278,12 +278,12 @@ class Block(models.Model):
         verbose_name_plural = 'Bloques'
 
 
-class Building(models.Model):
+class Bridge(models.Model):
     """!
-    Clase que contiene los edificios
+    Clase que contiene los puentes
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -292,7 +292,47 @@ class Building(models.Model):
 
     # Relación con el modelo Block
     block = models.ForeignKey(
-        Block, on_delete=models.CASCADE, verbose_name='bloque'
+        Block, on_delete=models.CASCADE,
+        verbose_name='bloque'
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre
+        """
+
+        return self.name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Puente'
+        verbose_name_plural = 'Puentes'
+
+
+class Building(models.Model):
+    """!
+    Clase que contiene los edificios
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombre
+    name = models.CharField('nombre', max_length=50)
+
+    # Relación con el modelo Block
+    bridge = models.ForeignKey(
+        Bridge, on_delete=models.CASCADE, verbose_name='puente', null=True
     )
 
     def __str__(self):
@@ -322,7 +362,7 @@ class Department(models.Model):
     Clase que contiene los departamentos
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -361,7 +401,7 @@ class VoteType(models.Model):
     Clase que contiene los tipo de votos
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -395,7 +435,7 @@ class Relationship(models.Model):
     Clase que contiene los parentescos
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 

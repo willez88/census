@@ -1,5 +1,10 @@
 from base.models import (
-    CommunalCouncil, Department, Relationship, Ubch, VoteType
+    Bridge,
+    CommunalCouncil,
+    Department,
+    Relationship,
+    Ubch,
+    VoteType,
 )
 from django.contrib.auth.models import User
 from django.core import validators
@@ -11,7 +16,7 @@ class Profile(models.Model):
     Clase que contiene los datos del perfil de usuario
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -50,7 +55,7 @@ class UbchLevel(models.Model):
     Clase que contiene los datos de un usuario nivel de ubch
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -94,7 +99,7 @@ class CommunityLeader(models.Model):
     Clase que contiene los datos de un usuario líder de comunidad
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -139,7 +144,7 @@ class StreetLeader(models.Model):
     Clase que contiene los datos de un usuario líder de calle
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -152,6 +157,11 @@ class StreetLeader(models.Model):
     # Relación con el modelo Profile
     profile = models.OneToOneField(
         Profile, on_delete=models.CASCADE, verbose_name='perfil', null=True
+    )
+
+    # Relación con el modelo Bridge
+    bridge = models.OneToOneField(
+        Bridge, on_delete=models.CASCADE, verbose_name='puente', null=True
     )
 
     def __str__(self):
@@ -181,7 +191,7 @@ class FamilyGroup(models.Model):
     Clase que contiene los datos de un usuario que gestiona su grupo familiar
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -228,7 +238,7 @@ class Person(models.Model):
     Clase que contiene los datos principales de las personas
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 

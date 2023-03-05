@@ -1,14 +1,34 @@
 import datetime
 
-from django.http import HttpResponse, JsonResponse
+from django.http import (
+    HttpResponse,
+    JsonResponse,
+)
 from django.shortcuts import redirect
-from django.views.generic import TemplateView, View
+from django.views.generic import (
+    TemplateView,
+    View,
+)
 from openpyxl import Workbook
-from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.styles import (
+    Alignment,
+    Font,
+    PatternFill,
+)
 from openpyxl.writer.excel import save_virtual_workbook
-from user.models import CommunityLeader, FamilyGroup, Person, StreetLeader
+from user.models import (
+    CommunityLeader,
+    FamilyGroup,
+    Person,
+    StreetLeader
+)
 
-from .models import Relationship, VoteType
+from .models import (
+    Building,
+    Department,
+    Relationship,
+    VoteType
+)
 
 
 class HomeView(TemplateView):
@@ -16,7 +36,7 @@ class HomeView(TemplateView):
     Clase que muestra la página inicial
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -28,7 +48,7 @@ class Error403View(TemplateView):
     Clase que muestra la página de error de permisos
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -61,8 +81,7 @@ class ExportExcelView(View):
 
         if self.request.user.groups.filter(name='Líder de Comunidad'):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get(self, request, *args, **kwargs):
         """!
@@ -294,7 +313,7 @@ class VoteTypeListView(View):
     Clase que retorna un json con los datos de tipos de voto
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -318,7 +337,7 @@ class RelationshipListView(View):
     Clase que retorna un json con los datos de parentescos
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -334,4 +353,54 @@ class RelationshipListView(View):
             })
         return JsonResponse(
             {'status': 'true', 'list': relationship_list}, status=200
+        )
+
+
+class BuildingListView(View):
+    """!
+    Clase que retorna un json con los datos de edificios
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def get(self, request, *args, **kwargs):
+        profile = self.request.user.profile
+        street_leader = StreetLeader.objects.get(profile=profile)
+        buildings = Building.objects.filter(bridge=street_leader.bridge)
+        building_list = []
+        building_list.append({
+            'id': '', 'text': 'Seleccione...'
+        })
+        for building in buildings:
+            building_list.append({
+                'id': building.id, 'text': building.name
+            })
+        return JsonResponse(
+            {'status': 'true', 'list': building_list}, status=200
+        )
+
+
+class DepartmentListView(View):
+    """!
+    Clase que retorna un json con los datos de departamentos
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def get(self, request, *args, **kwargs):
+        departments = Department.objects.all()
+        department_list = []
+        department_list.append({
+            'id': '', 'text': 'Seleccione...'
+        })
+        for department in departments:
+            department_list.append({
+                'id': department.id, 'text': department.name
+            })
+        return JsonResponse(
+            {'status': 'true', 'list': department_list}, status=200
         )

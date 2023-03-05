@@ -49,17 +49,21 @@ Vue.component('person', {
         id: '',
         username: '',
         email: '',
-        department: '',
+        building_id: '',
+        department_id: '',
         people: [],
       },
       vote_types: [],
       relationships: [],
+      buildings: [],
+      departments: [],
       url: 'user/family-group/save',
       errors: {
         family_group: {
           username: [],
           email: [],
-          department: [],
+          building_id: [],
+          department_id: [],
         },
         people: [{}],
       },
@@ -69,6 +73,8 @@ Vue.component('person', {
   created() {
     this.getVoteTypes();
     this.getRelationships();
+    this.getBuildings();
+    this.getDepartments();
   },
 
   methods: {
@@ -82,6 +88,8 @@ Vue.component('person', {
         id: '',
         username: '',
         email: '',
+        building_id: '',
+        department_id: '',
         people: [],
       }
     },
@@ -186,10 +194,12 @@ Vue.component('person', {
                 </div>
               </div>
             </div>
-            <div class="alert alert-danger" v-if="errors.family_group.username.length > 0">
-              <ul>
-                <li v-for="error in errors.family_group.username">{{ error }}</li>
-              </ul>
+            <div v-if="errors.family_group.username">
+              <div class="alert alert-danger" v-if="errors.family_group.username.length > 0">
+                <ul>
+                  <li v-for="error in errors.family_group.username">{{ error }}</li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
@@ -203,29 +213,58 @@ Vue.component('person', {
                 </div>
               </div>
             </div>
-            <div class="alert alert-danger" v-if="errors.family_group.email.length > 0">
-              <ul>
-                <li v-for="error in errors.family_group.email">{{ error }}</li>
-              </ul>
+            <div v-if="errors.family_group.email">
+              <div class="alert alert-danger" v-if="errors.family_group.email.length > 0">
+                <ul>
+                  <li v-for="error in errors.family_group.email">{{ error }}</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
             <div class="form-group">
-              <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="id_department">
-                Departamento: <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
+              <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="id_building">
+                Edificio:
               </label>
               <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                 <div class="form-inline">
-                  <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique el departamento" v-model="record.department">
+                  <select2 :options="buildings"
+                    v-model="record.building_id" onchange="combo_update(this.value, 'base', 'Department', 'building_id', 'pk', 'name', 'id_department')">
+                  </select2>
+                  <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
                 </div>
               </div>
             </div>
-            <div class="alert alert-danger" v-if="errors.family_group.department.length > 0">
-              <ul>
-                <li v-for="error in errors.family_group.department">{{ error }}</li>
-              </ul>
+            <div v-if="errors.family_group.building_id">
+              <div class="alert alert-danger" v-if="errors.family_group.building_id.length > 0">
+                <ul>
+                  <li v-for="error in errors.family_group.building_id">{{ error }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group">
+              <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="id_department">
+                Departamento:
+              </label>
+              <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                <div class="form-inline">
+                  <select2 :options="departments"
+                    v-model="record.department_id" disabled="true" id="id_department">
+                  </select2>
+                  <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+            <div v-if="errors.family_group.department_id">
+              <div class="alert alert-danger" v-if="errors.family_group.department_id.length > 0">
+                <ul>
+                  <li v-for="error in errors.family_group.department_id">{{ error }}</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>

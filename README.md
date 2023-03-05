@@ -129,3 +129,11 @@ Poner en el navegador la url que sale en el terminal para entrar el sistema
 Llegado hasta aquí el sistema ya debe estar funcionando
 
 Para salir del entorno virtual se puede ejecutar desde cualquier lugar del terminal: deactivate
+
+Generar gráfico del modelo Entidad-Relación
+
+    // Grafica el modelo entidad-relación del proyecto
+    (census) ~$ python manage.py graph_models -a -g -o census.svg
+
+    // Grafica el modelo de una app del proyecto
+    (census) ~$ python manage.py graph_models base -g -o base.svg

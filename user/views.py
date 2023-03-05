@@ -2,24 +2,46 @@ import json
 import logging
 
 from base.functions import send_email
-from base.models import CommunalCouncil, Relationship, VoteType
+from base.models import (
+    CommunalCouncil,
+    Department,
+    Relationship,
+    VoteType,
+)
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import (
+    Group,
+    User,
+)
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
-    FormView, ListView, TemplateView, UpdateView, View,
+    FormView,
+    ListView,
+    TemplateView,
+    UpdateView,
+    View,
 )
 
 from .forms import (
-    CommunityLeaderForm, FamilyGroupForm, PersonFormSet,
-    ProfileForm, ProfileUpdateForm
+    CommunityLeaderForm,
+    FamilyGroupForm,
+    PersonFormSet,
+    ProfileForm,
+    ProfileUpdateForm,
+    StreetLeaderForm,
 )
 from .models import (
-    CommunityLeader, FamilyGroup, Person, Profile, StreetLeader, UbchLevel,
+    Bridge,
+    CommunityLeader,
+    FamilyGroup,
+    Person,
+    Profile,
+    StreetLeader,
+    UbchLevel,
 )
 
 logger = logging.getLogger('user')
@@ -30,7 +52,7 @@ class ProfileUpdateView(UpdateView):
     Clase que permite a los usuarios actualizar sus datos de perfil
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -55,8 +77,7 @@ class ProfileUpdateView(UpdateView):
 
         if self.request.user.profile.pk == self.kwargs['pk']:
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get_initial(self):
         """!
@@ -108,7 +129,7 @@ class CommunityLeaderListView(ListView):
     comunidad
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -132,8 +153,7 @@ class CommunityLeaderListView(ListView):
 
         if self.request.user.groups.filter(name='Nivel Ubch'):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get_queryset(self):
         """!
@@ -203,7 +223,7 @@ class CommunityLeaderFormView(FormView):
     comunidad
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -228,8 +248,7 @@ class CommunityLeaderFormView(FormView):
 
         if self.request.user.groups.filter(name='Nivel Ubch'):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -262,7 +281,6 @@ class CommunityLeaderFormView(FormView):
             phone=form.cleaned_data['phone'],
             user=self.object
         )
-
         communal_council = CommunalCouncil.objects.get(
             pk=form.cleaned_data['communal_council']
         )
@@ -305,11 +323,11 @@ class CommunityLeaderFormView(FormView):
 
 class StreetLeaderListView(ListView):
     """!
-    Clase que permite a los usuarios líderes de comunidad, listar usuarios
+    Clase que permite a los usuarios líderes de comunidad listar usuarios
     líderes de calle
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -333,8 +351,7 @@ class StreetLeaderListView(ListView):
 
         if self.request.user.groups.filter(name='Líder de Comunidad'):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get_queryset(self):
         """!
@@ -404,13 +421,13 @@ class StreetLeaderFormView(FormView):
     líderes de calle
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
     model = User
-    form_class = ProfileForm
-    template_name = 'user/profile_create.html'
+    form_class = StreetLeaderForm
+    template_name = 'user/street_leader_create.html'
     success_url = reverse_lazy('user:street_leader_list')
 
     def dispatch(self, request, *args, **kwargs):
@@ -429,8 +446,12 @@ class StreetLeaderFormView(FormView):
 
         if self.request.user.groups.filter(name='Líder de Comunidad'):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
     def form_valid(self, form):
         """!
@@ -458,13 +479,13 @@ class StreetLeaderFormView(FormView):
             phone=form.cleaned_data['phone'],
             user=self.object
         )
-
         community_leader = CommunityLeader.objects.get(
             profile=self.request.user.profile
         )
         StreetLeader.objects.create(
             community_leader=community_leader,
-            profile=profile
+            profile=profile,
+            bridge=form.cleaned_data['bridge']
         )
 
         admin, admin_email = '', ''
@@ -504,7 +525,7 @@ class FamilyGroupListView(ListView):
     familiar
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -528,8 +549,7 @@ class FamilyGroupListView(ListView):
 
         if self.request.user.groups.filter(name='Líder de Calle'):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get_queryset(self):
         """!
@@ -597,7 +617,7 @@ class FamilyGroupCreateTemplateView(TemplateView):
     familiares
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -618,8 +638,7 @@ class FamilyGroupCreateTemplateView(TemplateView):
 
         if self.request.user.groups.filter(name='Líder de Calle'):
             return super().dispatch(*args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
 
 class FamilyGroupSaveView(View):
@@ -628,7 +647,7 @@ class FamilyGroupSaveView(View):
     familiares
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -648,11 +667,11 @@ class FamilyGroupSaveView(View):
 
         if self.request.user.groups.filter(name='Líder de Calle'):
             return super().dispatch(*args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def post(self, request, *args, **kwargs):
         record = json.loads(request.body.decode('utf-8'))
+        print(record)
         family_group_form = FamilyGroupForm(record)
         if not family_group_form.is_valid():
             return JsonResponse(
@@ -705,9 +724,11 @@ class FamilyGroupSaveView(View):
         street_leader = StreetLeader.objects.get(
             profile=self.request.user.profile
         )
+        department = Department.objects.get(pk=record['department_id'])
         family_group = FamilyGroup.objects.create(
             street_leader=street_leader,
-            profile=profile
+            profile=profile,
+            department=department,
         )
         c = 1
         for person in record['people']:
@@ -787,7 +808,7 @@ class FamilyGroupEditTemplateView(TemplateView):
     grupos familiares
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -814,8 +835,7 @@ class FamilyGroupEditTemplateView(TemplateView):
                 and FamilyGroup.objects.filter(
                     id=kwargs['pk'], street_leader=street_leader):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -833,7 +853,7 @@ class FamilyGroupUpdateView(View):
     grupos familiares
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -858,8 +878,7 @@ class FamilyGroupUpdateView(View):
                 and FamilyGroup.objects.filter(
                     id=kwargs['pk'], street_leader=street_leader):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def put(self, *args, **kwargs):
         family_group_id = kwargs['pk']
@@ -946,7 +965,7 @@ class FamilyGroupDetailView(View):
     usuarios grupos familiares
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -972,8 +991,7 @@ class FamilyGroupDetailView(View):
                     id=kwargs['pk'], street_leader=street_leader
                 ):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get(self, request, *args, **kwargs):
         family_group_id = kwargs['pk']
@@ -1003,7 +1021,7 @@ class PersonDeleteView(View):
     del grupo familiar (En desarrollo)
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -1030,8 +1048,7 @@ class PersonDeleteView(View):
                     id=kwargs['pk'], family_group=family_group
                 ):
             return super().dispatch(request, *args, **kwargs)
-        else:
-            return redirect('base:error_403')
+        return redirect('base:error_403')
 
     def get(self, request, *args, **kwargs):
         person_id = kwargs['pk']

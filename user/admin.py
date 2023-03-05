@@ -2,7 +2,12 @@ from django.contrib import admin
 
 from .forms import UbchLevelAdminForm
 from .models import (
-    CommunityLeader, FamilyGroup, Person, Profile, StreetLeader, UbchLevel
+    CommunityLeader,
+    FamilyGroup,
+    Person,
+    Profile,
+    StreetLeader,
+    UbchLevel,
 )
 
 
@@ -11,7 +16,7 @@ class ProfileAdmin(admin.ModelAdmin):
     Clase que agrega modelo Profile al panel administrativo
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -24,7 +29,7 @@ class UbchLevelAdmin(admin.ModelAdmin):
     Clase que agrega modelo UbchLevel al panel administrativo
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -40,7 +45,7 @@ class CommunityLeaderAdmin(admin.ModelAdmin):
     Clase que agrega modelo CommunityLeader al panel administrativo
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -53,7 +58,7 @@ class StreetLeaderAdmin(admin.ModelAdmin):
     Clase que agrega modelo StreetLeader al panel administrativo
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -66,7 +71,7 @@ class FamilyGroupAdmin(admin.ModelAdmin):
     Clase que agrega modelo FamilyGroup al panel administrativo
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -79,7 +84,7 @@ class PersonAdmin(admin.ModelAdmin):
     Clase que agrega modelo Person al panel administrativo
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 

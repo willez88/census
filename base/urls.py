@@ -3,7 +3,12 @@ from django.urls import path
 
 from .ajax import ComboUpdateView
 from .views import (
-    Error403View, ExportExcelView, HomeView, RelationshipListView,
+    BuildingListView,
+    DepartmentListView,
+    Error403View,
+    ExportExcelView,
+    HomeView,
+    RelationshipListView,
     VoteTypeListView,
 )
 
@@ -23,6 +28,14 @@ urlpatterns = [
     path(
         'relationships/list/', login_required(RelationshipListView.as_view()),
         name='relationship_list'
+    ),
+    path(
+        'buildings/list/', login_required(BuildingListView.as_view()),
+        name='building_list'
+    ),
+    path(
+        'departments/list/', login_required(DepartmentListView.as_view()),
+        name='department_list'
     ),
 
     path(

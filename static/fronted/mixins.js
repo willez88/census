@@ -109,6 +109,8 @@ Vue.mixin({
             family_group: {
               username: [],
               email: [],
+              building_id: [],
+              department_id: [],
             },
             people: [{}],
           };
@@ -150,6 +152,8 @@ Vue.mixin({
           family_group: {
             username: [],
             email: [],
+            building_id: [],
+            department_id: [],
           },
           people: [{}],
         };
@@ -175,6 +179,20 @@ Vue.mixin({
       this.vote_types = [];
       axios.get('/relationships/list/').then(response => {
         this.relationships = response.data.list;
+      });
+    },
+
+    getBuildings() {
+      this.buildings = [];
+      axios.get('/buildings/list/').then(response => {
+        this.buildings = response.data.list;
+      });
+    },
+
+    getDepartments() {
+      this.departments = [];
+      axios.get('/departments/list/').then(response => {
+        this.departments = response.data.list;
       });
     }
   }

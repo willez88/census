@@ -1,13 +1,30 @@
 from base.models import (
-    CommunalCouncil, Estate, Municipality, Parish, Relationship,
-    Ubch, VoteType
+    Block,
+    Bridge,
+    Building,
+    CommunalCouncil,
+    Department,
+    Estate,
+    Municipality,
+    Parish,
+    Relationship,
+    Ubch,
+    VoteType
 )
 from django import forms
 from django.contrib.auth.models import User
 from django.core import validators
-from django.forms import BaseFormSet, formset_factory
+from django.forms import (
+    BaseFormSet,
+    formset_factory,
+)
 
-from .models import CommunityLeader, Profile, UbchLevel
+from .models import (
+    CommunityLeader,
+    Profile,
+    StreetLeader,
+    UbchLevel,
+)
 
 
 class UbchLevelAdminForm(forms.ModelForm):
@@ -15,7 +32,7 @@ class UbchLevelAdminForm(forms.ModelForm):
     Clase que contiene los campos del formulario
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -68,7 +85,7 @@ class ProfileForm(forms.ModelForm):
     Clase que contiene los campos del formulario de perfil del usuario
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
     |GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -157,7 +174,7 @@ class ProfileUpdateForm(ProfileForm):
     Clase que contiene los campos del formulario para actualizar
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -186,10 +203,13 @@ class CommunityLeaderForm(ProfileForm):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         ubch_level = UbchLevel.objects.get(profile=user.profile)
-        cl_list = [('', 'Selecione...')]
-        for cc in CommunalCouncil.objects.filter(ubch=ubch_level.ubch):
-            cl_list.append((cc.id, cc))
-        self.fields['communal_council'].choices = cl_list
+        communalcouncil_list = [('', 'Selecione...')]
+        ubch = ubch_level.ubch
+        for communal_council in CommunalCouncil.objects.filter(ubch=ubch):
+            communalcouncil_list.append(
+                (communal_council.id, communal_council)
+            )
+        self.fields['communal_council'].choices = communalcouncil_list
 
     communal_council = forms.ChoiceField(
         label='Consejo Comunal:',
@@ -219,7 +239,60 @@ class CommunityLeaderForm(ProfileForm):
         model = User
         fields = [
             'username', 'first_name', 'last_name', 'email', 'phone',
-            'communal_council'
+        ]
+
+
+class StreetLeaderForm(ProfileForm):
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        community_leader = CommunityLeader.objects.get(profile=user.profile)
+        block_list = [('', 'Selecione...')]
+        communal_council = community_leader.communal_council
+        for block in Block.objects.filter(communal_council=communal_council):
+            block_list.append((block.id, block))
+        self.fields['block'].choices = block_list
+
+    block = forms.ChoiceField(
+        label='Bloque:',
+        widget=forms.Select(
+            attrs={
+                'class': 'form-control select2', 'data-toggle': 'tooltip',
+                'title': 'Seleccione el bloque',
+                'onchange': "combo_update(this.value, 'base', 'Bridge',\
+                    'block', 'pk', 'name', 'id_bridge')",
+            }
+        )
+    )
+
+    bridge = forms.ModelChoiceField(
+        label='Puente:', queryset=Bridge.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'disabled': 'true',
+            'title': 'Seleccione el puente.',
+        })
+    )
+
+    def clean_bridge(self):
+        bridge = self.cleaned_data['bridge']
+        if StreetLeader.objects.filter(bridge=bridge):
+            raise forms.ValidationError(
+                'Ya existe un usuario asignado a este puente'
+            )
+        return bridge
+
+    class Meta:
+        """!
+        Meta clase del formulario que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        model = User
+        fields = [
+            'username', 'first_name', 'last_name', 'email', 'phone',
         ]
 
 
@@ -228,7 +301,7 @@ class FamilyGroupForm(forms.Form):
     Clase que contiene los campos del formulario
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
@@ -254,6 +327,26 @@ class FamilyGroupForm(forms.Form):
         )
     )
 
+    # Edificio
+    building_id = forms.ModelChoiceField(
+        label='Edificio:', queryset=Building.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el edificio',
+        })
+    )
+
+    # Departamento
+    department_id = forms.ModelChoiceField(
+        label='Departamento:', queryset=Department.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el departamento',
+        })
+    )
+
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username):
@@ -274,7 +367,7 @@ class PersonForm(forms.Form):
     Clase que contiene los campos del formulario
 
     @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='​http://www.gnu.org/licenses/gpl-2.0.html'>
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
 
