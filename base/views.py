@@ -404,3 +404,34 @@ class DepartmentListView(View):
         return JsonResponse(
             {'status': 'true', 'list': department_list}, status=200
         )
+
+
+class GetDepartmentView(View):
+    """!
+    Clase que retorna un json con los datos de un departamento
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def get(self, request, *args, **kwargs):
+        """!
+        Retorna el json de departamentos filtrados por edificio
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        building = Building.objects.get(pk=self.kwargs['building_id'])
+        departments = Department.objects.filter(building=building)
+        department_list = []
+        department_list.append({
+            'id': '', 'text': 'Seleccione...'
+        })
+        for department in departments:
+            department_list.append({
+                'id': department.id, 'text': department.name
+            })
+        return JsonResponse(
+            {'status': 'true', 'list': department_list}, status=200
+        )

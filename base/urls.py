@@ -7,6 +7,7 @@ from .views import (
     DepartmentListView,
     Error403View,
     ExportExcelView,
+    GetDepartmentView,
     HomeView,
     RelationshipListView,
     VoteTypeListView,
@@ -36,6 +37,10 @@ urlpatterns = [
     path(
         'departments/list/', login_required(DepartmentListView.as_view()),
         name='department_list'
+    ),
+    path(
+        'get-departments/<int:building_id>/', login_required(GetDepartmentView.as_view()),
+        name='get-departments'
     ),
 
     path(

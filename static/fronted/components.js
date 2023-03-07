@@ -51,6 +51,7 @@ Vue.component('person', {
         email: '',
         building_id: '',
         department_id: '',
+        departmentId: '',
         people: [],
       },
       vote_types: [],
@@ -65,16 +66,17 @@ Vue.component('person', {
           building_id: [],
           department_id: [],
         },
-        people: [{}],
+        people: [],
       },
     }
   },
 
   created() {
-    this.getVoteTypes();
-    this.getRelationships();
-    this.getBuildings();
-    this.getDepartments();
+    const vm = this;
+    vm.getVoteTypes();
+    vm.getRelationships();
+    vm.getBuildings();
+    vm.getDepartments();
   },
 
   methods: {
@@ -100,18 +102,17 @@ Vue.component('person', {
      * @author  William Páez <paez.william8@gmail.com>
      */
     addPeople() {
-      this.errors.people.push({
-        first_name: '',
-        last_name: '',
-        has_id_number: 'y',
-        id_number: '',
-        email: '',
-        phone: '',
-        vote_type_id: '',
-        relationship_id: '',
-        family_head: false,
+      const vm = this;
+      vm.errors.people.push({
+        first_name: [],
+        last_name: [],
+        id_number: [],
+        email: [],
+        phone: [],
+        vote_type_id: [],
+        relationship_id: [],
       });
-      this.record.people.push({
+      vm.record.people.push({
         first_name: '',
         last_name: '',
         has_id_number: 'y',
@@ -148,30 +149,45 @@ Vue.component('person', {
      *
      * @author  William Páez <paez.william8@gmail.com>
      */
-    getFamilyGroup() {
-      axios.get(`/user/family-group/detail/${this.family_group_id}/`).then(response => {
-        this.record = response.data.record;
-        for (var index in this.record.people) {
-          this.errors.people.push({
-            first_name: '',
-            last_name: '',
-            has_id_number: 'y',
-            id_number: '',
-            email: '',
-            phone: '',
-            vote_type_id: '',
-            relationship_id: '',
-            family_head: false,
+    async getFamilyGroup() {
+      let vm = this;
+      await axios.get(`/user/family-group/detail/${vm.family_group_id}/`).then(response => {
+        vm.record = response.data.record;
+        vm.record.building_id = response.data.record.building_id;
+        vm.record.departmentId = response.data.record.department_id;
+        for (var index in vm.record.people) {
+          vm.errors.people.push({
+            first_name: [],
+            last_name: [],
+            id_number: [],
+            email: [],
+            phone: [],
+            vote_type_id: [],
+            relationship_id: [],
           });
         }
       });
     },
+
+    async getDepartments() {
+      const vm = this;
+      vm.departments = [];
+      if (vm.record.building_id) {
+        await axios.get(`/get-departments/${vm.record.building_id}`).then(response => {
+          vm.departments = response.data.list;
+        });
+        if (vm.record.departmentId) {
+          vm.record.department_id = vm.record.departmentId;
+        }
+      }
+    },
   },
 
   mounted() {
-    if(this.family_group_id) {
-      this.getFamilyGroup();
-      this.url = 'user/family-group/update';
+    const vm = this;
+    if(vm.family_group_id) {
+      vm.getFamilyGroup();
+      vm.url = 'user/family-group/update';
     }
   },
 
@@ -230,8 +246,8 @@ Vue.component('person', {
               </label>
               <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                 <div class="form-inline">
-                  <select2 :options="buildings"
-                    v-model="record.building_id" onchange="combo_update(this.value, 'base', 'Department', 'building_id', 'pk', 'name', 'id_department')">
+                  <select2 :options="buildings" @input="$event = getDepartments()"
+                    v-model="record.building_id">
                   </select2>
                   <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
                 </div>
@@ -253,7 +269,7 @@ Vue.component('person', {
               <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                 <div class="form-inline">
                   <select2 :options="departments"
-                    v-model="record.department_id" disabled="true" id="id_department">
+                    v-model="record.department_id" id="id_department">
                   </select2>
                   <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
                 </div>

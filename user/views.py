@@ -671,7 +671,6 @@ class FamilyGroupSaveView(View):
 
     def post(self, request, *args, **kwargs):
         record = json.loads(request.body.decode('utf-8'))
-        print(record)
         family_group_form = FamilyGroupForm(record)
         if not family_group_form.is_valid():
             return JsonResponse(
@@ -1010,7 +1009,10 @@ class FamilyGroupDetailView(View):
         record = {
             'id': family_group.id,
             'username': family_group.profile.user.username,
-            'email': family_group.profile.user.email, 'people': person
+            'email': family_group.profile.user.email,
+            'building_id': family_group.department.building.id,
+            'department_id': family_group.department.id,
+            'people': person
         }
         return JsonResponse({'status': True, 'record': record}, status=200)
 

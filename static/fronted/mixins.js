@@ -190,10 +190,13 @@ Vue.mixin({
     },
 
     getDepartments() {
-      this.departments = [];
-      axios.get('/departments/list/').then(response => {
-        this.departments = response.data.list;
-      });
-    }
+      const vm = this;
+      vm.departments = [];
+      if (vm.record.building_id) {
+        axios.get(`/get-departments/${vm.record.building_id}`).then(response => {
+          vm.departments = response.data.list;
+        });
+      }
+    },
   }
 });
