@@ -185,6 +185,15 @@ LOGGING = {
         },
     },
     'handlers': {
+        'base': {
+            'formatter': 'verbose',
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'filename': BASE_DIR / 'logs/base.log',
+            'when': 'w6',
+            'interval': 1,
+            'backupCount': 52,
+        },
         'user': {
             'formatter': 'verbose',
             'level': 'ERROR',
@@ -196,8 +205,13 @@ LOGGING = {
         },
     },
     'loggers': {
-        'user': {
+        'base': {
             'handlers': ['base'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'user': {
+            'handlers': ['user'],
             'level': 'ERROR',
             'propagate': True,
         },
