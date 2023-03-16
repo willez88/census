@@ -1,0 +1,23 @@
+[
+{
+    "model": "base.votetype",
+    "pk": 1,
+    "fields": {
+        "name": "Duro"
+    }
+},
+{
+    "model": "base.votetype",
+    "pk": 2,
+    "fields": {
+        "name": "Blando"
+    }
+},
+{
+    "model": "base.votetype",
+    "pk": 3,
+    "fields": {
+        "name": "Opositor"
+    }
+}
+]

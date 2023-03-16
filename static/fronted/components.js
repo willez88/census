@@ -131,16 +131,17 @@ Vue.component('person', {
      * @author  William Páez <paez.william8@gmail.com>
      */
     deletePerson(index, el) {
+      const vm = this;
       if( typeof(el[index].id) != 'undefined' ) {
         axios.get(`/user/person/delete/${el[index].id}/`).then(response => {
           console.log('Persona eliminada');
           el.splice(index, 1);
-          this.errors.people.pop();
+          vm.errors.people.pop();
         });
       }
       else {
         el.splice(index, 1);
-        this.errors.people.pop();
+        vm.errors.people.pop();
       }
     },
 
@@ -149,9 +150,9 @@ Vue.component('person', {
      *
      * @author  William Páez <paez.william8@gmail.com>
      */
-    async getFamilyGroup() {
-      let vm = this;
-      await axios.get(`/user/family-group/detail/${vm.family_group_id}/`).then(response => {
+    getFamilyGroup() {
+      const vm = this;
+      axios.get(`/user/family-group/detail/${vm.family_group_id}/`).then(response => {
         vm.record = response.data.record;
         vm.record.building_id = response.data.record.building_id;
         vm.record.departmentId = response.data.record.department_id;
@@ -167,19 +168,6 @@ Vue.component('person', {
           });
         }
       });
-    },
-
-    async getDepartments() {
-      const vm = this;
-      vm.departments = [];
-      if (vm.record.building_id) {
-        await axios.get(`/get-departments/${vm.record.building_id}`).then(response => {
-          vm.departments = response.data.list;
-        });
-        if (vm.record.departmentId) {
-          vm.record.department_id = vm.record.departmentId;
-        }
-      }
     },
   },
 
@@ -246,7 +234,9 @@ Vue.component('person', {
               </label>
               <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                 <div class="form-inline">
-                  <select2 :options="buildings" @input="$event = getDepartments()"
+                  <select2
+                    :options="buildings"
+                    @input="$event = getDepartments()"
                     v-model="record.building_id">
                   </select2>
                   <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
@@ -269,7 +259,7 @@ Vue.component('person', {
               <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                 <div class="form-inline">
                   <select2 :options="departments"
-                    v-model="record.department_id" id="id_department">
+                    v-model="record.department_id">
                   </select2>
                   <i class="fa fa-asterisk item-required" aria-hidden="true"></i>
                 </div>
@@ -377,7 +367,8 @@ Vue.component('person', {
               <label class="control-label" for="">
                 Tipo de Voto:
               </label>
-              <select2 :options="vote_types"
+              <select2
+                :options="vote_types"
                 v-model="person.vote_type_id">
               </select2>
             </div>
@@ -394,7 +385,8 @@ Vue.component('person', {
               <label class="control-label" for="">
                 Parentesco:
               </label>
-              <select2 :options="relationships"
+              <select2
+                :options="relationships"
                 v-model="person.relationship_id">
               </select2>
             </div>

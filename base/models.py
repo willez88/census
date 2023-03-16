@@ -305,7 +305,7 @@ class Bridge(models.Model):
         @return string <b>{object}</b> Objeto con el nombre
         """
 
-        return self.name
+        return self.name + ' | ' + str(self.block)
 
     class Meta:
         """!
@@ -316,6 +316,7 @@ class Bridge(models.Model):
 
         verbose_name = 'Puente'
         verbose_name_plural = 'Puentes'
+        unique_together = [('name', 'block')]
 
 
 class Building(models.Model):
@@ -344,7 +345,7 @@ class Building(models.Model):
         @return string <b>{object}</b> Objeto con el nombre
         """
 
-        return self.name
+        return self.name + ' | ' + str(self.bridge)
 
     class Meta:
         """!
@@ -355,6 +356,7 @@ class Building(models.Model):
 
         verbose_name = 'Edificio'
         verbose_name_plural = 'Edificios'
+        unique_together = [('name', 'bridge')]
 
 
 class Department(models.Model):
@@ -383,7 +385,7 @@ class Department(models.Model):
         @return string <b>{object}</b> Objeto con el nombre
         """
 
-        return self.name
+        return self.name + ' | ' + str(self.building)
 
     class Meta:
         """!
@@ -394,6 +396,7 @@ class Department(models.Model):
 
         verbose_name = 'Departamento'
         verbose_name_plural = 'Departamentos'
+        unique_together = [('name', 'building')]
 
 
 class VoteType(models.Model):

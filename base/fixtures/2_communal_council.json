@@ -1,0 +1,11 @@
+[
+{
+    "model": "base.communalcouncil",
+    "pk": 1,
+    "fields": {
+        "rif": "C299884472",
+        "name": "CONSEJO COMUNAL DOMINGO SALAZAR ROJAS (SIN NOMBRE COMERCIAL)",
+        "ubch": 1
+    }
+}
+]

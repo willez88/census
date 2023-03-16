@@ -4,38 +4,7 @@
  * @author  William Páez <paez.william8@gmail.com>
  * @param  {object} methods Métodos generales a implementar en CRUDS
  */
-Vue.mixin({
-  data() {
-    return {
-      /**
-       * Opciones generales a implementar en tablas
-       * @type {JSON}
-       */
-      table_options: {
-        pagination: { edge: true },
-        //filterByColumn: true,
-        highlightMatches: true,
-        texts: {
-          filter: "Buscar:",
-          filterBy: 'Buscar por {column}',
-          //count:'Página {page}',
-          count: ' ',
-          first: 'PRIMERO',
-          last: 'ÚLTIMO',
-          limit: 'Registros',
-          //page: 'Página:',
-          noResults: 'No existen registros',
-          filterPlaceholder: '...',
-        },
-        sortIcon: {
-          is: 'fa-sort cursor-pointer',
-          base: 'fa',
-          up: 'fa-sort-up cursor-pointer',
-          down: 'fa-sort-down cursor-pointer'
-        },
-      },
-    }
-  },
+Vue.mixin({  
   props: {
     route_list: {
       type: String,
@@ -87,13 +56,13 @@ Vue.mixin({
      */
     createRecord(url) {
       const vm = this;
-      if (this.record.id) {
-        this.updateRecord(url);
+      if (vm.record.id) {
+        vm.updateRecord(url);
       }
       else {
         var fields = {};
-        for (var index in this.record) {
-          fields[index] = this.record[index];
+        for (var index in vm.record) {
+          fields[index] = vm.record[index];
         }
         axios.post('/' + url + '/', fields).then(response => {
           if (typeof(response.data.redirect) !== "undefined") {
@@ -135,10 +104,10 @@ Vue.mixin({
     updateRecord(url) {
       const vm = this;
       var fields = {};
-      for (var index in this.record) {
-        fields[index] = this.record[index];
+      for (var index in vm.record) {
+        fields[index] = vm.record[index];
       }
-      axios.put('/' + url + '/' + this.record.id + '/', fields).then(response => {
+      axios.put('/' + url + '/' + vm.record.id + '/', fields).then(response => {
         if (typeof(response.data.redirect) !== "undefined") {
           location.href = response.data.redirect;
         }
@@ -169,33 +138,39 @@ Vue.mixin({
     },
 
     getVoteTypes() {
-      this.vote_types = [];
+      const vm = this;
+      vm.vote_types = [];
       axios.get('/vote-types/list/').then(response => {
-        this.vote_types = response.data.list;
+        vm.vote_types = response.data.list;
       });
     },
 
     getRelationships() {
-      this.vote_types = [];
+      const vm = this;
+      vm.vote_types = [];
       axios.get('/relationships/list/').then(response => {
-        this.relationships = response.data.list;
+        vm.relationships = response.data.list;
       });
     },
 
     getBuildings() {
-      this.buildings = [];
+      const vm = this;
+      vm.buildings = [];
       axios.get('/buildings/list/').then(response => {
-        this.buildings = response.data.list;
+        vm.buildings = response.data.list;
       });
     },
 
-    getDepartments() {
+    async getDepartments() {
       const vm = this;
       vm.departments = [];
       if (vm.record.building_id) {
-        axios.get(`/get-departments/${vm.record.building_id}`).then(response => {
+        await axios.get(`/get-departments/${vm.record.building_id}`).then(response => {
           vm.departments = response.data.list;
         });
+        if (vm.record.departmentId) {
+          vm.record.department_id = vm.record.departmentId;
+        }
       }
     },
   }

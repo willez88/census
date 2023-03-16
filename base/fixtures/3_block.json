@@ -1,0 +1,34 @@
+[
+{
+    "model": "base.block",
+    "pk": 1,
+    "fields": {
+        "name": "Bloque 1",
+        "communal_council": 1
+    }
+},
+{
+    "model": "base.block",
+    "pk": 2,
+    "fields": {
+        "name": "Bloque 2",
+        "communal_council": 1
+    }
+},
+{
+    "model": "base.block",
+    "pk": 3,
+    "fields": {
+        "name": "Bloque 3",
+        "communal_council": 1
+    }
+},
+{
+    "model": "base.block",
+    "pk": 4,
+    "fields": {
+        "name": "Bloque 4",
+        "communal_council": 1
+    }
+}
+]

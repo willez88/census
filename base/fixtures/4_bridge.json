@@ -1,0 +1,66 @@
+[
+{
+    "model": "base.bridge",
+    "pk": 1,
+    "fields": {
+        "name": "Puente 1",
+        "block": 1
+    }
+},
+{
+    "model": "base.bridge",
+    "pk": 2,
+    "fields": {
+        "name": "Puente 2",
+        "block": 1
+    }
+},
+{
+    "model": "base.bridge",
+    "pk": 3,
+    "fields": {
+        "name": "Puente 1",
+        "block": 2
+    }
+},
+{
+    "model": "base.bridge",
+    "pk": 4,
+    "fields": {
+        "name": "Puente 2",
+        "block": 2
+    }
+},
+{
+    "model": "base.bridge",
+    "pk": 5,
+    "fields": {
+        "name": "Puente 1",
+        "block": 3
+    }
+},
+{
+    "model": "base.bridge",
+    "pk": 6,
+    "fields": {
+        "name": "Puente 2",
+        "block": 3
+    }
+},
+{
+    "model": "base.bridge",
+    "pk": 7,
+    "fields": {
+        "name": "Puente 1",
+        "block": 4
+    }
+},
+{
+    "model": "base.bridge",
+    "pk": 8,
+    "fields": {
+        "name": "Puente 2",
+        "block": 4
+    }
+}
+]

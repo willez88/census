@@ -1,0 +1,130 @@
+[
+{
+    "model": "base.building",
+    "pk": 1,
+    "fields": {
+        "name": "Edificio 1",
+        "bridge": 1
+    }
+},
+{
+    "model": "base.building",
+    "pk": 2,
+    "fields": {
+        "name": "Edificio 2",
+        "bridge": 1
+    }
+},
+{
+    "model": "base.building",
+    "pk": 3,
+    "fields": {
+        "name": "Edificio 3",
+        "bridge": 2
+    }
+},
+{
+    "model": "base.building",
+    "pk": 4,
+    "fields": {
+        "name": "Edificio 4",
+        "bridge": 2
+    }
+},
+{
+    "model": "base.building",
+    "pk": 5,
+    "fields": {
+        "name": "Edificio 1",
+        "bridge": 3
+    }
+},
+{
+    "model": "base.building",
+    "pk": 6,
+    "fields": {
+        "name": "Edificio 2",
+        "bridge": 3
+    }
+},
+{
+    "model": "base.building",
+    "pk": 7,
+    "fields": {
+        "name": "Edificio 3",
+        "bridge": 4
+    }
+},
+{
+    "model": "base.building",
+    "pk": 8,
+    "fields": {
+        "name": "Edificio 4",
+        "bridge": 4
+    }
+},
+{
+    "model": "base.building",
+    "pk": 9,
+    "fields": {
+        "name": "Edificio 1",
+        "bridge": 5
+    }
+},
+{
+    "model": "base.building",
+    "pk": 10,
+    "fields": {
+        "name": "Edificio 2",
+        "bridge": 5
+    }
+},
+{
+    "model": "base.building",
+    "pk": 11,
+    "fields": {
+        "name": "Edificio 3",
+        "bridge": 6
+    }
+},
+{
+    "model": "base.building",
+    "pk": 12,
+    "fields": {
+        "name": "Edificio 4",
+        "bridge": 6
+    }
+},
+{
+    "model": "base.building",
+    "pk": 13,
+    "fields": {
+        "name": "Edificio 1",
+        "bridge": 7
+    }
+},
+{
+    "model": "base.building",
+    "pk": 14,
+    "fields": {
+        "name": "Edificio 2",
+        "bridge": 7
+    }
+},
+{
+    "model": "base.building",
+    "pk": 15,
+    "fields": {
+        "name": "Edificio 3",
+        "bridge": 8
+    }
+},
+{
+    "model": "base.building",
+    "pk": 16,
+    "fields": {
+        "name": "Edificio 4",
+        "bridge": 8
+    }
+}
+]

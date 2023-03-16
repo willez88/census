@@ -1,0 +1,11 @@
+[
+{
+    "model": "base.ubch",
+    "pk": 1,
+    "fields": {
+        "code": "1234567",
+        "name": "Arco Iris",
+        "parish": 572
+    }
+}
+]
