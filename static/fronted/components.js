@@ -39,7 +39,7 @@ Vue.component('select2', {
   `
 });
 
-Vue.component('person', {
+Vue.component('family-group', {
   props: {
     family_group_id: Number,
   },

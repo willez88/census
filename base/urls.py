@@ -7,6 +7,7 @@ from .views import (
     DepartmentListView,
     Error403View,
     ExportExcelView,
+    ExportExcelStreetLeaderView,
     GetDepartmentView,
     HomeView,
     RelationshipListView,
@@ -21,6 +22,11 @@ urlpatterns = [
     path(
         'descargar-archivo/', login_required(ExportExcelView.as_view()),
         name='export_excel'
+    ),
+    path(
+        'descargar-archivo-lider-calle/',
+        login_required(ExportExcelStreetLeaderView.as_view()),
+        name='export_excel_street_leader'
     ),
     path(
         'vote-types/list/', login_required(VoteTypeListView.as_view()),

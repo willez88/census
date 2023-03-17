@@ -15,23 +15,29 @@
         </a>
       </li>
     {% elif request.user|has_group:'Líder de Comunidad' %}
-      <li class="nav-item" id="lc">
+      <li class="nav-item" id="community_leader">
         <a class="nav-link" href="{% url 'user:street_leader_list' %}">
           <i class="fas fa-fw fa-user-plus"></i>
           <span>Líder de Calle</span>
         </a>
       </li>
-      <li class="nav-item" id="pe">
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'base:export_excel' %}">
           <i class="fas fa-fw fa-file-word"></i>
           <span>Descargar Archivo</span>
         </a>
       </li>
     {% elif request.user|has_group:'Líder de Calle' %}
-      <li class="nav-item" id="pe">
+      <li class="nav-item" id="street_leader">
         <a class="nav-link" href="{% url 'user:family_group_list' %}">
           <i class="fas fa-fw fa-user-plus"></i>
           <span>Grupo Familiar</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'base:export_excel_street_leader' %}">
+          <i class="fas fa-fw fa-file-word"></i>
+          <span>Descargar Archivo</span>
         </a>
       </li>
     {% endif %}

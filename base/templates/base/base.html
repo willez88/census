@@ -26,15 +26,13 @@
           </div>
           {% block content %}
             <div class="row">
-              <div class="col-12">
-                <center>
+              <div class="col-12 text-center">
                   {% if request.user.is_authenticated %}
                     <p>Bienvenido {{ request.user.username }}.</p>
                   {% else %}
                     <p>Bienvenido al sistema.</p>
                     <p>Inicie sesión para registrar los datos.</p>
                   {% endif %}
-                </center>
               </div>
             </div>
           {% endblock %}
@@ -53,27 +51,31 @@
       $(document).ready(function()
         {
           //obtiene la url actual del sistema
-          var route = '{{ request.path }}';
+          const route = '{{ request.path }}';
 
           //rutas de un nivel ubch
-          var ubch_list = '/user/community-leader/list/';
-          var ubch_create = '/user/community-leader/create/';
+          const ubch_list = '/user/community-leader/list/';
+          const ubch_create = '/user/community-leader/create/';
 
-          //rutas de un lider de comunidad
-          var lc_list = '/user/street-leader/list/';
-          var lc_create = '/user/street-leader/create/';
+          //rutas de lider de comunidad
+          const community_leader_list = '/user/street-leader/list/';
+          const community_leader_create = '/user/street-leader/create/';
 
-          if( route == '/' )
-          {
+          //rutas de lider de calle
+          const street_leader_list = '/user/family-group/list/';
+          const street_leader_create = '/user/family-group/create/';
+
+          if( route == '/' ) {
             $('#ba').addClass('active');
           }
-          else if( route == ubch_list || route == ubch_create )
-          {
+          else if( route == ubch_list || route == ubch_create ) {
             $('#ubch').addClass('active');
           }
-          else if( route == lc_list || route == lc_create )
-          {
-            $('#lc').addClass('active');
+          else if( route == community_leader_list || route == community_leader_create ) {
+            $('#community_leader').addClass('active');
+          }
+          else if( route == street_leader_list || route == street_leader_create ) {
+            $('#street_leader').addClass('active');
           }
         });
     </script>

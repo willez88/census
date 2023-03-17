@@ -5,5 +5,5 @@
   <li class="breadcrumb-item active">Registrar</li>
 {% endblock %}
 {% block content %}
-  <person :family_group_id="{% if family_group %} {{ family_group.id }} {% else %} None {% endif %}"></person>
+  <family-group :family_group_id="{% if family_group %} {{ family_group.id }} {% else %} null {% endif %}"></family-group>
 {% endblock %}

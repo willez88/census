@@ -4,7 +4,11 @@
  * @author  William Páez <paez.william8@gmail.com>
  * @param  {object} methods Métodos generales a implementar en CRUDS
  */
-Vue.mixin({  
+Vue.mixin({
+  data() {
+    return {
+    }
+  },
   props: {
     route_list: {
       type: String,

@@ -94,6 +94,17 @@
           </div>
         </div>
 
+        {% if form.instance.pk %}
+          {% if profile.streetleader %}
+            <hr/>
+            <div class="row">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 text-center">
+                <b>Líder de Calle: {{ profile.streetleader.bridge }}</b>
+              </div>
+            </div>
+          {% endif %}
+        {% endif %}
+
       </div>
       <div class="card-footer small text-right">
         <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">Limpiar</button>

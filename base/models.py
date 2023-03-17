@@ -394,6 +394,7 @@ class Department(models.Model):
         @author William Páez (paez.william8 at gmail.com)
         """
 
+        ordering = ['name']
         verbose_name = 'Departamento'
         verbose_name_plural = 'Departamentos'
         unique_together = [('name', 'building')]
