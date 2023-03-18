@@ -2014,5 +2014,677 @@
         "name": "0504",
         "building": 16
     }
+},
+{
+    "model": "base.department",
+    "pk": 254,
+    "fields": {
+        "name": "0001",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 255,
+    "fields": {
+        "name": "0002",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 256,
+    "fields": {
+        "name": "0003",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 257,
+    "fields": {
+        "name": "0004",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 258,
+    "fields": {
+        "name": "0101",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 259,
+    "fields": {
+        "name": "0102",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 260,
+    "fields": {
+        "name": "0103",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 261,
+    "fields": {
+        "name": "0104",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 262,
+    "fields": {
+        "name": "0201",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 263,
+    "fields": {
+        "name": "0202",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 264,
+    "fields": {
+        "name": "0203",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 265,
+    "fields": {
+        "name": "0204",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 266,
+    "fields": {
+        "name": "0301",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 267,
+    "fields": {
+        "name": "0302",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 268,
+    "fields": {
+        "name": "0303",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 269,
+    "fields": {
+        "name": "0304",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 270,
+    "fields": {
+        "name": "0401",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 271,
+    "fields": {
+        "name": "0402",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 272,
+    "fields": {
+        "name": "0403",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 273,
+    "fields": {
+        "name": "0404",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 274,
+    "fields": {
+        "name": "0501",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 275,
+    "fields": {
+        "name": "0502",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 276,
+    "fields": {
+        "name": "0503",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 277,
+    "fields": {
+        "name": "0504",
+        "building": 9
+    }
+},
+{
+    "model": "base.department",
+    "pk": 278,
+    "fields": {
+        "name": "0001",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 279,
+    "fields": {
+        "name": "0002",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 280,
+    "fields": {
+        "name": "0003",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 281,
+    "fields": {
+        "name": "0101",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 282,
+    "fields": {
+        "name": "0102",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 283,
+    "fields": {
+        "name": "0103",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 284,
+    "fields": {
+        "name": "0201",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 285,
+    "fields": {
+        "name": "0202",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 286,
+    "fields": {
+        "name": "0203",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 287,
+    "fields": {
+        "name": "0301",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 288,
+    "fields": {
+        "name": "0302",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 289,
+    "fields": {
+        "name": "0303",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 290,
+    "fields": {
+        "name": "0401",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 291,
+    "fields": {
+        "name": "0402",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 292,
+    "fields": {
+        "name": "0403",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 293,
+    "fields": {
+        "name": "0501",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 294,
+    "fields": {
+        "name": "0502",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 295,
+    "fields": {
+        "name": "0503",
+        "building": 10
+    }
+},
+{
+    "model": "base.department",
+    "pk": 296,
+    "fields": {
+        "name": "0001",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 297,
+    "fields": {
+        "name": "0002",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 298,
+    "fields": {
+        "name": "0003",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 299,
+    "fields": {
+        "name": "0101",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 300,
+    "fields": {
+        "name": "0102",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 301,
+    "fields": {
+        "name": "0103",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 302,
+    "fields": {
+        "name": "0201",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 303,
+    "fields": {
+        "name": "0202",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 304,
+    "fields": {
+        "name": "0203",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 305,
+    "fields": {
+        "name": "0301",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 306,
+    "fields": {
+        "name": "0302",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 307,
+    "fields": {
+        "name": "0303",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 308,
+    "fields": {
+        "name": "0401",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 309,
+    "fields": {
+        "name": "0402",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 310,
+    "fields": {
+        "name": "0403",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 311,
+    "fields": {
+        "name": "0501",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 312,
+    "fields": {
+        "name": "0502",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 313,
+    "fields": {
+        "name": "0503",
+        "building": 11
+    }
+},
+{
+    "model": "base.department",
+    "pk": 314,
+    "fields": {
+        "name": "0001",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 315,
+    "fields": {
+        "name": "0002",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 316,
+    "fields": {
+        "name": "0003",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 317,
+    "fields": {
+        "name": "0004",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 318,
+    "fields": {
+        "name": "0101",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 319,
+    "fields": {
+        "name": "0102",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 320,
+    "fields": {
+        "name": "0103",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 321,
+    "fields": {
+        "name": "0104",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 322,
+    "fields": {
+        "name": "0201",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 323,
+    "fields": {
+        "name": "0202",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 324,
+    "fields": {
+        "name": "0203",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 325,
+    "fields": {
+        "name": "0204",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 326,
+    "fields": {
+        "name": "0301",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 327,
+    "fields": {
+        "name": "0302",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 328,
+    "fields": {
+        "name": "0303",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 329,
+    "fields": {
+        "name": "0304",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 330,
+    "fields": {
+        "name": "0401",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 331,
+    "fields": {
+        "name": "0402",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 332,
+    "fields": {
+        "name": "0403",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 333,
+    "fields": {
+        "name": "0404",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 334,
+    "fields": {
+        "name": "0501",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 335,
+    "fields": {
+        "name": "0502",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 336,
+    "fields": {
+        "name": "0503",
+        "building": 12
+    }
+},
+{
+    "model": "base.department",
+    "pk": 337,
+    "fields": {
+        "name": "0504",
+        "building": 12
+    }
 }
 ]
