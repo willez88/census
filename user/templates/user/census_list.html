@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load auth_extra %}
+{% load i18n %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">Censo</li>
+{% endblock %}
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      Listar
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered display dataTable" id="table" style="width:100%;">
+          <thead>
+            <tr>
+              <th>Líder de Calle</th>
+              <th>Grupos Familiares - Departamentos - Integrantes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for street_leader in object_list %}
+              <tr>
+                <td> {{ street_leader.profile.user.username }} </td>
+                <td>
+                  {% for family_group in street_leader.familygroup_set.all %}
+                    {{ family_group.profile.user }} - {{ family_group.department }}
+                    <br>
+                    {% for person in family_group.person_set.all %}
+                      {{ person }} {% if person.family_head %} - Jefe familiar {% endif %}
+                      <br>
+                    {% endfor %}
+                    <br>
+                  {% endfor %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block extra_footer %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var table = $('#table').DataTable();
+    });
+  </script>
+{% endblock %}

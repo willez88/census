@@ -53,7 +53,7 @@ class Error403View(TemplateView):
         GNU Public License versión 2 (GPLv2)</a>
     """
 
-    template_name = 'base/error.403.html'
+    template_name = 'base/error_403.html'
 
 
 class ExportExcelView(View):

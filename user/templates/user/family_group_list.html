@@ -17,9 +17,9 @@
           <table class="table table-striped table-hover table-bordered display dataTable" id="table" style="width:100%;">
             <thead>
               <tr>
-                <th>Usuario</th>
+                <th>Usuario - Grupo Familiar</th>
                 <th>Correo Electrónico</th>
-                <th>Integrantes del Núcleo Familiar</th>
+                <th>Departamentos - Integrantes</th>
                 <th>Activar/desactivar</th>
               </tr>
             </thead>
@@ -28,7 +28,14 @@
                 <tr>
                   <td> <a href="{% url 'user:family_group_edit' family_group.id %}"> {{ family_group.profile.user.username }} </a> </td>
                   <td> {{ family_group.profile.user.email }} </td>
-                  <td> {{ family_group.person_set.all|length }} </td>
+                  <td>
+                    {{ family_group.department }}
+                    <br>
+                    {% for person in family_group.person_set.all %}
+                      {{ person }} {% if person.family_head %} - Jefe familiar {% endif %}
+                      <br>
+                    {% endfor %}
+                  </td>
                   {% if family_group.profile.user.is_active %}
                     <td>
                       <i class="far fa-thumbs-up fa-3x text-success" title="Usuario Activo" aria-hidden="true"></i>

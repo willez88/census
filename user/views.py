@@ -1044,11 +1044,12 @@ class PersonDeleteView(View):
         street_leader = StreetLeader.objects.get(
             profile=self.request.user.profile
         )
-        family_group = FamilyGroup.objects.get(street_leader=street_leader)
-        if self.request.user.groups.filter(name='Líder de Calle') \
-                and Person.objects.filter(
-                    id=kwargs['pk'], family_group=family_group
-                ):
+        person_id = kwargs['pk']
+        person = Person.objects.filter(
+            id=person_id, family_group__street_leader=street_leader
+        )
+        group = self.request.user.groups.filter(name='Líder de Calle')
+        if group and person:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 
@@ -1059,3 +1060,53 @@ class PersonDeleteView(View):
             {'status': 'true', 'message': 'Datos eliminados con éxito'},
             status=200
         )
+
+
+class CensusListView(ListView):
+    """!
+    Clase que permite a los usuarios líderes de comunidad ver todos los
+    datos de la residencia
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = StreetLeader
+    template_name = 'user/census_list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def get_queryset(self):
+        """!
+        Método que obtiene los usuarios líderes de calle
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Lista de objetos
+        """
+
+        if CommunityLeader.objects.filter(profile=self.request.user.profile):
+            community_leader = CommunityLeader.objects.get(
+                profile=self.request.user.profile
+            )
+            queryset = StreetLeader.objects.filter(
+                community_leader=community_leader
+            )
+            return queryset

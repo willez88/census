@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
 
 from .views import (
+    CensusListView,
     CommunityLeaderFormView,
     CommunityLeaderListView,
     FamilyGroupCreateTemplateView,
@@ -138,5 +139,10 @@ urlpatterns = [
     path(
         'person/delete/<int:pk>/', login_required(PersonDeleteView.as_view()),
         name='person_delete'
+    ),
+
+    path(
+        'census/list/', login_required(CensusListView.as_view()),
+        name='census_list'
     ),
 ]
