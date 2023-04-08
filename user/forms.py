@@ -133,6 +133,23 @@ class ProfileForm(forms.ModelForm):
         )
     )
 
+    # Cédula de identidad
+    id_number = forms.CharField(
+        label='Cédula de Identidad:', max_length=8,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique la cédula de identidad',
+            }
+        ),
+        validators=[
+            validators.RegexValidator(
+                r'^([\d]{7}|[\d]{8})$',
+                'Este campo es inválido'
+            ),
+        ],
+    )
+
     phone = forms.CharField(
         label='Teléfono:', max_length=11,
         widget=forms.TextInput(
@@ -156,6 +173,12 @@ class ProfileForm(forms.ModelForm):
             raise forms.ValidationError('El correo ya está registrado')
         return email
 
+    def clean_id_number(self):
+        id_number = self.cleaned_data['id_number']
+        if Profile.objects.filter(id_number=id_number):
+            raise forms.ValidationError('La cédula ya está registrada')
+        return id_number
+
     class Meta:
         """!
         Meta clase del formulario que establece algunas propiedades
@@ -165,7 +188,8 @@ class ProfileForm(forms.ModelForm):
 
         model = User
         fields = [
-            'username', 'first_name', 'last_name', 'email', 'phone'
+            'username', 'first_name', 'last_name', 'email', 'id_number',
+            'phone'
         ]
 
 
@@ -194,7 +218,8 @@ class ProfileUpdateForm(ProfileForm):
 
         model = Profile
         fields = [
-            'username', 'first_name', 'last_name', 'email', 'phone'
+            'username', 'first_name', 'last_name', 'email', 'id_number',
+            'phone',
         ]
 
 
@@ -238,7 +263,8 @@ class CommunityLeaderForm(ProfileForm):
 
         model = User
         fields = [
-            'username', 'first_name', 'last_name', 'email', 'phone',
+            'username', 'first_name', 'last_name', 'email', 'id_number',
+            'phone',
         ]
 
 
@@ -292,7 +318,8 @@ class StreetLeaderForm(ProfileForm):
 
         model = User
         fields = [
-            'username', 'first_name', 'last_name', 'email', 'phone',
+            'username', 'first_name', 'last_name', 'email', 'id_number',
+            'phone',
         ]
 
 
@@ -348,6 +375,12 @@ class FamilyGroupForm(forms.Form):
     )
 
     def clean_username(self):
+        """!
+        Método que valida si el usuario ya existe
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
         username = self.cleaned_data['username']
         if User.objects.filter(username=username):
             raise forms.ValidationError(
@@ -356,6 +389,12 @@ class FamilyGroupForm(forms.Form):
         return username
 
     def clean_email(self):
+        """!
+        Método que valida si el email ya existe
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
         email = self.cleaned_data['email']
         if User.objects.filter(email=email):
             raise forms.ValidationError('Este campo ya está registrado')
@@ -412,7 +451,7 @@ class PersonForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip',
-                'title': 'Indique los Apellidos',
+                'title': 'Indique la cédula de identidad',
             }
         ),
         validators=[
@@ -432,7 +471,8 @@ class PersonForm(forms.Form):
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip',
                 'title': 'Indique el correo electrónico'
             }
-        )
+        ),
+        required=False,
     )
 
     # Número telefónico
@@ -450,7 +490,8 @@ class PersonForm(forms.Form):
                 'Este campo es inválido. Formato: 04160000000'
             ),
         ],
-        help_text='Formato: 04160000000'
+        help_text='Formato: 04160000000',
+        required=False,
     )
 
     # Tipo de voto
@@ -479,6 +520,12 @@ class PersonForm(forms.Form):
     )
 
     def clean_id_number(self):
+        """!
+        Método que valida si la cédula ya existe y es correcta
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
         id_number = self.cleaned_data['id_number']
         has_id_number = self.cleaned_data.get('has_id_number')
         if has_id_number == 'y' and not id_number:

@@ -89,7 +89,10 @@ class PersonAdmin(admin.ModelAdmin):
     """
 
     # Mostrar los campos de la clase
-    list_display = ('first_name', 'last_name', 'id_number')
+    list_display = (
+        'first_name', 'last_name', 'id_number', 'email', 'phone',
+        'family_head', 'vote_type', 'relationship', 'family_group',
+    )
 
 
 admin.site.register(Profile, ProfileAdmin)

@@ -14,7 +14,7 @@ class ComboUpdateView(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            if not request.is_ajax():
+            if request.headers.get('x-requested-with') != 'XMLHttpRequest':
                 return HttpResponse(json.dumps(
                     {'resultado': False, 'error': str(MSG_NOT_AJAX)})
                 )

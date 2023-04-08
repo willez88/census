@@ -20,6 +20,20 @@ class Profile(models.Model):
         GNU Public License versión 2 (GPLv2)</a>
     """
 
+    # Cédula de identidad
+    id_number = models.CharField(
+        'cédula de identidad',
+        max_length=8,
+        unique=True,
+        null=True,
+        validators=[
+            validators.RegexValidator(
+                r'^([\d]{7}|[\d]{8})$',
+                'Introduzca una cédula de identidad válida'
+            ),
+        ]
+    )
+
     # Teléfono (04160000000)
     phone = models.CharField('teléfono', max_length=11, null=True, blank=True)
 
@@ -243,10 +257,10 @@ class Person(models.Model):
     """
 
     # Nombres
-    first_name = models.CharField('nombre', max_length=100)
+    first_name = models.CharField('nombres', max_length=100)
 
     # Apellidos
-    last_name = models.CharField('nombre', max_length=100)
+    last_name = models.CharField('apellidos', max_length=100)
 
     # Cédula de identidad
     id_number = models.CharField(
@@ -254,7 +268,7 @@ class Person(models.Model):
         validators=[
             validators.RegexValidator(
                 r'^(([\d]{7}|[\d]{8})|([\d]{7}|[\d]{8})-([\d]{1}|[\d]{2}))$',
-                'Introduzca una cédula de identidad válido'
+                'Introduzca una cédula de identidad válida'
             ),
         ]
     )
@@ -268,7 +282,7 @@ class Person(models.Model):
     phone = models.CharField('teléfono', max_length=11, null=True, blank=True)
 
     # Estalece si la persona es jefe familiar o no
-    family_head = models.BooleanField()
+    family_head = models.BooleanField('jefe de familia')
 
     # Relación con el modelo VoteType
     vote_type = models.ForeignKey(

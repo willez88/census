@@ -30,6 +30,7 @@
                 <th>Nombres</th>
                 <th>Apellidos</th>
                 <th>Correo</th>
+                <th>Cédula de identidad</th>
                 <th>Teléfono</th>
                 <th>Activar/desactivar</th>
               </tr>
@@ -41,6 +42,7 @@
                   <td> {{ u.profile.user.first_name }} </td>
                   <td> {{ u.profile.user.last_name }} </td>
                   <td> {{ u.profile.user.email }} </td>
+                  <td> {{ u.profile.id_number }} </td>
                   <td> {{ u.profile.phone }} </td>
                   {% if u.profile.user.is_active %}
                     <td>

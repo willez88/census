@@ -1,6 +1,6 @@
 import datetime
 
-from django.conf import settings
+from tempfile import NamedTemporaryFile
 from django.http import (
     HttpResponse,
     JsonResponse,
@@ -16,7 +16,6 @@ from openpyxl.styles import (
     Font,
     PatternFill,
 )
-from openpyxl.writer.excel import save_virtual_workbook
 from user.models import (
     CommunityLeader,
     FamilyGroup,
@@ -300,11 +299,15 @@ class ExportExcelView(View):
 
             i = i + 1
 
+        with NamedTemporaryFile() as tmp:
+            workbook.save(tmp.name)
+            tmp.seek(0)
+            stream = tmp.read()
         response = HttpResponse(
-            content=save_virtual_workbook(workbook),
+            content=stream,
             content_type='application/ms-excel'
         )
-        response['Content-Disposition'] = 'attachment; filename="data.xlsx"'
+        response['Content-Disposition'] = 'attachment; filename="censo.xlsx"'
         # response.write(u'\ufeff'.encode('utf8'))
         return response
 
@@ -500,11 +503,15 @@ class ExportExcelStreetLeaderView(View):
             worksheet[column8] = ' '
             c = c + 1
 
+        with NamedTemporaryFile() as tmp:
+            workbook.save(tmp.name)
+            tmp.seek(0)
+            stream = tmp.read()
         response = HttpResponse(
-            content=save_virtual_workbook(workbook),
+            content=stream,
             content_type='application/ms-excel'
         )
-        response['Content-Disposition'] = 'attachment; filename="data.xlsx"'
+        response['Content-Disposition'] = 'attachment; filename="censo.xlsx"'
         return response
 
 

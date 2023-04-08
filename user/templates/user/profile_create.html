@@ -76,6 +76,20 @@
 
         <div class="row">
           <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+            <div class="form-group {% if form.id_number.errors %}has-error{% endif %}">
+              <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="{{ form.id_number.auto_id }}">
+                {{ form.id_number.label }}
+                <i class="fas fa-asterisk item-required" aria-hidden="true"></i>
+              </label>
+              <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                <div class="form-inline">
+                  {{ form.id_number }}
+                </div>
+                {% include 'base/form_errors.html' with form_errors=form.id_number.errors col_title_error='col-sm-4' col_msg_error='col-sm-8' %}
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
             <div class="form-group {% if form.phone.errors %}has-error{% endif %}">
               <label class="col-xl-5 col-lg-5 col-md-5 col-sm-5 control-label" for="{{ form.phone.auto_id }}">
                 {{ form.phone.label }}
