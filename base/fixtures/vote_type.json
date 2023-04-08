@@ -19,5 +19,12 @@
     "fields": {
         "name": "Opositor"
     }
+},
+{
+    "model": "base.votetype",
+    "pk": 4,
+    "fields": {
+        "name": "Ninguno"
+    }
 }
 ]
