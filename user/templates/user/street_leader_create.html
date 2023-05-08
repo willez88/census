@@ -85,6 +85,9 @@
                 <div class="form-inline">
                   {{ form.id_number }}
                 </div>
+                <small class="form-text text-muted">
+                  {{ form.id_number.help_text }}
+                </small>
                 {% include 'base/form_errors.html' with form_errors=form.id_number.errors col_title_error='col-sm-4' col_msg_error='col-sm-8' %}
               </div>
             </div>

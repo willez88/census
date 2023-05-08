@@ -107,6 +107,7 @@ class ProfileUpdateView(UpdateView):
         """
 
         self.object = form.save()
+        self.object.id_number = form.cleaned_data['id_number']
         self.object.phone = form.cleaned_data['phone']
         self.object.save()
 
@@ -278,6 +279,7 @@ class CommunityLeaderFormView(FormView):
         self.object.groups.add(Group.objects.get(name='Líder de Comunidad'))
 
         profile = Profile.objects.create(
+            id_number=form.cleaned_data['id_number'],
             phone=form.cleaned_data['phone'],
             user=self.object
         )
@@ -476,6 +478,7 @@ class StreetLeaderFormView(FormView):
         self.object.groups.add(Group.objects.get(name='Líder de Calle'))
 
         profile = Profile.objects.create(
+            id_number=form.cleaned_data['id_number'],
             phone=form.cleaned_data['phone'],
             user=self.object
         )

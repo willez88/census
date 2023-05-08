@@ -31,7 +31,7 @@ class Profile(models.Model):
                 r'^([\d]{7}|[\d]{8})$',
                 'Introduzca una cédula de identidad válida'
             ),
-        ]
+        ],
     )
 
     # Teléfono (04160000000)

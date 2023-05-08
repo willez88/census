@@ -148,6 +148,7 @@ class ProfileForm(forms.ModelForm):
                 'Este campo es inválido'
             ),
         ],
+        help_text='Formato: 0000000 ó 00000000',
     )
 
     phone = forms.CharField(
