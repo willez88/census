@@ -466,3 +466,37 @@ class Relationship(models.Model):
 
         verbose_name = 'Parentesco'
         verbose_name_plural = 'Parentescos'
+
+
+class Gender(models.Model):
+    """!
+    Clase que contiene el género
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-3.0.html'>
+        GNU Public License versión 3 (GPLv3)</a>
+    """
+
+    # Nombre
+    name = models.CharField('nombre', max_length=20)
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre del sexo
+        """
+
+        return self.name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Género'
+        verbose_name_plural = 'Géneros'

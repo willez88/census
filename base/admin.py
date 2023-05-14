@@ -10,6 +10,7 @@ from .models import (
     Building,
     CommunalCouncil,
     Department,
+    Gender,
     Relationship,
     Ubch,
     VoteType
@@ -126,6 +127,19 @@ class RelationshipAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
+class GenderAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo Gender al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Mostrar los campos
+    list_display = ('name',)
+
+
 admin.site.register(Ubch, UbchAdmin)
 admin.site.register(CommunalCouncil, CommunalCouncilAdmin)
 admin.site.register(Block, BlockAdmin)
@@ -134,3 +148,4 @@ admin.site.register(Building, BuildingAdmin)
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(VoteType, VoteTypeAdmin)
 admin.site.register(Relationship, RelationshipAdmin)
+admin.site.register(Gender, GenderAdmin)

@@ -58,6 +58,7 @@ Vue.component('family-group', {
       relationships: [],
       buildings: [],
       departments: [],
+      genders: [],
       url: 'user/family-group/save',
       errors: {
         family_group: {
@@ -77,6 +78,7 @@ Vue.component('family-group', {
     vm.getRelationships();
     vm.getBuildings();
     vm.getDepartments();
+    vm.getGenders();
   },
 
   methods: {
@@ -109,6 +111,8 @@ Vue.component('family-group', {
         id_number: [],
         email: [],
         phone: [],
+        birthdate: [],
+        gender_id: [],
         vote_type_id: [],
         relationship_id: [],
       });
@@ -119,10 +123,21 @@ Vue.component('family-group', {
         id_number: '',
         email: '',
         phone: '',
+        birthdate: '',
+        gender_id: '',
         vote_type_id: '',
         relationship_id: '',
         family_head: false,
       });
+    },
+
+    /**
+     * Método que permite agregar amonestaciones
+     *
+     * @author  William Páez <paez.william8@gmail.com>
+     */
+    addAdmonition() {
+      const vm = this;
     },
 
     /**
@@ -163,6 +178,8 @@ Vue.component('family-group', {
             id_number: [],
             email: [],
             phone: [],
+            birthdate: [],
+            gender_id: [],
             vote_type_id: [],
             relationship_id: [],
           });
@@ -358,6 +375,39 @@ Vue.component('family-group', {
               <div class="alert alert-danger" v-if="errors.people[index].phone.length > 0">
                 <ul>
                   <li v-for="error in errors.people[index].phone">{{ error }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+            <div class="form-group ">
+              <label class="control-label" for="">
+                Fecha de Nacimiento:
+              </label>
+              <input type="date" class="form-control input-sm" data-toggle="tooltip" title="Indique la fecha de nacimiento" v-model="person.birthdate">
+            </div>
+            <div v-if="errors.people[index].birthdate">
+              <div class="alert alert-danger" v-if="errors.people[index].birthdate.length > 0">
+                <ul>
+                  <li v-for="error in errors.people[index].birthdate">{{ error }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+            <div class="form-group ">
+              <label class="control-label" for="">
+                Género:
+              </label>
+              <select2
+                :options="genders"
+                v-model="person.gender_id">
+              </select2>
+            </div>
+            <div v-if="errors.people[index].gender_id">
+              <div class="alert alert-danger" v-if="errors.people[index].gender_id.length > 0">
+                <ul>
+                  <li v-for="error in errors.people[index].gender_id">{{ error }}</li>
                 </ul>
               </div>
             </div>

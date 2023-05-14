@@ -5,6 +5,7 @@ from base.functions import send_email
 from base.models import (
     CommunalCouncil,
     Department,
+    Gender,
     Relationship,
     VoteType,
 )
@@ -646,7 +647,7 @@ class FamilyGroupCreateTemplateView(TemplateView):
 
 class FamilyGroupSaveView(View):
     """!
-    Clase que permite a los usuarios del líder de calle, crear usuarios grupos
+    Clase que permite a los usuarios del líder de calle crear usuarios grupos
     familiares
 
     @author William Páez (paez.william8 at gmail.com)
@@ -734,6 +735,7 @@ class FamilyGroupSaveView(View):
         )
         c = 1
         for person in record['people']:
+            gender = Gender.objects.get(pk=person['gender_id'])
             vote_type = VoteType.objects.get(pk=person['vote_type_id'])
             relationship = Relationship.objects.get(
                 pk=person['relationship_id']
@@ -749,6 +751,8 @@ class FamilyGroupSaveView(View):
                     id_number=person['id_number'],
                     email=person['email'],
                     phone=person['phone'],
+                    birthdate=person['birthdate'],
+                    gender=gender,
                     vote_type=vote_type,
                     relationship=relationship,
                     family_head=value,
@@ -764,6 +768,8 @@ class FamilyGroupSaveView(View):
                     id_number=p.id_number + '-' + str(c),
                     email=person['email'],
                     phone=person['phone'],
+                    birthdate=person['birthdate'],
+                    gender=gender,
                     vote_type=vote_type,
                     relationship=relationship,
                     family_head=False,
@@ -913,6 +919,7 @@ class FamilyGroupUpdateView(View):
             family_group=family_group, id_number__contains='-'
         ).count() + 1
         for person in record['people']:
+            gender = Gender.objects.get(pk=person['gender_id'])
             vote_type = VoteType.objects.get(pk=person['vote_type_id'])
             relationship = Relationship.objects.get(
                 pk=person['relationship_id']
@@ -926,6 +933,8 @@ class FamilyGroupUpdateView(View):
                         'id_number': person['id_number'],
                         'email': person['email'],
                         'phone': person['phone'],
+                        'birthdate': person['birthdate'],
+                        'gender': gender,
                         'vote_type': vote_type,
                         'relationship': relationship,
                         'family_head': person['family_head'],
@@ -944,6 +953,8 @@ class FamilyGroupUpdateView(View):
                         'id_number': p.id_number + '-' + str(c),
                         'email': person['email'],
                         'phone': person['phone'],
+                        'birthdate': person['birthdate'],
+                        'gender': gender,
                         'vote_type': vote_type,
                         'relationship': relationship,
                         'family_head': person['family_head'],
@@ -1007,7 +1018,9 @@ class FamilyGroupDetailView(View):
                 'id_number': p.id_number, 'email': p.email,
                 'vote_type_id': p.vote_type.id if p.vote_type else '',
                 'relationship_id': p.relationship.id if p.relationship else '',
-                'phone': p.phone, 'family_head': p.family_head
+                'phone': p.phone, 'birthdate': p.birthdate,
+                'gender_id': p.gender.id if p.gender else '',
+                'family_head': p.family_head
             })
         record = {
             'id': family_group.id,

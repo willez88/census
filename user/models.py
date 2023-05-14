@@ -1,7 +1,10 @@
+import datetime
+
 from base.models import (
     Bridge,
     CommunalCouncil,
     Department,
+    Gender,
     Relationship,
     Ubch,
     VoteType,
@@ -281,8 +284,17 @@ class Person(models.Model):
     # Teléfono (04160000000)
     phone = models.CharField('teléfono', max_length=11, null=True, blank=True)
 
+    # Fecha de nacimiento
+    birthdate = models.DateField('fecha de nacimiento', blank=True, null=True)
+
     # Estalece si la persona es jefe familiar o no
     family_head = models.BooleanField('jefe de familia')
+
+    # Relación con el modelo Gender
+    gender = models.ForeignKey(
+        Gender, on_delete=models.CASCADE, verbose_name='género',
+        null=True
+    )
 
     # Relación con el modelo VoteType
     vote_type = models.ForeignKey(
@@ -300,6 +312,17 @@ class Person(models.Model):
     family_group = models.ForeignKey(
         FamilyGroup, on_delete=models.CASCADE, verbose_name='grupo familiar'
     )
+
+    def age(self):
+        """!
+        Método que calcula la edad de la persona
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna un número entero que representa la edad
+        """
+
+        return int((datetime.date.today() - self.birthdate).days / 365.25)
 
     def __str__(self):
         """!
@@ -321,3 +344,45 @@ class Person(models.Model):
 
         verbose_name = 'Persona'
         verbose_name_plural = 'Personas'
+
+
+class Admonition(models.Model):
+    """!
+    Clase que contiene las amonestaciones
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Fecha
+    date = models.DateField('fecha')
+
+    # Descripción
+    description = models.TextField('descripción')
+
+    # Relación con el modelo Person
+    person = models.ForeignKey(
+        Person, on_delete=models.CASCADE, verbose_name='persona',
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con los nombres y apellidos
+        """
+
+        return self.date
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Amonestación'
+        verbose_name_plural = 'Amonestaciones'

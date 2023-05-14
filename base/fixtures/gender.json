@@ -1,0 +1,16 @@
+[
+{
+    "model": "base.gender",
+    "pk": 1,
+    "fields": {
+        "name": "Masculino"
+    }
+},
+{
+    "model": "base.gender",
+    "pk": 2,
+    "fields": {
+        "name": "Femenino"
+    }
+}
+]

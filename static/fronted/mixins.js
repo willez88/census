@@ -141,6 +141,14 @@ Vue.mixin({
       });
     },
 
+    getGenders() {
+      const vm = this;
+      vm.genders = [];
+      axios.get('/genders/list/').then(response => {
+        vm.genders = response.data.list;
+      });
+    },
+
     getVoteTypes() {
       const vm = this;
       vm.vote_types = [];

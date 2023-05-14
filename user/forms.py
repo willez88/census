@@ -5,6 +5,7 @@ from base.models import (
     CommunalCouncil,
     Department,
     Estate,
+    Gender,
     Municipality,
     Parish,
     Relationship,
@@ -203,12 +204,27 @@ class ProfileUpdateForm(ProfileForm):
         GNU Public License versión 2 (GPLv2)</a>
     """
 
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        user = User.objects.filter(
+            username=username
+        ).exclude(pk=self.instance.user.id)
+        if self.instance and self.instance.pk and not user:
+            return username
+        raise forms.ValidationError('Nombre de usuario ya está registrado')
+
     def clean_email(self):
         email = self.cleaned_data['email']
-        username = self.cleaned_data.get('username')
-        if User.objects.filter(email=email).exclude(username=username):
+        user = User.objects.filter(email=email).exclude(
+            username=self.instance.user.username
+        )
+        if user:
             raise forms.ValidationError('El correo ya esta registrado')
         return email
+
+    def clean_id_number(self):
+        id_number = self.cleaned_data['id_number']
+        return id_number
 
     class Meta:
         """!
@@ -493,6 +509,28 @@ class PersonForm(forms.Form):
         ],
         help_text='Formato: 04160000000',
         required=False,
+    )
+
+    # Fecha de nacimiento
+    birthdate = forms.DateField(
+        label='Fecha de Nacimiento:',
+        widget=forms.DateInput(
+            attrs={
+                'class': 'form-control form-control-lg datepicker',
+                'data-toggle': 'tooltip',
+                'title': 'Indique la fecha de nacimiento.',
+            }
+        )
+    )
+
+    # Género
+    gender_id = forms.ModelChoiceField(
+        label='Género:', queryset=Gender.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el género',
+        })
     )
 
     # Tipo de voto

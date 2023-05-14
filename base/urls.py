@@ -9,6 +9,7 @@ from .views import (
     ExportExcelView,
     ExportExcelStreetLeaderView,
     GetDepartmentView,
+    GenderListView,
     HomeView,
     RelationshipListView,
     VoteTypeListView,
@@ -47,6 +48,10 @@ urlpatterns = [
     path(
         'get-departments/<int:building_id>/', login_required(GetDepartmentView.as_view()),
         name='get-departments'
+    ),
+    path(
+        'genders/list/', login_required(GenderListView.as_view()),
+        name='gender_list'
     ),
 
     path(

@@ -26,6 +26,7 @@ from user.models import (
 from .models import (
     Building,
     Department,
+    Gender,
     Relationship,
     VoteType
 )
@@ -641,4 +642,28 @@ class GetDepartmentView(View):
             })
         return JsonResponse(
             {'status': 'true', 'list': department_list}, status=200
+        )
+
+
+class GenderListView(View):
+    """!
+    Clase que retorna un json con los datos de géneros
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def get(self, request, *args, **kwargs):
+        genders = Gender.objects.all()
+        gender_list = []
+        gender_list.append({
+            'id': '', 'text': 'Seleccione...'
+        })
+        for gender in genders:
+            gender_list.append({
+                'id': gender.id, 'text': gender.name
+            })
+        return JsonResponse(
+            {'status': 'true', 'list': gender_list}, status=200
         )
