@@ -20,6 +20,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
+    DetailView,
     FormView,
     ListView,
     TemplateView,
@@ -970,6 +971,38 @@ class FamilyGroupUpdateView(View):
             },
             status=200
         )
+
+
+class FamilyDetailView(DetailView):
+    """!
+    Clase que permite a los usuarios del líder de comunidad ver detalles de
+    grupos familiares
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = FamilyGroup
+    template_name = 'user/family_detail.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
 
 
 class FamilyGroupDetailView(View):

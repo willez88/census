@@ -140,7 +140,6 @@ Vue.component('family-group', {
       const vm = this;
       if( typeof(el[index].id) != 'undefined' ) {
         axios.get(`/user/person/delete/${el[index].id}/`).then(response => {
-          console.log('Persona eliminada');
           el.splice(index, 1);
           vm.errors.people.pop();
         });
@@ -489,9 +488,6 @@ Vue.component('family-group', {
                   <input type="checkbox" v-model="person.family_head">
                 </div>
               </div>
-            </div>
-
-            <div class="row">
               <div class="col-sm">
                 <div class="form-group">
                   <button class="btn btn-sm btn-danger btn-action" type="button"

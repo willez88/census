@@ -6,6 +6,7 @@ from .views import (
     CensusListView,
     CommunityLeaderFormView,
     CommunityLeaderListView,
+    FamilyDetailView,
     FamilyGroupCreateTemplateView,
     FamilyGroupDetailView,
     FamilyGroupEditTemplateView,
@@ -128,6 +129,12 @@ urlpatterns = [
         'family-group/update/<int:pk>/',
         login_required(FamilyGroupUpdateView.as_view()),
         name='family_group_update'
+    ),
+
+    path(
+        'family/detail/<int:pk>/',
+        login_required(FamilyDetailView.as_view()),
+        name='family_detail'
     ),
 
     path(

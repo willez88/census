@@ -1,0 +1,156 @@
+{% extends 'base/base.html' %}
+{% load auth_extra %}
+{% load i18n %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item">Grupos Familiares</li>
+  <li class="breadcrumb-item active">Detalles</li>
+{% endblock %}
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      Detalles
+    </div>
+
+    <div class="card-body">
+      <div class="container">
+        <!-- row - BEGIN -->
+        <div class="row">
+          <div class="col-sm">
+            <div class="form-group">
+              <label class="col-sm control-label font-weight-bold">
+                Usuario
+              </label>
+              <div class="col-sm">
+                <div class="form-inline">
+                  {{ familygroup.profile.user }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="form-group">
+              <label class="col-sm control-label font-weight-bold">
+                Departamento
+              </label>
+              <div class="col-sm">
+                <div class="form-inline">
+                  {{ familygroup.department }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- row - END -->
+
+        {% for person in familygroup.person_set.all %}
+          <hr>
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Nombres y Apellidos
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ person }}{% if person.family_head %} - <span class="text-info"> Jefe familiar </span> {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Cédula de Identidad
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ person.id_number }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Correo Electrónico
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ person.email }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Número Telefónico
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ person.phone }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Fecha de Nacimiento
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ person.birthdate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Género
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ person.gender }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Tipo de Voto
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ person.vote_type }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Parentesco
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ person.relationship }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
