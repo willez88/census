@@ -322,7 +322,9 @@ class Person(models.Model):
         @return Retorna un número entero que representa la edad
         """
 
-        return int((datetime.date.today() - self.birthdate).days / 365.25)
+        if self.birthdate:
+            return int((datetime.date.today() - self.birthdate).days / 365.25)
+        return 0
 
     def __str__(self):
         """!
