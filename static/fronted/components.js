@@ -509,3 +509,266 @@ Vue.component('family-group', {
     <!-- card - END -->
   `
 });
+
+Vue.component('search', {
+  data() {
+    return {
+      id_number: '',
+      record: [],
+      errors: '',
+    }
+  },
+
+  methods: {
+    /**
+     * Método que obtiene los datos de una persona
+     *
+     * @author  William Páez <paez.william8@gmail.com>
+     */
+    getPerson() {
+      const vm = this;
+      if( vm.id_number != '' ) {
+        axios.get(`/user/searches/${vm.id_number}/`).then(response => {
+          vm.record = response.data.record;
+          vm.errors = response.data.error;
+        });
+      }
+    }
+  },
+
+  template: `
+    <!-- card - BEGIN -->
+    <div class="card">
+      <div class="card-header">
+        Búsquedas
+      </div>
+
+      <!-- card body - BEGIN -->
+      <div class="card-body">
+        <div class="container">
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <input
+                  type="text" class="form-control input-sm"
+                  data-toggle="tooltip"
+                  title="Indique el texto de búsqueda"
+                  placeholder="Buscar..."
+                  v-model="id_number"
+                >
+              </div>
+              <div v-show="errors">
+                <div class="alert alert-danger">
+                  <ul>
+                    <li>{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="form-group">
+                <button class="btn btn-sm btn-primary btn-action" type="button"
+                  @click="getPerson()"
+                  title="Buscar un dato" data-toggle="tooltip" data-placement="right">
+                  <i class="fas fa-fw fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group font-weight-bold">
+                Datos del Usuario Grupo Familiar
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Usuario
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ record.username }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Correo Electrónico
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ record.email }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Departamento
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ record.department }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group font-weight-bold">
+                Integrantes del Grupo Familiar
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+
+          <div v-for="(person, index) in record.people">
+            <hr>
+            <!-- row - BEGIN -->
+            <div class="row" :class="{'text-info' : person.family_head }">
+              <div class="col-sm">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Nombres y Apellidos
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.first_name }} {{ person.last_name }}&nbsp;<span v-show="person.family_head"> - Jefe familiar </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm" :class="{'text-success' : id_number==person.id_number }">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Cédula de Identidad
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.id_number }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Correo Electrónico
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.email }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Número Telefónico
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.phone }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- row - END -->
+
+            <!-- row - BEGIN -->
+            <div class="row" :class="{'text-info' : person.family_head }">
+              <div class="col-sm">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Fecha de Nacimiento
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.birthdate }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Género
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.gender }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Tipo de Voto
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.vote_type }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Parentesco
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.relationship }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- row - END -->
+
+            <!-- row - BEGIN -->
+            <div class="row" :class="{'text-info' : person.family_head }">
+              <div class="col-sm">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Edad
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.age }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- row - END -->
+          </div>
+        </div>
+      </div>
+      <!-- card body - END -->
+
+    </div>
+    <!-- card - END -->
+  `
+});

@@ -1159,3 +1159,76 @@ class CensusListView(ListView):
                 community_leader=community_leader
             )
             return queryset
+
+
+class SearchTemplateView(TemplateView):
+    """!
+    Clase que permite a los usuarios líder de comunidad hacer búsquedas
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    template_name = 'user/search.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+
+class SearchView(View):
+    """!
+    Clase que retorna un json con los datos
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def get(self, request, *args, **kwargs):
+        id_number = kwargs['id_number']
+        person = Person.objects.filter(id_number=id_number)
+        if not person:
+            return JsonResponse(
+                {'record': {}, 'error': 'Persona no encontrada.'}, status=200
+            )
+        person = Person.objects.get(id_number=id_number)
+        family_group = person.family_group
+        people = family_group.person_set.all()
+        person_list = []
+        for person in people:
+            person_list.append({
+                'first_name': person.first_name,
+                'last_name': person.last_name, 'has_id_number': 'y',
+                'id_number': person.id_number, 'email': person.email,
+                'vote_type': person.vote_type.name if person.vote_type else '',
+                'relationship': person.relationship.name if person.relationship else '',
+                'phone': person.phone, 'birthdate': person.birthdate,
+                'gender': person.gender.name if person.gender else '',
+                'age': person.age(),
+                'family_head': person.family_head
+            })
+        record = {
+            'username': family_group.profile.user.username,
+            'email': family_group.profile.user.email,
+            'department': str(family_group.department),
+            'people': person_list
+        }
+        return JsonResponse(
+            {'record': record}, status=200
+        )

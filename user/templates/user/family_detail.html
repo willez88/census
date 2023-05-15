@@ -30,6 +30,18 @@
           <div class="col-sm">
             <div class="form-group">
               <label class="col-sm control-label font-weight-bold">
+                Correo Electrónico
+              </label>
+              <div class="col-sm">
+                <div class="form-inline">
+                  {{ familygroup.profile.user.email }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm">
+            <div class="form-group">
+              <label class="col-sm control-label font-weight-bold">
                 Departamento
               </label>
               <div class="col-sm">
@@ -53,7 +65,7 @@
                 </label>
                 <div class="col-sm">
                   <div class="form-inline">
-                    {{ person }}{% if person.family_head %} - <span class="text-info"> Jefe familiar </span> {% endif %}
+                    {{ person }}{% if person.family_head %} -&nbsp;<span class="text-info"> Jefe familiar </span> {% endif %}
                   </div>
                 </div>
               </div>

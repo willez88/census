@@ -15,6 +15,8 @@ from .views import (
     FamilyGroupUpdateView,
     PersonDeleteView,
     ProfileUpdateView,
+    SearchTemplateView,
+    SearchView,
     StreetLeaderFormView,
     StreetLeaderListView,
 )
@@ -151,5 +153,15 @@ urlpatterns = [
     path(
         'census/list/', login_required(CensusListView.as_view()),
         name='census_list'
+    ),
+
+    path(
+        'searches/', login_required(SearchTemplateView.as_view()),
+        name='search'
+    ),
+
+    path(
+        'searches/<slug:id_number>/', login_required(SearchView.as_view()),
+        name='search_id_number'
     ),
 ]
