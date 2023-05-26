@@ -46,7 +46,8 @@ urlpatterns = [
         name='department_list'
     ),
     path(
-        'get-departments/<int:building_id>/', login_required(GetDepartmentView.as_view()),
+        'get-departments/<int:building_id>/',
+        login_required(GetDepartmentView.as_view()),
         name='get-departments'
     ),
     path(

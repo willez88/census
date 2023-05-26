@@ -1212,12 +1212,13 @@ class SearchView(View):
         people = family_group.person_set.all()
         person_list = []
         for person in people:
+            relationship = person.relationship
             person_list.append({
                 'first_name': person.first_name,
                 'last_name': person.last_name, 'has_id_number': 'y',
                 'id_number': person.id_number, 'email': person.email,
                 'vote_type': person.vote_type.name if person.vote_type else '',
-                'relationship': person.relationship.name if person.relationship else '',
+                'relationship': relationship.name if relationship else '',
                 'phone': person.phone, 'birthdate': person.birthdate,
                 'gender': person.gender.name if person.gender else '',
                 'age': person.age(),

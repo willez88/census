@@ -4,5 +4,7 @@
 *.log
 settings.py
 migrations
+db
 static/node_modules
 logs
+.vscode/settings.json

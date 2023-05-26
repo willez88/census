@@ -2,7 +2,7 @@
 
 Permite hacer un censo y luego exportarlo a un archivo excel
 
-# Pasos para crear el entorno de desarrollo
+## Pasos para crear el entorno de desarrollo
 
 Cuando somos un usuario normal del sistema, en el terminal se mostrará el siguiente símbolo: ~$
 
@@ -82,7 +82,7 @@ Instalar las dependencias de css y js: moverse a la carpeta static y ejecutar
     // Terminado el proceso volver a la carpeta raíz del proyecto
     (census) ~$ cd ../
 
-Crear la base de datos para __django_example__ usando PostgresSQL
+Crear la base de datos para __census__ usando PostgresSQL
 
     // Acceso al usuario postgres
     ~# su postgres
@@ -137,3 +137,40 @@ Generar gráfico del modelo Entidad-Relación
 
     // Grafica el modelo de una app del proyecto
     (census) ~$ python manage.py graph_models base -g -o base.svg
+
+Estilo de codificación PEP 8 en Visual Studio Code
+
+    // Abre el proyecto con vscode
+    (census) ~$ code .
+
+    Ir a extensiones del vscode e instalar
+        pylint
+        Python Environment Manager
+
+    Python Environment Manager detectará todos los entornos virtuales creados
+    en la sección Venv, click en "Set as active workspace interpreter" para activarlo
+
+    Desde vscode abrir el archivo base/views.py
+
+    En el menú de vscode ir a la opción View -> Command Palette
+
+    // Seleccionar
+    Python: Select Linter
+
+    // Seleccionar
+    pycodestyle
+
+    La instrucción anterior crea .vscode/settings.json
+
+    // El settings.json debe estar de la siguiente manera
+    {
+        "python.linting.enabled": true,
+        "python.linting.pycodestyleEnabled": true,
+        "python.linting.pylintArgs": [
+            "--django-settings-module=census.settings"
+        ]
+    }
+
+    Para que los cambios hagan efecto cerrar el vscode y abrirlo de nuevo
+
+    Ahora vscode usando pylint cuenta con todas las reglas establecidas en PEP 8
