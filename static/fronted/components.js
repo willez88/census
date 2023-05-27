@@ -540,7 +540,7 @@ Vue.component('search', {
     <!-- card - BEGIN -->
     <div class="card">
       <div class="card-header">
-        Búsquedas
+        Búsqueda por cédula de identidad
       </div>
 
       <!-- card body - BEGIN -->
@@ -768,6 +768,118 @@ Vue.component('search', {
       </div>
       <!-- card body - END -->
 
+    </div>
+    <!-- card - END -->
+  `
+});
+
+Vue.component('search-for-age', {
+  data() {
+    return {
+      age: '',
+      record: [],
+    }
+  },
+
+  methods: {
+    /**
+     * Método que obtiene los datos de personas por edad
+     *
+     * @author  William Páez <paez.william8@gmail.com>
+     */
+    getPersonAge() {
+      const vm = this;
+      if( vm.age != '' ) {
+        axios.get(`/user/searches-for-age/${vm.age}/`).then(response => {
+          vm.record = response.data.record;
+        });
+      }
+    }
+  },
+
+  template: `
+    <!-- card - BEGIN -->
+    <div class="card">
+      <div class="card-header">
+        Búsqueda por edad
+      </div>
+
+      <!-- card body - BEGIN -->
+      <div class="card-body">
+        <!-- container - BEGIN -->
+        <div class="container">
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control input-sm"
+                  data-toggle="tooltip"
+                  title="Indique la edad"
+                  placeholder="Buscar..."
+                  v-model="age"
+                >
+              </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="form-group">
+                <button class="btn btn-sm btn-primary btn-action" type="button"
+                  @click="getPersonAge()"
+                  title="Buscar un dato" data-toggle="tooltip" data-placement="right">
+                  <i class="fas fa-fw fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-group">
+                <label class="col-sm control-label font-weight-bold">
+                  Total
+                </label>
+                <div class="col-sm">
+                  <div class="form-inline">
+                    {{ record.total_children }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+
+          <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered display dataTable" style="width:100%;">
+              <thead>
+                <tr>
+                  <th>Nombres y Apellidos</th>
+                  <th>Cédula de Identidad</th>
+                  <th>Fecha de nacimiento</th>
+                  <th>Género</th>
+                  <th>Edad</th>
+                  <th>Departamento</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(person, index) in record.people">
+                  <td>{{ person.first_name }} {{ person.last_name }}</td>
+                  <td>{{ person.id_number }}</td>
+                  <td>{{ person.birthdate }}</td>
+                  <td>{{ person.gender }}</td>
+                  <td>{{ person.age }}</td>
+                  <td>{{ person.department }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- container - END -->
+      </div>
+      <!-- card body - END -->
     </div>
     <!-- card - END -->
   `

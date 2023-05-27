@@ -17,6 +17,7 @@ from .views import (
     ProfileUpdateView,
     SearchTemplateView,
     SearchView,
+    SearchForAgeView,
     StreetLeaderFormView,
     StreetLeaderListView,
 )
@@ -163,5 +164,11 @@ urlpatterns = [
     path(
         'searches/<slug:id_number>/', login_required(SearchView.as_view()),
         name='search_id_number'
+    ),
+
+    path(
+        'searches-for-age/<int:age>/',
+        login_required(SearchForAgeView.as_view()),
+        name='search_age'
     ),
 ]

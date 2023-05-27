@@ -3,8 +3,8 @@ django-extensions==3.2.1
 psycopg2-binary==2.9.6
 pygraphviz==1.10
 openpyxl==3.1.2
-pycodestyle==2.10.0
-pylint-django==2.5.3
+pycodestyle==2.10.0 # usado por pylint en vcode
+pylint-django==2.5.3 # usado por pylint en vcode
 
 # Actualizaciones
 # Django

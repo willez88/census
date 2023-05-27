@@ -150,7 +150,7 @@ Estilo de codificación PEP 8 en Visual Studio Code
     Python Environment Manager detectará todos los entornos virtuales creados
     en la sección Venv, click en "Set as active workspace interpreter" para activarlo
 
-    Desde vscode abrir el archivo base/views.py
+    Desde vscode abrir el archivo census/settings.py
 
     En el menú de vscode ir a la opción View -> Command Palette
 

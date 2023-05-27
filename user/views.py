@@ -1233,3 +1233,38 @@ class SearchView(View):
         return JsonResponse(
             {'record': record}, status=200
         )
+
+
+class SearchForAgeView(View):
+    """!
+    Clase que retorna un json con datos filtrados por edad
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def get(self, request, *args, **kwargs):
+        age = kwargs['age']
+        people = Person.objects.all()
+        person_list = []
+        counter = 0
+        for person in people:
+            if person.age() == age:
+                person_list.append({
+                    'first_name': person.first_name,
+                    'last_name': person.last_name,
+                    'id_number': person.id_number,
+                    'birthdate': person.birthdate,
+                    'gender': person.gender.name if person.gender else '',
+                    'age': person.age(),
+                    'department': str(person.family_group.department),
+                })
+                counter = counter + 1
+        record = {
+            'total_children': counter,
+            'people': person_list
+        }
+        return JsonResponse(
+            {'record': record}, status=200
+        )
