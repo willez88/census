@@ -1,5 +1,9 @@
 import datetime
 
+from django.contrib.auth.models import User
+from django.core import validators
+from django.db import models
+
 from base.models import (
     Bridge,
     CommunalCouncil,
@@ -9,9 +13,6 @@ from base.models import (
     Ubch,
     VoteType,
 )
-from django.contrib.auth.models import User
-from django.core import validators
-from django.db import models
 
 
 class Profile(models.Model):
@@ -335,7 +336,7 @@ class Person(models.Model):
         @return string <b>{object}</b> Objeto con los nombres y apellidos
         """
 
-        return self.first_name + ' ' + self.last_name
+        return self.first_name + ' ' + self.last_name + ' - ' + self.id_number
 
     class Meta:
         """!
@@ -377,7 +378,7 @@ class Admonition(models.Model):
         @return string <b>{object}</b> Objeto con los nombres y apellidos
         """
 
-        return self.date
+        return str(self.date)
 
     class Meta:
         """!

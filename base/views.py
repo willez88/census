@@ -1,35 +1,15 @@
 import datetime
-
 from tempfile import NamedTemporaryFile
-from django.http import (
-    HttpResponse,
-    JsonResponse,
-)
-from django.shortcuts import redirect
-from django.views.generic import (
-    TemplateView,
-    View,
-)
-from openpyxl import Workbook
-from openpyxl.styles import (
-    Alignment,
-    Font,
-    PatternFill,
-)
-from user.models import (
-    CommunityLeader,
-    FamilyGroup,
-    Person,
-    StreetLeader
-)
 
-from .models import (
-    Building,
-    Department,
-    Gender,
-    Relationship,
-    VoteType
-)
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import redirect
+from django.views.generic import TemplateView, View
+from openpyxl import Workbook
+from openpyxl.styles import Alignment, Font, PatternFill
+
+from user.models import CommunityLeader, FamilyGroup, Person, StreetLeader
+
+from .models import Building, Department, Gender, Relationship, VoteType
 
 
 class HomeView(TemplateView):

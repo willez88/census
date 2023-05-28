@@ -1,5 +1,6 @@
-from base.models import Estate, Municipality, Parish, Ubch
 from django import forms
+
+from base.models import Estate, Municipality, Parish, Ubch
 
 
 class UbchAdminForm(forms.ModelForm):

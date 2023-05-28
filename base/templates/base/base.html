@@ -50,20 +50,30 @@
     <script type="text/javascript">
       $(document).ready(function()
         {
-          //obtiene la url actual del sistema
+          // obtiene la url actual del sistema
           const route = '{{ request.path }}';
 
-          //rutas de un nivel ubch
+          // rutas de un nivel ubch
           const ubch_list = '/user/community-leader/list/';
           const ubch_create = '/user/community-leader/create/';
 
-          //rutas de lider de comunidad
+          // rutas de lider de comunidad
           const community_leader_list = '/user/street-leader/list/';
           const community_leader_create = '/user/street-leader/create/';
 
-          //rutas de lider de calle
+          // rutas de lider de calle
           const street_leader_list = '/user/family-group/list/';
           const street_leader_create = '/user/family-group/create/';
+
+          // Ruta del censo general
+          const census_list = '/user/census/list/';
+
+          // Ruta de las búsquedas
+          const search = '/user/searches/';
+
+          // Ruta de amonestaciones
+          const admonition_list = '/user/admonitions/list/';
+          const admonition_create = '/user/admonitions/create/';
 
           if( route == '/' ) {
             $('#ba').addClass('active');
@@ -76,6 +86,15 @@
           }
           else if( route == street_leader_list || route == street_leader_create ) {
             $('#street_leader').addClass('active');
+          }
+          else if( route == census_list ) {
+            $('#census_list').addClass('active');
+          }
+          else if( route == search ) {
+            $('#search').addClass('active');
+          }
+          else if( route == admonition_list || route == admonition_create) {
+            $('#admonition').addClass('active');
           }
         });
     </script>

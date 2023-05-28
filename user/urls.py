@@ -3,6 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path, reverse_lazy
 
 from .views import (
+    AdmonitionCreateView,
+    AdmonitionDeleteView,
+    AdmonitionListView,
+    AdmonitionUpdateView,
     CensusListView,
     CommunityLeaderFormView,
     CommunityLeaderListView,
@@ -15,9 +19,9 @@ from .views import (
     FamilyGroupUpdateView,
     PersonDeleteView,
     ProfileUpdateView,
+    SearchForAgeView,
     SearchTemplateView,
     SearchView,
-    SearchForAgeView,
     StreetLeaderFormView,
     StreetLeaderListView,
 )
@@ -170,5 +174,29 @@ urlpatterns = [
         'searches-for-age/<int:age>/',
         login_required(SearchForAgeView.as_view()),
         name='search_age'
+    ),
+
+    path(
+        'admonitions/list/',
+        login_required(AdmonitionListView.as_view()),
+        name='admonition_list'
+    ),
+
+    path(
+        'admonitions/create/',
+        login_required(AdmonitionCreateView.as_view()),
+        name='admonition_create'
+    ),
+
+    path(
+        'admonitions/update/<int:pk>/',
+        login_required(AdmonitionUpdateView.as_view()),
+        name='admonition_update'
+    ),
+
+    path(
+        'admonitions/delete/<int:pk>/',
+        login_required(AdmonitionDeleteView.as_view()),
+        name='admonition_delete'
     ),
 ]

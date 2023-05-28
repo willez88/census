@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'user:admonition_list' %}">Amonestaciones</a>
+  </li>
+  <li class="breadcrumb-item active">Registrar</li>
+{% endblock %}
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      {% if not form.instance.pk %}{% trans 'Registrar' %}{% else %}{% trans 'Actualizar' %}{% endif %}
+    </div>
+    <form action="" role="form" class="form form-horizontal validate-form" method="post" autocomplete="off">
+      {% csrf_token %}
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group {% if form.person.errors %}has-error{% endif %}">
+              <label class="control-label" for="{{ form.person.auto_id }}">
+                {{ form.person.label }}
+              </label>
+              <div class="col-sm">
+                <div class="form-inline">
+                  {{ form.person }}
+                  <i class="fas fa-asterisk item-required" aria-hidden="true"></i>
+                </div>
+                {% include 'base/form_errors.html' with form_errors=form.person.errors col_title_error='col-sm-4' col_msg_error='col-sm-8' %}
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group {% if form.date.errors %}has-error{% endif %}">
+              <label class="col-sm control-label" for="{{ form.date.auto_id }}">
+                {{ form.date.label }}
+              </label>
+              <div class="col-sm">
+                <div class="form-inline">
+                  {{ form.date }}
+                  <i class="fas fa-asterisk item-required" aria-hidden="true"></i>
+                </div>
+                {% include 'base/form_errors.html' with form_errors=form.date.errors col_title_error='col-sm-4' col_msg_error='col-sm-8' %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group {% if form.description.errors %}has-error{% endif %}">
+              <label class="col-sm control-label" for="{{ form.description.auto_id }}">
+                {{ form.description.label }}
+              </label>
+              <div class="col-sm">
+                <div class="form-inline">
+                  {{ form.description }}
+                  <i class="fas fa-asterisk item-required" aria-hidden="true"></i>
+                </div>
+                {% include 'base/form_errors.html' with form_errors=form.description.errors col_title_error='col-sm-4' col_msg_error='col-sm-8' %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer small text-right">
+        <button type="reset" class="btn btn-primary btn-sm" data-toggle="tooltip">{% trans 'Limpiar' %}</button>
+        <button type="submit" class="btn btn-primary btn-sm" data-toggle="tooltip">{% if not form.instance.pk %}{% trans 'Registrar' %}{% else %}{% trans 'Actualizar' %}{% endif %}</button>
+      </div>
+    </form>
+  </div>
+  <br>
+{% endblock %}

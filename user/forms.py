@@ -1,3 +1,8 @@
+from django import forms
+from django.contrib.auth.models import User
+from django.core import validators
+from django.forms import BaseFormSet, formset_factory
+
 from base.models import (
     Block,
     Bridge,
@@ -10,18 +15,13 @@ from base.models import (
     Parish,
     Relationship,
     Ubch,
-    VoteType
-)
-from django import forms
-from django.contrib.auth.models import User
-from django.core import validators
-from django.forms import (
-    BaseFormSet,
-    formset_factory,
+    VoteType,
 )
 
 from .models import (
+    Admonition,
     CommunityLeader,
+    Person,
     Profile,
     StreetLeader,
     UbchLevel,
@@ -592,3 +592,58 @@ class BasePersonFormSet(BaseFormSet):
 PersonFormSet = formset_factory(
     PersonForm, min_num=1, validate_min=True, formset=BasePersonFormSet
 )
+
+
+class AdmonitionForm(forms.ModelForm):
+    """!
+    Clase que contiene los campos del formulario
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Persona
+    person = forms.ModelChoiceField(
+        label='Residente:',
+        queryset=Person.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el residente.',
+        })
+    )
+
+    # Fecha
+    date = forms.DateField(
+        label='Fecha:',
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-lg',
+                'data-toggle': 'tooltip',
+                'title': 'Indique la fecha.',
+            }
+        )
+    )
+
+    # Descripción
+    description = forms.CharField(
+        label='Descripción:',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique la descrición',
+            }
+        ), required=False
+    )
+
+    class Meta:
+        """!
+        Meta clase del formulario que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        model = Admonition
+        fields = ['date', 'description', 'person',]

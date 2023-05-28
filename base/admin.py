@@ -1,9 +1,6 @@
 from django.contrib import admin
 
-from .forms import (
-    CommunalCouncilAdminForm,
-    UbchAdminForm
-)
+from .forms import CommunalCouncilAdminForm, UbchAdminForm
 from .models import (
     Block,
     Bridge,
@@ -13,7 +10,7 @@ from .models import (
     Gender,
     Relationship,
     Ubch,
-    VoteType
+    VoteType,
 )
 
 

@@ -1,25 +1,17 @@
 import json
 import logging
 
-from base.functions import send_email
-from base.models import (
-    CommunalCouncil,
-    Department,
-    Gender,
-    Relationship,
-    VoteType,
-)
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.models import (
-    Group,
-    User,
-)
+from django.contrib.auth.models import Group, User
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
+    CreateView,
+    DeleteView,
     DetailView,
     FormView,
     ListView,
@@ -28,7 +20,17 @@ from django.views.generic import (
     View,
 )
 
+from base.functions import send_email
+from base.models import (
+    CommunalCouncil,
+    Department,
+    Gender,
+    Relationship,
+    VoteType,
+)
+
 from .forms import (
+    AdmonitionForm,
     CommunityLeaderForm,
     FamilyGroupForm,
     PersonFormSet,
@@ -37,6 +39,7 @@ from .forms import (
     StreetLeaderForm,
 )
 from .models import (
+    Admonition,
     Bridge,
     CommunityLeader,
     FamilyGroup,
@@ -1268,3 +1271,149 @@ class SearchForAgeView(View):
         return JsonResponse(
             {'record': record}, status=200
         )
+
+
+class AdmonitionListView(ListView):
+    """!
+    Clase que lista las amonestaciones
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = Admonition
+    template_name = 'user/admonition_list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+
+class AdmonitionCreateView(CreateView):
+    """!
+    Clase que permite a un usuario registrar amonestaciones
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = Admonition
+    form_class = AdmonitionForm
+    template_name = 'user/admonition_create.html'
+    success_url = reverse_lazy('user:admonition_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+
+class AdmonitionUpdateView(UpdateView):
+    """!
+    Clase que permite a un usuario actualizar amonestaciones
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = Admonition
+    form_class = AdmonitionForm
+    template_name = 'user/admonition_create.html'
+    success_url = reverse_lazy('user:admonition_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+
+class AdmonitionDeleteView(DeleteView):
+    """!
+    Clase que permite a un usuario eliminar los datos de una amonestación
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = Admonition
+    template_name = 'user/admonition_delete.html'
+    success_url = reverse_lazy('user:admonition_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def delete(self, request, *args, **kwargs):
+        """!
+        Función que retorna el mensaje de confirmación de la eliminación
+
+        @author William Páez (wpaez at cenditel.gob.ve)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene los datos de la
+            petición
+        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return super <b>{object}</b> Objeto con el mensaje de confirmación
+            de la eliminación
+        """
+
+        messages.success(self.request, self.success_message)
+        return super().delete(request, *args, **kwargs)
