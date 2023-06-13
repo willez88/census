@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core import validators
+from django.contrib.auth.validators import ASCIIUsernameValidator
 from django.forms import BaseFormSet, formset_factory
 
 from base.models import (
@@ -357,7 +358,15 @@ class FamilyGroupForm(forms.Form):
                 'class': 'form-control input-sm', 'data-toggle': 'tooltip',
                 'title': 'Indique el nombre de usuario',
             }
-        )
+        ),
+        validators=[
+            ASCIIUsernameValidator(
+                message='Introduzca un nombre de usuario válido.\
+                Este valor puede contener solo letras minúsculas de la\
+                a a la z y mayúsculas de la A a la Z, números y\
+                caracteres @/./+/-/_.'
+            )
+        ],
     )
 
     # Correo electrónico
