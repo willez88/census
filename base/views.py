@@ -3,13 +3,23 @@ from tempfile import NamedTemporaryFile
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
 from django.views.generic import TemplateView, View
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
+from weasyprint import HTML
+from weasyprint.text.fonts import FontConfiguration
 
 from user.models import CommunityLeader, FamilyGroup, Person, StreetLeader
 
-from .models import Building, Department, Gender, Relationship, VoteType
+from .models import (
+    Block,
+    Building,
+    Department,
+    Gender,
+    Relationship,
+    VoteType,
+)
 
 
 class HomeView(TemplateView):
@@ -647,3 +657,195 @@ class GenderListView(View):
         return JsonResponse(
             {'status': 'true', 'list': gender_list}, status=200
         )
+
+
+class VoterTemplateView(TemplateView):
+    """!
+    Clase que exporta un pdf con votantes mayores o iguales a 15 años
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    template_name = 'base/voter.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Función que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene los datos de la
+            petición
+        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return super <b>{object}</b> Entra a la vista correspondiente
+            sino redirecciona hacia la vista de error de permisos
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def get(self, request, *args, **kwargs):
+        """!
+        Función que descarga un archivo pdf
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Retorna datos en un archivo pdf
+        """
+
+        response = HttpResponse(content_type='application/pdf')
+        response[
+            'Content-Disposition'
+        ] = 'inline; filename=votantes.pdf'
+        font_config = FontConfiguration()
+        context = {}
+        person_list = []
+        people = Person.objects.all().order_by(
+            'family_group__department__building__bridge__block__name',
+            'family_group__department__building__name',
+            'family_group__department__name'
+        )
+        for person in people:
+            if person.age() >= 15:
+                person_list.append(person)
+        context['people'] = person_list
+        html = render_to_string(self.template_name, context)
+        HTML(string=html).write_pdf(response, font_config=font_config)
+        return response
+
+
+class DemographicCensusTemplateView(TemplateView):
+    """!
+    Clase que exporta el censo demográfico
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    template_name = 'base/demographic_census.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Función que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene los datos de la
+            petición
+        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return super <b>{object}</b> Entra a la vista correspondiente
+            sino redirecciona hacia la vista de error de permisos
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def get(self, request, *args, **kwargs):
+        """!
+        Función que descarga un archivo pdf
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Retorna datos en un archivo pdf
+        """
+
+        response = HttpResponse(content_type='application/pdf')
+        response[
+            'Content-Disposition'
+        ] = 'inline; filename=censo-demografico.pdf'
+        font_config = FontConfiguration()
+        context = {}
+        census = []
+        for block in Block.objects.all():
+            # Total de familias
+            families = Person.objects.filter(
+                family_head=True,
+                family_group__department__building__bridge__block=block
+            ).count()
+            # Total de personas
+            people = Person.objects.filter(
+                family_group__department__building__bridge__block=block
+            ).count()
+            # Total de viviendas
+            departments = Person.objects.filter(
+                family_head=True,
+                family_group__department__building__bridge__block=block
+            ).distinct('family_group__department').count()
+
+            MALE = 1
+            FEMALE = 2
+            # Calcular hembras mayores a 15 años
+            females = Person.objects.filter(
+                gender__id=FEMALE,
+                family_group__department__building__bridge__block=block
+            )
+            i = 0
+            for female in females:
+                if female.age() > 15:
+                    i = i + 1
+            # Total de hembras mayores a 15 años
+            females_gt_15 = i
+            # Calcular hembras menores a 15 años
+            females = Person.objects.filter(
+                gender__id=FEMALE,
+                family_group__department__building__bridge__block=block
+            )
+            i = 0
+            for female in females:
+                if female.age() < 15:
+                    i = i + 1
+            # Total de hembras menores a 15 años
+            females_lt_15 = i
+
+            # Calcular varones mayores a 15 años
+            males = Person.objects.filter(
+                gender__id=MALE,
+                family_group__department__building__bridge__block=block
+            )
+            i = 0
+            for male in males:
+                if male.age() > 15:
+                    i = i + 1
+            # Total de varones mayores a 15 años
+            males_gt_15 = i
+            # Calcular varones menores a 15 años
+            males = Person.objects.filter(
+                gender__id=MALE,
+                family_group__department__building__bridge__block=block
+            )
+            i = 0
+            for male in males:
+                if male.age() < 15:
+                    i = i + 1
+            # Total de varones menores a 15 años
+            males_lt_15 = i
+
+            census.append({
+                'block': block.name,
+                'families': families,
+                'people': people,
+                'departments': departments,
+                'females_gt_15': females_gt_15,
+                'females_lt_15': females_lt_15,
+                'males_gt_15': males_gt_15,
+                'males_lt_15': males_lt_15,
+            })
+        context['census'] = census
+        html = render_to_string(self.template_name, context)
+        HTML(string=html).write_pdf(response, font_config=font_config)
+        return response

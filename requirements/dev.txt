@@ -3,6 +3,7 @@ django-extensions==3.2.1
 psycopg2-binary==2.9.6
 pygraphviz==1.10
 openpyxl==3.1.2
+weasyprint==59.0
 pycodestyle==2.10.0 # usado por pylint en vcode
 pylint-django==2.5.3 # usado por pylint en vcode
 
@@ -12,3 +13,4 @@ pylint-django==2.5.3 # usado por pylint en vcode
 # psycopg2-binary
 # pygraphviz
 # openpyxl
+# weasyprint==59.0

@@ -4,6 +4,7 @@ from django.urls import path
 from .ajax import ComboUpdateView
 from .views import (
     BuildingListView,
+    DemographicCensusTemplateView,
     DepartmentListView,
     Error403View,
     ExportExcelStreetLeaderView,
@@ -12,6 +13,7 @@ from .views import (
     GetDepartmentView,
     HomeView,
     RelationshipListView,
+    VoterTemplateView,
     VoteTypeListView,
 )
 
@@ -53,6 +55,16 @@ urlpatterns = [
     path(
         'genders/list/', login_required(GenderListView.as_view()),
         name='gender_list'
+    ),
+    path(
+        'descargar-votantes/',
+        login_required(VoterTemplateView.as_view()),
+        name='voter'
+    ),
+    path(
+        'descargar-censo-demografico/',
+        login_required(DemographicCensusTemplateView.as_view()),
+        name='demographic_census'
     ),
 
     path(

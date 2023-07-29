@@ -45,6 +45,18 @@
           <span>Amonestaciones</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'base:voter' %}" target="_blank">
+          <i class="fas fa-fw fa-exclamation-triangle"></i>
+          <span>Votantes >= 15 años</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'base:demographic_census' %}" target="_blank">
+          <i class="fas fa-fw fa-exclamation-triangle"></i>
+          <span>Censo Demográfico</span>
+        </a>
+      </li>
     {% elif request.user|has_group:'Líder de Calle' %}
       <li class="nav-item" id="street_leader">
         <a class="nav-link" href="{% url 'user:family_group_list' %}">

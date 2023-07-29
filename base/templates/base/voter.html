@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Residentes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+      @page {
+        size: "A4";
+        margin: 1.0cm 1.5cm 1.0cm 1.5cm;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Nombres y Apellidos</th>
+            <th>Cédula</th>
+            <th>Bloque / Edificio</th>
+            <th>Apto</th>
+            <th>Firma</th>
+            <th>Huella</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for person in people %}
+            <tr>
+              <td>{{ person.first_name|title }} {{ person.last_name|title }}</td>
+              <td>{{ person.id_number }}</td>
+              <td>{{ person.family_group.department.building.bridge.block.name }} / {{ person.family_group.department.building.name }}</td>
+              <td>{{ person.family_group.department.name }}</td>
+              <td></td>
+              <td></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>
