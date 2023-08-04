@@ -849,3 +849,67 @@ class DemographicCensusTemplateView(TemplateView):
         html = render_to_string(self.template_name, context)
         HTML(string=html).write_pdf(response, font_config=font_config)
         return response
+
+
+class VacationPlanTemplateView(TemplateView):
+    """!
+    Clase que exporta niños entre 7 y 12 años de edad
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    template_name = 'base/vacation_plan.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Función que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene los datos de la
+            petición
+        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return super <b>{object}</b> Entra a la vista correspondiente
+            sino redirecciona hacia la vista de error de permisos
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def get(self, request, *args, **kwargs):
+        """!
+        Función que descarga un archivo pdf
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Retorna datos en un archivo pdf
+        """
+
+        response = HttpResponse(content_type='application/pdf')
+        response[
+            'Content-Disposition'
+        ] = 'inline; filename=plan-vacacional.pdf'
+        font_config = FontConfiguration()
+        context = {}
+        childrens = []
+        for person in Person.objects.all():
+            if person.age() >= 7 and person.age() <= 12:
+                family_group = FamilyGroup.objects.get(person=person)
+                for person2 in family_group.person_set.all():
+                    if person2.family_head:
+                        childrens.append({
+                            'family_head': person2,
+                            'children': person
+                        })
+        context['people'] = childrens
+        html = render_to_string(self.template_name, context)
+        HTML(string=html).write_pdf(response, font_config=font_config)
+        return response

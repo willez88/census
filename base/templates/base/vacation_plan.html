@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Plan Vacacional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+      @page {
+        size: "A4";
+        margin: 1.0cm 1.5cm 1.0cm 1.5cm;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Nombres y Apellidos</th>
+            <th>edad</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for person in people %}
+            <tr>
+              <td>
+                <b>Jefe Familiar:</b> {{ person.family_head.first_name|title }} {{ person.family_head.last_name|title }} <br>
+                <b>hijo(a):</b> {{ person.children.first_name|title }} {{ person.children.last_name|title }}
+              </td>
+              <td>{{ person.children.age }}</td>
+              <td>
+                {{ person.children.family_group.department.building.bridge.block.name }} /
+                {{ person.children.family_group.department.building.name }} /
+                Apto {{ person.children.family_group.department.name }}
+              </td>
+              <td>{{ person.family_head.phone }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

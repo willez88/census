@@ -13,6 +13,7 @@ from .views import (
     GetDepartmentView,
     HomeView,
     RelationshipListView,
+    VacationPlanTemplateView,
     VoterTemplateView,
     VoteTypeListView,
 )
@@ -65,6 +66,11 @@ urlpatterns = [
         'descargar-censo-demografico/',
         login_required(DemographicCensusTemplateView.as_view()),
         name='demographic_census'
+    ),
+    path(
+        'descargar-plan-vacacional/',
+        login_required(VacationPlanTemplateView.as_view()),
+        name='vacation_plan'
     ),
 
     path(
