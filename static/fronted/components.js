@@ -884,3 +884,82 @@ Vue.component('search-for-age', {
     <!-- card - END -->
   `
 });
+
+Vue.component('age', {
+  data() {
+    return {
+      age1: '',
+      age2: '',
+      record: [],
+      errors: '',
+    }
+  },
+
+  template: `
+    <!-- card - BEGIN -->
+    <div class="card">
+      <div class="card-header">
+        Filtrar entre rango de edades
+      </div>
+
+      <!-- card body - BEGIN -->
+      <div class="card-body">
+        <div class="container">
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control input-sm"
+                  data-toggle="tooltip"
+                  title="Indique la edad"
+                  placeholder="Buscar..."
+                  v-model="age1"
+                >
+              </div>
+              <div v-show="errors">
+                <div class="alert alert-danger">
+                  <ul>
+                    <li>{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control input-sm"
+                  data-toggle="tooltip"
+                  title="Indique la edad"
+                  placeholder="Buscar..."
+                  v-model="age2"
+                >
+              </div>
+              <div v-show="errors">
+                <div class="alert alert-danger">
+                  <ul>
+                    <li>{{ errors }}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <a :href="'/filtros/edad/?age1=' + age1 + '&age2=' + age2" target="_blank"> Descargar por Edades </a>
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+        </div>
+      </div>
+      <!-- card body - END -->
+
+    </div>
+    <!-- card - END -->
+  `
+});

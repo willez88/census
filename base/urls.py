@@ -9,6 +9,8 @@ from .views import (
     Error403View,
     ExportExcelStreetLeaderView,
     ExportExcelView,
+    FilterTemplateView,
+    FilterAgeTemplateView,
     GenderListView,
     GetDepartmentView,
     HomeView,
@@ -71,6 +73,16 @@ urlpatterns = [
         'descargar-plan-vacacional/',
         login_required(VacationPlanTemplateView.as_view()),
         name='vacation_plan'
+    ),
+    path(
+        'filtros/',
+        login_required(FilterTemplateView.as_view()),
+        name='filter'
+    ),
+    path(
+        'filtros/edad/',
+        login_required(FilterAgeTemplateView.as_view()),
+        name='filter-age'
     ),
 
     path(

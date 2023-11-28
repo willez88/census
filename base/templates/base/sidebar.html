@@ -57,6 +57,12 @@
           <span>Censo Demográfico</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'base:filter' %}">
+          <i class="fas fa-fw fa-exclamation-triangle"></i>
+          <span>Filtros por Edades</span>
+        </a>
+      </li>
     {% elif request.user|has_group:'Líder de Calle' %}
       <li class="nav-item" id="street_leader">
         <a class="nav-link" href="{% url 'user:family_group_list' %}">
