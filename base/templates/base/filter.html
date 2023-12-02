@@ -7,4 +7,44 @@
 {% endblock %}
 {% block content %}
   <age></age>
+  <br>
+
+  <!-- card - BEGIN -->
+  <div class="card">
+    <div class="card-header">
+      Votantes
+    </div>
+    <!-- card body - BEGIN -->
+    <div class="card-body">
+      <a href="{% url 'base:voter' %}" target="_blank">Descargar Votantes</a>
+    </div>
+    <!-- card body - END -->
+  </div>
+  <!-- card - END -->
+
+  <!-- card - BEGIN -->
+  <div class="card">
+    <div class="card-header">
+      Censo Demográfico
+    </div>
+    <!-- card body - BEGIN -->
+    <div class="card-body">
+      <a href="{% url 'base:demographic_census' %}" target="_blank">Descargar Censo Demográfico</a>
+    </div>
+    <!-- card body - END -->
+  </div>
+  <!-- card - END -->
+
+  <!-- card - BEGIN -->
+  <div class="card">
+    <div class="card-header">
+      Plan Vacacional
+    </div>
+    <!-- card body - BEGIN -->
+    <div class="card-body">
+      <a href="{% url 'base:vacation_plan' %}" target="_blank">Descargar Plan Vacacional</a>
+    </div>
+    <!-- card body - END -->
+  </div>
+  <!-- card - END -->
 {% endblock %}

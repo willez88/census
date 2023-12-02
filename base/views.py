@@ -708,13 +708,15 @@ class VoterTemplateView(TemplateView):
         font_config = FontConfiguration()
         context = {}
         person_list = []
-        people = Person.objects.all().order_by(
+        # (Puente 1, Bloque 3)
+        bridge_id = 5
+        people = Person.objects.filter(family_group__department__building__bridge__pk=bridge_id).order_by(
             'family_group__department__building__bridge__block__name',
             'family_group__department__building__name',
             'family_group__department__name'
         )
         for person in people:
-            if person.age() >= 15:
+            if person.age() >= 18:
                 person_list.append(person)
         context['people'] = person_list
         html = render_to_string(self.template_name, context)

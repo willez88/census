@@ -97,6 +97,11 @@ class DepartmentAdmin(admin.ModelAdmin):
     # Mostrar los campos
     list_display = ('name', 'building',)
 
+    # Buscar por campos
+    search_fields = (
+        'name',
+    )
+
 
 class VoteTypeAdmin(admin.ModelAdmin):
     """!

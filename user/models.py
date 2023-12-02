@@ -191,7 +191,7 @@ class StreetLeader(models.Model):
         @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return str(self.community_leader)
+        return str(self.profile) + ' | ' + str(self.community_leader)
 
     class Meta:
         """!
@@ -238,7 +238,7 @@ class FamilyGroup(models.Model):
         @return string <b>{object}</b> Objeto con el nombre y apellido
         """
 
-        return str(self.street_leader)
+        return str(self.profile) + ' | ' + str(self.street_leader)
 
     class Meta:
         """!

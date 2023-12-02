@@ -78,6 +78,11 @@ class FamilyGroupAdmin(admin.ModelAdmin):
     # Mostrar los campos de la clase
     list_display = ('street_leader', 'profile')
 
+    # Aplica select2 en campos desplegables
+    autocomplete_fields = (
+        'department',
+    )
+
 
 class PersonAdmin(admin.ModelAdmin):
     """!
@@ -92,6 +97,11 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = (
         'first_name', 'last_name', 'id_number', 'email', 'phone',
         'family_head', 'vote_type', 'relationship', 'family_group',
+    )
+
+    # Buscar por campos
+    search_fields = (
+        'first_name', 'last_name', 'id_number',
     )
 
 
