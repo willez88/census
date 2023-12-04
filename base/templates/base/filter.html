@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load i18n %}
+{% load auth_extra %}
 {% block breadcrumb %}
   <li class="breadcrumb-item active">
     Filtros
@@ -9,42 +10,35 @@
   <age></age>
   <br>
 
-  <!-- card - BEGIN -->
-  <div class="card">
-    <div class="card-header">
-      Votantes
-    </div>
-    <!-- card body - BEGIN -->
-    <div class="card-body">
-      <a href="{% url 'base:voter' %}" target="_blank">Descargar Votantes</a>
-    </div>
-    <!-- card body - END -->
-  </div>
-  <!-- card - END -->
+  <voters></voters>
+  <br>
 
-  <!-- card - BEGIN -->
-  <div class="card">
-    <div class="card-header">
-      Censo Demográfico
+  {% if request.user|has_group:'Líder de Comunidad' %}
+    <!-- card - BEGIN -->
+    <div class="card">
+      <div class="card-header">
+        Censo Demográfico
+      </div>
+      <!-- card body - BEGIN -->
+      <div class="card-body">
+        <a href="{% url 'base:demographic_census' %}" target="_blank">Descargar Censo Demográfico</a>
+      </div>
+      <!-- card body - END -->
     </div>
-    <!-- card body - BEGIN -->
-    <div class="card-body">
-      <a href="{% url 'base:demographic_census' %}" target="_blank">Descargar Censo Demográfico</a>
-    </div>
-    <!-- card body - END -->
-  </div>
-  <!-- card - END -->
+    <!-- card - END -->
+    <br>
 
-  <!-- card - BEGIN -->
-  <div class="card">
-    <div class="card-header">
-      Plan Vacacional
+    <!-- card - BEGIN -->
+    <div class="card">
+      <div class="card-header">
+        Plan Vacacional
+      </div>
+      <!-- card body - BEGIN -->
+      <div class="card-body">
+        <a href="{% url 'base:vacation_plan' %}" target="_blank">Descargar Plan Vacacional</a>
+      </div>
+      <!-- card body - END -->
     </div>
-    <!-- card body - BEGIN -->
-    <div class="card-body">
-      <a href="{% url 'base:vacation_plan' %}" target="_blank">Descargar Plan Vacacional</a>
-    </div>
-    <!-- card body - END -->
-  </div>
-  <!-- card - END -->
+    <!-- card - END -->
+  {% endif %}
 {% endblock %}

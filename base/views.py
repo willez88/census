@@ -670,25 +670,6 @@ class VoterTemplateView(TemplateView):
 
     template_name = 'base/voter.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        """!
-        Función que valida si el usuario del sistema tiene permisos para entrar
-        a esta vista
-
-        @author William Páez (paez.william8 at gmail.com)
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene los datos de la
-            petición
-        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
-        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
-        @return super <b>{object}</b> Entra a la vista correspondiente
-            sino redirecciona hacia la vista de error de permisos
-        """
-
-        if self.request.user.groups.filter(name='Líder de Comunidad'):
-            return super().dispatch(request, *args, **kwargs)
-        return redirect('base:error_403')
-
     def get(self, request, *args, **kwargs):
         """!
         Función que descarga un archivo pdf
@@ -701,6 +682,25 @@ class VoterTemplateView(TemplateView):
         @return Retorna datos en un archivo pdf
         """
 
+        age = int(request.GET.get('age'))
+        if CommunityLeader.objects.filter(profile__user=self.request.user):
+            community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
+            people = Person.objects.filter(
+                family_group__street_leader__community_leader=community_leader
+            ).order_by(
+                'family_group__department__building__bridge__block__name',
+                'family_group__department__building__name',
+                'family_group__department__name'
+            )   
+        elif StreetLeader.objects.filter(profile__user=self.request.user):
+            street_leader = StreetLeader.objects.get(profile__user=self.request.user)
+            people = Person.objects.filter(
+                family_group__street_leader=street_leader
+            ).order_by(
+                'family_group__department__building__bridge__block__name',
+                'family_group__department__building__name',
+                'family_group__department__name'
+            )
         response = HttpResponse(content_type='application/pdf')
         response[
             'Content-Disposition'
@@ -708,15 +708,8 @@ class VoterTemplateView(TemplateView):
         font_config = FontConfiguration()
         context = {}
         person_list = []
-        # (Puente 1, Bloque 3)
-        bridge_id = 5
-        people = Person.objects.filter(family_group__department__building__bridge__pk=bridge_id).order_by(
-            'family_group__department__building__bridge__block__name',
-            'family_group__department__building__name',
-            'family_group__department__name'
-        )
         for person in people:
-            if person.age() >= 18:
+            if person.age() >= age:
                 person_list.append(person)
         context['people'] = person_list
         html = render_to_string(self.template_name, context)
@@ -928,25 +921,6 @@ class FilterTemplateView(TemplateView):
 
     template_name = 'base/filter.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        """!
-        Función que valida si el usuario del sistema tiene permisos para entrar
-        a esta vista
-
-        @author William Páez (paez.william8 at gmail.com)
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene los datos de la
-            petición
-        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
-        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
-        @return super <b>{object}</b> Entra a la vista correspondiente
-            sino redirecciona hacia la vista de error de permisos
-        """
-
-        if self.request.user.groups.filter(name='Líder de Comunidad'):
-            return super().dispatch(request, *args, **kwargs)
-        return redirect('base:error_403')
-
 
 class FilterAgeTemplateView(TemplateView):
     """!
@@ -958,25 +932,6 @@ class FilterAgeTemplateView(TemplateView):
     """
 
     template_name = 'base/filter_age.html'
-
-    def dispatch(self, request, *args, **kwargs):
-        """!
-        Función que valida si el usuario del sistema tiene permisos para entrar
-        a esta vista
-
-        @author William Páez (paez.william8 at gmail.com)
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene los datos de la
-            petición
-        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
-        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
-        @return super <b>{object}</b> Entra a la vista correspondiente
-            sino redirecciona hacia la vista de error de permisos
-        """
-
-        if self.request.user.groups.filter(name='Líder de Comunidad'):
-            return super().dispatch(request, *args, **kwargs)
-        return redirect('base:error_403')
 
     def get(self, request, *args, **kwargs):
         """!
@@ -992,6 +947,24 @@ class FilterAgeTemplateView(TemplateView):
 
         age1 = int(request.GET.get('age1'))
         age2 = int(request.GET.get('age2'))
+        if CommunityLeader.objects.filter(profile__user=self.request.user):
+            community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
+            people = Person.objects.filter(
+                family_group__street_leader__community_leader=community_leader
+            ).order_by(
+                'family_group__department__building__bridge__block__name',
+                'family_group__department__building__name',
+                'family_group__department__name'
+            )   
+        elif StreetLeader.objects.filter(profile__user=self.request.user):
+            street_leader = StreetLeader.objects.get(profile__user=self.request.user)
+            people = Person.objects.filter(
+                family_group__street_leader=street_leader
+            ).order_by(
+                'family_group__department__building__bridge__block__name',
+                'family_group__department__building__name',
+                'family_group__department__name'
+            )
         response = HttpResponse(content_type='application/pdf')
         response[
             'Content-Disposition'
@@ -999,7 +972,7 @@ class FilterAgeTemplateView(TemplateView):
         font_config = FontConfiguration()
         context = {}
         childrens = []
-        for person in Person.objects.all():
+        for person in people:
             if person.age() >= age1 and person.age() <= age2:
                 family_group = FamilyGroup.objects.get(person=person)
                 for person2 in family_group.person_set.all():

@@ -888,9 +888,8 @@ Vue.component('search-for-age', {
 Vue.component('age', {
   data() {
     return {
-      age1: '',
-      age2: '',
-      record: [],
+      age1: 0,
+      age2: 10,
       errors: '',
     }
   },
@@ -899,7 +898,7 @@ Vue.component('age', {
     <!-- card - BEGIN -->
     <div class="card">
       <div class="card-header">
-        Filtrar entre rango de edades
+        Filtrar Personas Entre 2 Rangos de Edades
       </div>
 
       <!-- card body - BEGIN -->
@@ -950,7 +949,60 @@ Vue.component('age', {
 
             <div class="col-sm-6">
               <div class="form-group">
-                <a :href="'/filtros/edad/?age1=' + age1 + '&age2=' + age2" target="_blank"> Descargar por Edades </a>
+                <a :href="'/filtros/edad/?age1=' + age1 + '&age2=' + age2" target="_blank"> Descargar </a>
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+        </div>
+      </div>
+      <!-- card body - END -->
+
+    </div>
+    <!-- card - END -->
+  `
+});
+
+Vue.component('voters', {
+  data() {
+    return {
+      age: 15,
+    }
+  },
+
+  template: `
+    <!-- card - BEGIN -->
+    <div class="card">
+      <div class="card-header">
+        Votantes Por Edad
+      </div>
+
+      <!-- card body - BEGIN -->
+      <div class="card-body">
+        <div class="container">
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control input-sm"
+                  data-toggle="tooltip"
+                  title="Indique la edad"
+                  placeholder="Buscar..."
+                  v-model="age"
+                >
+              </div>
+            </div>
+          </div>
+          <!-- row - END -->
+
+          <!-- row - BEGIN -->
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <a :href="'/descargar-votantes/?age=' + age" target="_blank"> Descargar </a>
               </div>
             </div>
           </div>

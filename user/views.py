@@ -523,7 +523,6 @@ class StreetLeaderFormView(FormView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form.errors)
         return super().form_invalid(form)
 
 
@@ -1175,24 +1174,6 @@ class SearchTemplateView(TemplateView):
 
     template_name = 'user/search.html'
 
-    def dispatch(self, request, *args, **kwargs):
-        """!
-        Metodo que valida si el usuario del sistema tiene permisos para entrar
-        a esta vista
-
-        @author William Páez (paez.william8 at gmail.com)
-        @param self <b>{object}</b> Objeto que instancia la clase
-        @param request <b>{object}</b> Objeto que contiene la petición
-        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
-        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
-        @return Redirecciona al usuario a la página de error de permisos si no
-            es su perfil
-        """
-
-        if self.request.user.groups.filter(name='Líder de Comunidad'):
-            return super().dispatch(request, *args, **kwargs)
-        return redirect('base:error_403')
-
 
 class SearchView(View):
     """!
@@ -1205,7 +1186,13 @@ class SearchView(View):
 
     def get(self, request, *args, **kwargs):
         id_number = kwargs['id_number']
-        person = Person.objects.filter(id_number=id_number)
+        if CommunityLeader.objects.filter(profile__user=self.request.user):
+            community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
+            person = Person.objects.filter(id_number=id_number, family_group__street_leader__community_leader=community_leader)
+        elif StreetLeader.objects.filter(profile__user=self.request.user):
+            street_leader = StreetLeader.objects.get(profile__user=self.request.user)
+            person = Person.objects.filter(id_number=id_number, family_group__street_leader=street_leader)
+        # person = Person.objects.filter(id_number=id_number)
         if not person:
             return JsonResponse(
                 {'record': {}, 'error': 'Persona no encontrada.'}, status=200
@@ -1249,7 +1236,25 @@ class SearchForAgeView(View):
 
     def get(self, request, *args, **kwargs):
         age = kwargs['age']
-        people = Person.objects.all()
+        if CommunityLeader.objects.filter(profile__user=self.request.user):
+            community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
+            people = Person.objects.filter(
+                family_group__street_leader__community_leader=community_leader
+            ).order_by(
+                'family_group__department__building__bridge__block__name',
+                'family_group__department__building__name',
+                'family_group__department__name'
+            )
+        elif StreetLeader.objects.filter(profile__user=self.request.user):
+            street_leader = StreetLeader.objects.get(profile__user=self.request.user)
+            people = Person.objects.filter(
+                family_group__street_leader=street_leader
+            ).order_by(
+                'family_group__department__building__bridge__block__name',
+                'family_group__department__building__name',
+                'family_group__department__name'
+            )
+        # people = Person.objects.all()
         person_list = []
         counter = 0
         for person in people:
