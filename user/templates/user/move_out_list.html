@@ -17,9 +17,9 @@
           <thead>
             <tr>
               <th>Residente</th>
-              <th>Jefe Familiar</th>
               <th>De Donde Se Muda</th>
               <th>A donde Se Muda</th>
+              <th>Líder de Calle</th>
               <th>Fecha</th>
               <th>Descripción</th>
               <th>Aprovado</th>
@@ -30,13 +30,9 @@
             {% for move_out in object_list %}
               <tr>
                 <td> {{ move_out.person }}</td>
-                {% if move_out.person.family_head %}
-                  <td> Si </td>
-                {% else %}
-                  <td> Si </td>
-                {% endif %}
                 <td> {{ move_out.person.family_group.department }} </td>
                 <td> {{ move_out.department }} </td>
+                <td> {{ move_out.street_leader }} </td>
                 <td> {{ move_out.date }} </td>
                 <td> {{ move_out.description }} </td>
                 {% if move_out.approved %}

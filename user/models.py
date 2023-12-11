@@ -409,6 +409,9 @@ class MoveOut(models.Model):
     # Descripción
     description = models.TextField('descripción', blank=True)
 
+    # Líder de calle
+    street_leader = models.CharField('líder de calle', max_length=100)
+
     # Relación con el modelo Person
     person = models.ForeignKey(
         Person, on_delete=models.CASCADE, verbose_name='persona',

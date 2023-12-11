@@ -1523,6 +1523,8 @@ class MoveOutCreateView(CreateView):
         """
 
         self.object = form.save(commit=False)
+        street_leader = StreetLeader.objects.get(bridge=form.cleaned_data['bridge'])
+        self.object.street_leader = str(street_leader.profile.user)
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
@@ -1593,5 +1595,21 @@ class MoveOutUpdateView(UpdateView):
         initial_data['block'] = self.object.department.building.bridge.block
         initial_data['bridge'] = self.object.department.building.bridge
         initial_data['building'] = self.object.department.building
-        initial_data['date'] = self.object.date
         return initial_data
+    
+    def form_valid(self, form):
+        """!
+        Función que valida si el formulario está correcto
+
+        @author William Páez (paez.william8 at gmail.com)
+        @date 06-07-2018
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param form <b>{object}</b> Objeto que contiene el formulario
+        @return super <b>{object}</b> Formulario validado
+        """
+
+        self.object = form.save(commit=False)
+        street_leader = StreetLeader.objects.get(bridge=form.cleaned_data['bridge'])
+        self.object.street_leader = str(street_leader.profile.user)
+        self.object.save()
+        return super().form_valid(form)

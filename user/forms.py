@@ -682,11 +682,8 @@ class MoveOutForm(forms.ModelForm):
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
         people = []
-        for person in Person.objects.filter(family_group__street_leader__profile__user=user):
-            if person.family_head:
-                people.append((person.id, str(person) + ' - Jefe Familiar'))
-            else:
-                people.append((person.id, person))
+        for person in Person.objects.filter(family_group__street_leader__profile__user=user, family_head=True):
+            people.append((person.id, person))
         self.fields['person'].choices = people
 
     # Persona
@@ -773,6 +770,18 @@ class MoveOutForm(forms.ModelForm):
                 'title': 'Indique la descrición',
             }
         ), required=False
+    )
+
+    # Líder de calle
+    street_leader = forms.CharField(
+        label='Líder de Calle:', max_length=100,
+        widget=forms.TextInput(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Líder de calle',
+            }
+        ),
+        required=False
     )
 
     class Meta:
