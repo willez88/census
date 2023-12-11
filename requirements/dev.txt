@@ -4,6 +4,7 @@ psycopg2-binary==2.9.6
 pygraphviz==1.10
 openpyxl==3.1.2
 weasyprint==59.0
+django-auditlog==2.3.0
 
 # Actualizaciones
 # Django

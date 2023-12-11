@@ -4,10 +4,9 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
-from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -33,16 +32,16 @@ from .forms import (
     AdmonitionForm,
     CommunityLeaderForm,
     FamilyGroupForm,
+    MoveOutForm,
     PersonFormSet,
-    ProfileForm,
     ProfileUpdateForm,
     StreetLeaderForm,
 )
 from .models import (
     Admonition,
-    Bridge,
     CommunityLeader,
     FamilyGroup,
+    MoveOut,
     Person,
     Profile,
     StreetLeader,
@@ -1422,3 +1421,177 @@ class AdmonitionDeleteView(DeleteView):
 
         messages.success(self.request, self.success_message)
         return super().delete(request, *args, **kwargs)
+
+
+class MoveOutListView(ListView):
+    """!
+    Clase que lista las mudanzas
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = MoveOut
+    template_name = 'user/move_out_list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Calle'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+    
+    def get_queryset(self):
+        """!
+        Función que obtiene la lista de solicitudes de mudanzas asociadas al usuario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return queryset <b>{object}</b> lista de mudanzas asociadas al usuario
+        """
+
+        queryset = MoveOut.objects.filter(user=self.request.user)
+        return queryset
+
+
+class MoveOutCreateView(CreateView):
+    """!
+    Clase que permite a un usuario registrar solicitudes de mudanzas
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = MoveOut
+    form_class = MoveOutForm
+    template_name = 'user/move_out_create.html'
+    success_url = reverse_lazy('user:move_out_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Calle'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def get_form_kwargs(self):
+        """!
+        Método que permite pasar el usuario actualmente logueado al formulario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna un diccionario con el usuario actualmente logueado
+        """
+
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
+        """!
+        Función que valida si el formulario está correcto
+
+        @author William Páez (paez.william8 at gmail.com)
+        @date 06-07-2018
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param form <b>{object}</b> Objeto que contiene el formulario
+        @return super <b>{object}</b> Formulario validado
+        """
+
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
+
+class MoveOutUpdateView(UpdateView):
+    """!
+    Clase que permite a un usuario actualizar las mudanzas
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = MoveOut
+    form_class = MoveOutForm
+    template_name = 'user/move_out_create.html'
+    success_url = reverse_lazy('user:move_out_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        group = self.request.user.groups.filter(name='Líder de Calle')
+        move_out = MoveOut()
+        if MoveOut.objects.filter(
+            pk=self.kwargs['pk'], user=self.request.user
+        ):
+            move_out = MoveOut.objects.get(pk=self.kwargs['pk'])
+        if move_out and not move_out.approved and group:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def get_form_kwargs(self):
+        """!
+        Método que permite pasar el usuario actualmente logueado al formulario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna un diccionario con el usuario actualmente logueado
+        """
+
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def get_initial(self):
+        """!
+        Función que agrega valores predeterminados a los campos del formulario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return initial_data <b>{object}</b> Valores predeterminado de los
+            campos del formulario
+        """
+
+        initial_data = super().get_initial()
+        initial_data['block'] = self.object.department.building.bridge.block
+        initial_data['bridge'] = self.object.department.building.bridge
+        initial_data['building'] = self.object.department.building
+        initial_data['date'] = self.object.date
+        return initial_data

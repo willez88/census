@@ -52,6 +52,12 @@
           <span>Descargar Archivo</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user:move_out_list' %}">
+          <i class="fas fa-fw fa-walking"></i>
+          <span>Mudanzas</span>
+        </a>
+      </li>
     {% endif %}
       <li class="nav-item" id="search">
         <a class="nav-link" href="{% url 'user:search' %}">

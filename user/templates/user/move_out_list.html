@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">
+    Mudanzas
+  </li>
+{% endblock %}
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      Listar <a href="{% url 'user:move_out_create' %}" class="btn btn-success btn-sm float-right">Registrar</a>
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered display dataTable" id="table" style="width:100%;">
+          <thead>
+            <tr>
+              <th>Residente</th>
+              <th>Jefe Familiar</th>
+              <th>De Donde Se Muda</th>
+              <th>A donde Se Muda</th>
+              <th>Fecha</th>
+              <th>Descripción</th>
+              <th>Aprovado</th>
+              <th>Operación</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for move_out in object_list %}
+              <tr>
+                <td> {{ move_out.person }}</td>
+                {% if move_out.person.family_head %}
+                  <td> Si </td>
+                {% else %}
+                  <td> Si </td>
+                {% endif %}
+                <td> {{ move_out.person.family_group.department }} </td>
+                <td> {{ move_out.department }} </td>
+                <td> {{ move_out.date }} </td>
+                <td> {{ move_out.description }} </td>
+                {% if move_out.approved %}
+                  <td> <i class="far fa-thumbs-up fa-3x text-success" title="Aprovado" aria-hidden="true"></i> </td>
+                {% else %}
+                  <td> <i class="far fa-thumbs-down fa-3x text-danger" title="No Aprovado" aria-hidden="true"></i> </td>
+                {% endif %}
+                {% if move_out.approved %}
+                  <td></td>
+                {% else %}
+                <td> <a href="{% url 'user:move_out_update' move_out.id %}" title="Actualizar"><i class="far fa-edit" aria-hidden="true"></i></a> </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block extra_footer %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var table = $('#table').DataTable();
+    });
+  </script>
+{% endblock %}

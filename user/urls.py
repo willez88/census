@@ -17,6 +17,9 @@ from .views import (
     FamilyGroupListView,
     FamilyGroupSaveView,
     FamilyGroupUpdateView,
+    MoveOutCreateView,
+    MoveOutListView,
+    MoveOutUpdateView,
     PersonDeleteView,
     ProfileUpdateView,
     SearchForAgeView,
@@ -198,5 +201,23 @@ urlpatterns = [
         'admonitions/delete/<int:pk>/',
         login_required(AdmonitionDeleteView.as_view()),
         name='admonition_delete'
+    ),
+
+    path(
+        'move-outs/list/',
+        login_required(MoveOutListView.as_view()),
+        name='move_out_list'
+    ),
+
+    path(
+        'move-outs/create/',
+        login_required(MoveOutCreateView.as_view()),
+        name='move_out_create'
+    ),
+
+    path(
+        'move-outs/update/<int:pk>/',
+        login_required(MoveOutUpdateView.as_view()),
+        name='move_out_update'
     ),
 ]

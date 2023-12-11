@@ -4,6 +4,7 @@ from .forms import UbchLevelAdminForm
 from .models import (
     CommunityLeader,
     FamilyGroup,
+    MoveOut,
     Person,
     Profile,
     StreetLeader,
@@ -105,9 +106,30 @@ class PersonAdmin(admin.ModelAdmin):
     )
 
 
+class MoveOutAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo MoveOut al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Mostrar los campos de la clase
+    list_display = (
+        'person', 'department', 'date', 'description', 'approved',
+    )
+
+    # Buscar por campos
+    search_fields = (
+        'person__first_name', 'person__last_name', 'person__id_number',
+    )
+
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(UbchLevel, UbchLevelAdmin)
 admin.site.register(CommunityLeader, CommunityLeaderAdmin)
 admin.site.register(StreetLeader, StreetLeaderAdmin)
 admin.site.register(FamilyGroup, FamilyGroupAdmin)
 admin.site.register(Person, PersonAdmin)
+admin.site.register(MoveOut, MoveOutAdmin)

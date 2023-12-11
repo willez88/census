@@ -22,6 +22,7 @@ from base.models import (
 from .models import (
     Admonition,
     CommunityLeader,
+    MoveOut,
     Person,
     Profile,
     StreetLeader,
@@ -627,6 +628,7 @@ class AdmonitionForm(forms.ModelForm):
     date = forms.DateField(
         label='Fecha:',
         widget=forms.DateInput(
+            format = '%Y-%m-%d',
             attrs={
                 'type': 'date',
                 'class': 'form-control form-control-lg',
@@ -656,3 +658,129 @@ class AdmonitionForm(forms.ModelForm):
 
         model = Admonition
         fields = ['date', 'description', 'person',]
+
+
+class MoveOutForm(forms.ModelForm):
+    """!
+    Clase que contiene los campos del formulario
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def __init__(self, *args, **kwargs):
+        """!
+        Método que permite inicializar el formulario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param *kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        """
+
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        people = []
+        for person in Person.objects.filter(family_group__street_leader__profile__user=user):
+            if person.family_head:
+                people.append((person.id, str(person) + ' - Jefe Familiar'))
+            else:
+                people.append((person.id, person))
+        self.fields['person'].choices = people
+
+    # Persona
+    person = forms.ModelChoiceField(
+        label='Residente:',
+        queryset=Person.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el residente.',
+        })
+    )
+
+    # Bloque
+    block = forms.ModelChoiceField(
+        label='Bloque:',
+        queryset=Block.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el bloque.',
+            'onchange': "combo_update(this.value, 'base', 'Bridge', 'block', 'pk', 'name',\
+                'id_bridge')",
+        })
+    )
+
+    # Puente
+    bridge = forms.ModelChoiceField(
+        label='Puente:',
+        queryset=Bridge.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el puente.', 'disabled': 'true',
+            'onchange': "combo_update(this.value, 'base', 'Building', 'bridge', 'pk', 'name',\
+                'id_building')",
+        })
+    )
+
+    # Edificio
+    building = forms.ModelChoiceField(
+        label='Edificio:',
+        queryset=Building.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el edificio.', 'disabled': 'true',
+            'onchange': "combo_update(this.value, 'base', 'Department', 'building', 'pk', 'name',\
+                'id_department')",
+        })
+    )
+
+    # Departamento hacia donde se muda
+    department = forms.ModelChoiceField(
+        label='Departamento:',
+        queryset=Department.objects.all(),
+        empty_label='Seleccione...',
+        widget=forms.Select(attrs={
+            'class': 'form-control select2', 'data-toggle': 'tooltip',
+            'title': 'Seleccione el departamento.', 'disabled': 'true',
+        })
+    )
+
+    # Fecha
+    date = forms.DateField(
+        label='Fecha:',
+        widget=forms.DateInput(
+            format = '%Y-%m-%d',
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-lg datepicker',
+                'data-toggle': 'tooltip',
+                'title': 'Indique la fecha.',
+            }
+        )
+    )
+
+    # Descripción
+    description = forms.CharField(
+        label='Descripción:',
+        widget=forms.Textarea(
+            attrs={
+                'class': 'form-control input-sm', 'data-toggle': 'tooltip',
+                'title': 'Indique la descrición',
+            }
+        ), required=False
+    )
+
+    class Meta:
+        """!
+        Meta clase del formulario que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        model = MoveOut
+        fields = ['date', 'description', 'department', 'person',]

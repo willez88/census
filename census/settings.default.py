@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'auditlog',
     'base',
     'user',
 ]
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
 ]
 
 ROOT_URLCONF = 'census.urls'
@@ -82,7 +84,7 @@ WSGI_APPLICATION = 'census.wsgi.application'
 DATABASES = {
     # 'default': {
     #   'ENGINE': 'django.db.backends.sqlite3',
-    #   'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    #   'NAME': BASE_DIR / 'db.sqlite3',
     # }
 
     'default': {
@@ -222,3 +224,9 @@ LOGGING = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Registra todos los modelos
+AUDITLOG_INCLUDE_ALL_MODELS=True
+
+# No registra los datos cargados usando loaddata
+AUDITLOG_DISABLE_ON_RAW_SAVE=True

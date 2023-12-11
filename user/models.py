@@ -389,3 +389,58 @@ class Admonition(models.Model):
 
         verbose_name = 'Amonestación'
         verbose_name_plural = 'Amonestaciones'
+
+
+class MoveOut(models.Model):
+    """!
+    Clase que contiene las solicitudes de mudanzas
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Aprovado
+    approved = models.BooleanField('aprovado', default=False)
+
+    # Fecha
+    date = models.DateField('fecha')
+
+    # Descripción
+    description = models.TextField('descripción', blank=True)
+
+    # Relación con el modelo Person
+    person = models.ForeignKey(
+        Person, on_delete=models.CASCADE, verbose_name='persona',
+    )
+
+    # Dirección hacia donde se muda
+    department = models.ForeignKey(
+        Department, on_delete=models.CASCADE, verbose_name='departamento',
+    )
+
+    # Relación con el modelo User
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name='usuario'
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con los nombres y apellidos
+        """
+
+        return str(self.person)
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Mudanza'
+        verbose_name_plural = 'Mudanzas'
