@@ -1516,7 +1516,6 @@ class MoveOutCreateView(CreateView):
         Función que valida si el formulario está correcto
 
         @author William Páez (paez.william8 at gmail.com)
-        @date 06-07-2018
         @param self <b>{object}</b> Objeto que instancia la clase
         @param form <b>{object}</b> Objeto que contiene el formulario
         @return super <b>{object}</b> Formulario validado
@@ -1525,6 +1524,9 @@ class MoveOutCreateView(CreateView):
         self.object = form.save(commit=False)
         street_leader = StreetLeader.objects.get(bridge=form.cleaned_data['bridge'])
         self.object.street_leader = str(street_leader.profile.user)
+        person = form.cleaned_data['person']
+        self.object.person = str(person)
+        self.object.from_address = str(person.family_group.department)
         self.object.user = self.request.user
         self.object.save()
         return super().form_valid(form)
@@ -1592,6 +1594,9 @@ class MoveOutUpdateView(UpdateView):
         """
 
         initial_data = super().get_initial()
+        id_number = self.object.person.split('-')
+        person = Person.objects.get(id_number=id_number[1].strip())
+        initial_data['person'] = person
         initial_data['block'] = self.object.department.building.bridge.block
         initial_data['bridge'] = self.object.department.building.bridge
         initial_data['building'] = self.object.department.building
@@ -1611,5 +1616,8 @@ class MoveOutUpdateView(UpdateView):
         self.object = form.save(commit=False)
         street_leader = StreetLeader.objects.get(bridge=form.cleaned_data['bridge'])
         self.object.street_leader = str(street_leader.profile.user)
+        person = form.cleaned_data['person']
+        self.object.person = str(person)
+        self.object.from_address = str(person.family_group.department)
         self.object.save()
         return super().form_valid(form)

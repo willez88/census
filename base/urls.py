@@ -15,6 +15,7 @@ from .views import (
     GetDepartmentView,
     HomeView,
     RelationshipListView,
+    SociodemographicTemplateView,
     VacationPlanTemplateView,
     VoterTemplateView,
     VoteTypeListView,
@@ -88,5 +89,10 @@ urlpatterns = [
     path(
         'ajax/combo-update/', login_required(ComboUpdateView.as_view()),
         name='combo_update'
+    ),
+    path(
+        'descargar-sociodemografico/',
+        login_required(SociodemographicTemplateView.as_view()),
+        name='sociodemographic'
     ),
 ]

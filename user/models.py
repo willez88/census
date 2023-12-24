@@ -412,10 +412,11 @@ class MoveOut(models.Model):
     # Líder de calle
     street_leader = models.CharField('líder de calle', max_length=100)
 
-    # Relación con el modelo Person
-    person = models.ForeignKey(
-        Person, on_delete=models.CASCADE, verbose_name='persona',
-    )
+    # Datos de la persona
+    person = models.CharField('persona', max_length=300)
+
+    # Dirección de dónde se muda
+    from_address = models.CharField('desde', max_length=200)
 
     # Dirección hacia donde se muda
     department = models.ForeignKey(

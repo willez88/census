@@ -15,6 +15,7 @@ from user.models import CommunityLeader, FamilyGroup, Person, StreetLeader
 from .models import (
     Block,
     Building,
+    CommunalCouncil,
     Department,
     Gender,
     Relationship,
@@ -982,6 +983,147 @@ class FilterAgeTemplateView(TemplateView):
                             'children': person
                         })
         context['people'] = childrens
+        html = render_to_string(self.template_name, context)
+        HTML(string=html).write_pdf(response, font_config=font_config)
+        return response
+
+
+class SociodemographicTemplateView(TemplateView):
+    """!
+    Clase que exporta el censo sociodemográfico
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    template_name = 'base/sociodemographic.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Función que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene los datos de la
+            petición
+        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return super <b>{object}</b> Entra a la vista correspondiente
+            sino redirecciona hacia la vista de error de permisos
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def get(self, request, *args, **kwargs):
+        """!
+        Función que descarga un archivo pdf
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Retorna datos en un archivo pdf
+        """
+
+        response = HttpResponse(content_type='application/pdf')
+        response[
+            'Content-Disposition'
+        ] = 'inline; filename=sociodemografico.pdf'
+        font_config = FontConfiguration()
+        context = {}
+        census = []
+        community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
+        # Total de familias
+        families = Person.objects.filter(
+            family_head=True,
+            family_group__department__building__bridge__block__communal_council=community_leader.communal_council
+        ).count()
+
+        # Total de viviendas
+        departments = Person.objects.filter(
+            family_head=True,
+            family_group__department__building__bridge__block__communal_council=community_leader.communal_council
+        ).distinct('family_group__department').count()
+
+        MALE = 1
+        # Personas masculinas
+        males = Person.objects.filter(
+            gender__id=MALE,
+            family_group__department__building__bridge__block__communal_council=community_leader.communal_council
+        )
+        i = 0
+        for male in males:
+            if male.age() >= 0 and male.age() <= 12:
+                i = i + 1
+        # Niños
+        male_children = i
+        i = 0
+        for male in males:
+            if male.age() >= 13 and male.age() <= 17:
+                i = i + 1
+        # Adolescentes barones
+        male_teen = i
+        i = 0
+        for male in males:
+            if male.age() >= 18:
+                i = i + 1
+        # Hombres mayores o iguales a 18 años
+        male_gte_18 = i
+        i = 0
+        for male in males:
+            if male.age() >= 60:
+                i = i + 1
+        # Adulto mayor hombres
+        male_elderly = i
+
+        FEMALE = 2
+        # Personas femeninas
+        females = Person.objects.filter(
+            gender__id=FEMALE,
+            family_group__department__building__bridge__block__communal_council=community_leader.communal_council
+        )
+        for female in females:
+            if female.age() >= 0 and female.age() <= 12:
+                i = i + 1
+        # Niñas
+        female_children = i
+        i = 0
+        for female in females:
+            if female.age() >= 13 and female.age() <= 17:
+                i = i + 1
+        # Adolescentes hembras
+        female_teen = i
+        i = 0
+        for female in females:
+            if female.age() >= 18:
+                i = i + 1
+        # Mujeres mayores o iguales a 18 años
+        female_gte_18 = i
+        i = 0
+        for female in females:
+            if female.age() >= 55:
+                i = i + 1
+        # Adulto mayor Hembras
+        female_elderly = i
+
+        census.append({
+                'departments': departments,
+                'families': families,
+                'male_children': male_children,
+                'male_teen': male_teen,
+                'male_gte_18': male_gte_18,
+                'male_elderly': male_elderly,
+                'female_children': female_children,
+                'female_teen': female_teen,
+                'female_gte_18': female_gte_18,
+                'female_elderly': female_elderly,
+            })
+        context['census'] = census
         html = render_to_string(self.template_name, context)
         HTML(string=html).write_pdf(response, font_config=font_config)
         return response

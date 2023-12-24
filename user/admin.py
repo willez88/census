@@ -117,12 +117,13 @@ class MoveOutAdmin(admin.ModelAdmin):
 
     # Mostrar los campos de la clase
     list_display = (
-        'person', 'department', 'street_leader', 'date', 'description', 'approved',
+        'person', 'from_address', 'department', 'street_leader', 'date',
+        'description', 'approved',
     )
 
     # Buscar por campos
     search_fields = (
-        'person__first_name', 'person__last_name', 'person__id_number',
+        'person', 'from_address', 'street_leader',
     )
 
 

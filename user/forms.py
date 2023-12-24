@@ -681,10 +681,17 @@ class MoveOutForm(forms.ModelForm):
 
         user = kwargs.pop('user')
         super().__init__(*args, **kwargs)
-        people = []
-        for person in Person.objects.filter(family_group__street_leader__profile__user=user, family_head=True):
-            people.append((person.id, person))
-        self.fields['person'].choices = people
+        people = Person.objects.filter(
+            family_group__street_leader__profile__user=user, family_head=True
+        ).order_by(
+            'family_group__department__building__bridge__block__name',
+            'family_group__department__building__name',
+            'family_group__department__name'
+        )
+        people_list = []
+        for person in people:
+            people_list.append((person.id, person))
+        self.fields['person'].choices = people_list
 
     # Persona
     person = forms.ModelChoiceField(

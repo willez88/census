@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Censo Sociodemográfico</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+      @page {
+        size: "A4";
+        margin: 1.0cm 1.5cm 1.0cm 1.5cm;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Total de Viviendas</th>
+            <th>Total de Familias</th>
+            <th>Total de Niños</th>
+            <th>Total de Niñas</th>
+            <th>Total de Adolescentes Barones</th>
+            <th>Total de Adolescentes Hembras</th>
+            <th>Total de Hombres</th>
+            <th>Total de Mujeres</th>
+            <th>Total de Adultos Mayores Hombres</th>
+            <th>Total de Adultos Mayores Mujeres</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for c in census %}
+            <tr>
+              <td> {{ c.departments }} </td>
+              <td> {{ c.families }} </td>
+              <td> {{ c.male_children }} </td>
+              <td> {{ c.female_children }} </td>
+              <td> {{ c.male_teen }} </td>
+              <td> {{ c.female_teen }} </td>
+              <td> {{ c.male_gte_18 }} </td>
+              <td> {{ c.female_gte_18 }} </td>
+              <td> {{ c.male_elderly }} </td>
+              <td> {{ c.female_elderly }} </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </main>
+  </body>
+</html>

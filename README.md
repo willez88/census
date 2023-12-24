@@ -144,36 +144,43 @@ Estilo de codificación PEP 8 en Visual Studio Code
     (census) ~$ code .
 
     Ir a extensiones del vscode e instalar
+        ruff
         isort
-        pylint
         Python Environment Manager
 
     Python Environment Manager detectará todos los entornos virtuales creados
     en la sección Venv, click en "Set as active workspace interpreter" para activarlo
 
-    Desde vscode abrir el archivo census/settings.py
-
-    En el menú de vscode ir a la opción View -> Command Palette
-
-    // Seleccionar
-    Python: Select Linter
-
-    // Seleccionar
-    pycodestyle
-
-    La instrucción anterior crea .vscode/settings.json
-
-    // El settings.json debe estar de la siguiente manera
-    {
-        "python.linting.enabled": true,
-        "python.linting.pycodestyleEnabled": true,
-        "python.linting.pylintArgs": [
-            "--django-settings-module=census.settings"
-        ],
-        "python.formatting.provider": "black",
-        "isort.args": ["--profile", "black"]
-    }
-
     Para que los cambios hagan efecto cerrar el vscode y abrirlo de nuevo
 
-    Ahora vscode usando pylint cuenta con todas las reglas establecidas en PEP 8
+Exportar base de datos usando Django
+
+    // Respaldo completo de los datos
+    (census) ~$ python manage.py dumpdata --indent 4 > db/census_prod.json
+
+Importar base de datos usando Django
+
+    // Resetear base de datos
+    (census) ~$ python manage.py reset_db
+
+    // Eliminar las migraciones del proyecto
+    (census) ~$ find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+
+    // Eliminar los archivos compilados
+    (census) ~$ python manage.py clean_pyc
+
+    // Ejecutar
+    (census) ~$ python manage.py makemigrations base user
+    
+    (census) ~$ python manage.py migrate
+
+    // Luego entrar al gestor de base de datos
+    //conectarse a la base de datos census
+    postgres=# \c census
+
+    // Vaciar las siguientes tablas para que no generen conflicto cuando se importen los datos
+    census=# TRUNCATE TABLE auth_permission CASCADE;
+    census=# TRUNCATE TABLE django_content_type CASCADE;
+
+    // Por último importar census_prod.json
+    (census) ~$ python manage.py loaddata db/census_prod.json
