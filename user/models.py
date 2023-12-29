@@ -369,6 +369,11 @@ class Admonition(models.Model):
         Person, on_delete=models.CASCADE, verbose_name='persona',
     )
 
+    # Relación con el modelo User
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name='usuario', null=True,
+    )
+
     def __str__(self):
         """!
         Función para representar la clase de forma amigable

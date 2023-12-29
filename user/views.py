@@ -1162,18 +1162,6 @@ class CensusListView(ListView):
             return queryset
 
 
-class SearchTemplateView(TemplateView):
-    """!
-    Clase que permite a los usuarios líder de comunidad hacer búsquedas
-
-    @author William Páez (paez.william8 at gmail.com)
-    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
-        GNU Public License versión 2 (GPLv2)</a>
-    """
-
-    template_name = 'user/search.html'
-
-
 class SearchView(View):
     """!
     Clase que retorna un json con los datos
@@ -1340,6 +1328,34 @@ class AdmonitionCreateView(CreateView):
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 
+    def get_form_kwargs(self):
+        """!
+        Método que permite pasar el usuario actualmente logueado al formulario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna un diccionario con el usuario actualmente logueado
+        """
+
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
+
+    def form_valid(self, form):
+        """!
+        Función que valida si el formulario está correcto
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param form <b>{object}</b> Objeto que contiene el formulario
+        @return super <b>{object}</b> Formulario validado
+        """
+
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return super().form_valid(form)
+
 
 class AdmonitionUpdateView(UpdateView):
     """!
@@ -1369,9 +1385,28 @@ class AdmonitionUpdateView(UpdateView):
             es su perfil
         """
 
-        if self.request.user.groups.filter(name='Líder de Comunidad'):
+        group = self.request.user.groups.filter(name='Líder de Comunidad')
+        admonition = Admonition()
+        if Admonition.objects.filter(
+            pk=self.kwargs['pk'], user=self.request.user
+        ):
+            admonition = Admonition.objects.get(pk=self.kwargs['pk'])
+        if admonition and group:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
+
+    def get_form_kwargs(self):
+        """!
+        Método que permite pasar el usuario actualmente logueado al formulario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna un diccionario con el usuario actualmente logueado
+        """
+
+        kwargs = super().get_form_kwargs()
+        kwargs.update({'user': self.request.user})
+        return kwargs
 
 
 class AdmonitionDeleteView(DeleteView):
@@ -1401,7 +1436,13 @@ class AdmonitionDeleteView(DeleteView):
             es su perfil
         """
 
-        if self.request.user.groups.filter(name='Líder de Comunidad'):
+        group = self.request.user.groups.filter(name='Líder de Comunidad')
+        admonition = Admonition()
+        if Admonition.objects.filter(
+            pk=self.kwargs['pk'], user=self.request.user
+        ):
+            admonition = Admonition.objects.get(pk=self.kwargs['pk'])
+        if admonition and group:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 

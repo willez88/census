@@ -613,6 +613,30 @@ class AdmonitionForm(forms.ModelForm):
         GNU Public License versión 2 (GPLv2)</a>
     """
 
+    def __init__(self, *args, **kwargs):
+        """!
+        Método que permite inicializar el formulario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param *kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        """
+
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        people = Person.objects.filter(
+            family_group__street_leader__community_leader__profile__user=user
+        ).order_by(
+            'family_group__department__building__bridge__block__name',
+            'family_group__department__building__name',
+            'family_group__department__name'
+        )
+        people_list = []
+        for person in people:
+            people_list.append((person.id, person))
+        self.fields['person'].choices = people_list
+
     # Persona
     person = forms.ModelChoiceField(
         label='Residente:',

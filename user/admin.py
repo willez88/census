@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .forms import UbchLevelAdminForm
 from .models import (
+    Admonition,
     CommunityLeader,
     FamilyGroup,
     MoveOut,
@@ -127,6 +128,26 @@ class MoveOutAdmin(admin.ModelAdmin):
     )
 
 
+class AdmonitionAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo Admonition al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Mostrar los campos de la clase
+    list_display = (
+        'person', 'date', 'description', 'user',
+    )
+
+    # Buscar por campos
+    search_fields = (
+        'person__first_name', 'person_last_name', 'person_id_number',
+    )
+
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(UbchLevel, UbchLevelAdmin)
 admin.site.register(CommunityLeader, CommunityLeaderAdmin)
@@ -134,3 +155,4 @@ admin.site.register(StreetLeader, StreetLeaderAdmin)
 admin.site.register(FamilyGroup, FamilyGroupAdmin)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(MoveOut, MoveOutAdmin)
+admin.site.register(Admonition, AdmonitionAdmin)
