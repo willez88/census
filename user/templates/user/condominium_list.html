@@ -1,0 +1,56 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load auth_extra %}
+{% block breadcrumb %}
+  <li class="breadcrumb-item active">
+    Condominios
+  </li>
+{% endblock %}
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      Listar
+      {% if request.user|has_group:'Líder de Comunidad' %}
+        <a href="{% url 'user:condominium_create' %}" class="btn btn-success btn-sm float-right">Registrar</a>
+      {% endif %}
+    </div>
+
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered display dataTable" id="table" style="width:100%;">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Tasa del Dólar</th>
+              <th>Monto en dólares</th>
+              {% if request.user|has_group:'Líder de Comunidad' %}
+                <th>Recaudado</th>
+              {% endif %}
+              <th>Operación</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for condominium in object_list %}
+              <tr>
+                <td> <a href="{% url 'user:condominium_detail' condominium.id %}"> {{ condominium.date }} </a> </td>
+                <td> {{ condominium.rate }}</td>
+                <td> {{ condominium.amount }}</td>
+                {% if request.user|has_group:'Líder de Comunidad' %}
+                  <td> Bs: {{ condominium.total_amount_bs }} | usd: {{ condominium.total_amount_usd }} </td>
+                {% endif %}
+                <td> <a href="#" title="Actualizar"><i class="far fa-edit" aria-hidden="true"></i></a> </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block extra_footer %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var table = $('#table').DataTable();
+    });
+  </script>
+{% endblock %}

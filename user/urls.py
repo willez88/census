@@ -8,6 +8,9 @@ from .views import (
     AdmonitionListView,
     AdmonitionUpdateView,
     CensusListView,
+    CondominiumCreateView,
+    CondominiumDetailView,
+    CondominiumListView,
     CommunityLeaderFormView,
     CommunityLeaderListView,
     FamilyDetailView,
@@ -213,5 +216,23 @@ urlpatterns = [
         'move-outs/update/<int:pk>/',
         login_required(MoveOutUpdateView.as_view()),
         name='move_out_update'
+    ),
+
+    path(
+        'condominiums/list/',
+        login_required(CondominiumListView.as_view()),
+        name='condominium_list'
+    ),
+
+    path(
+        'condominiums/create/',
+        login_required(CondominiumCreateView.as_view()),
+        name='condominium_create'
+    ),
+
+    path(
+        'condominiums/detail/<int:pk>/',
+        login_required(CondominiumDetailView.as_view()),
+        name='condominium_detail'
     ),
 ]

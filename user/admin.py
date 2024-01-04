@@ -3,9 +3,11 @@ from django.contrib import admin
 from .forms import UbchLevelAdminForm
 from .models import (
     Admonition,
+    Condominium,
     CommunityLeader,
     FamilyGroup,
     MoveOut,
+    Payment,
     Person,
     Profile,
     StreetLeader,
@@ -148,6 +150,49 @@ class AdmonitionAdmin(admin.ModelAdmin):
     )
 
 
+class CondominiumAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo Condominium al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Mostrar los campos de la clase
+    list_display = (
+        'date', 'rate', 'amount', 'user',
+    )
+
+    # Buscar por campos
+    search_fields = (
+        'date',
+    )
+
+
+class PaymentAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo Payment al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Mostrar los campos de la clase
+    list_display = (
+        'payer', 'department', 'paid', 'amount', 'condominium', 'user',
+    )
+
+    # Buscar por campos
+    search_fields = (
+        'payer',
+    )
+
+    # Filtrar por campos
+    list_filter = ('condominium__date',)
+
+
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(UbchLevel, UbchLevelAdmin)
 admin.site.register(CommunityLeader, CommunityLeaderAdmin)
@@ -156,3 +201,5 @@ admin.site.register(FamilyGroup, FamilyGroupAdmin)
 admin.site.register(Person, PersonAdmin)
 admin.site.register(MoveOut, MoveOutAdmin)
 admin.site.register(Admonition, AdmonitionAdmin)
+admin.site.register(Condominium, CondominiumAdmin)
+admin.site.register(Payment, PaymentAdmin)

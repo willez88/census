@@ -781,8 +781,11 @@ class DemographicCensusTemplateView(TemplateView):
             departments = Person.objects.filter(
                 family_head=True,
                 family_group__department__building__bridge__block=block
-            ).distinct('family_group__department').count()
-
+            )
+            departments_unique = {}
+            for department in departments:
+                departments_unique[department.family_group.department] = department
+            departments = len(departments_unique)
             MALE = 1
             FEMALE = 2
             # Calcular hembras mayores a 15 años

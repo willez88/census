@@ -21,6 +21,7 @@ from base.models import (
 
 from .models import (
     Admonition,
+    Condominium,
     CommunityLeader,
     MoveOut,
     Person,
@@ -824,3 +825,61 @@ class MoveOutForm(forms.ModelForm):
 
         model = MoveOut
         fields = ['date', 'description', 'department', 'person',]
+
+
+class CondominiumForm(forms.ModelForm):
+    """!
+    Clase que contiene los campos del formulario
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Fecha
+    date = forms.DateField(
+        label='Fecha:',
+        widget=forms.DateInput(
+            format = '%Y-%m-%d',
+            attrs={
+                'type': 'date',
+                'class': 'form-control form-control-lg',
+                'data-toggle': 'tooltip',
+                'title': 'Indique la fecha.',
+            }
+        )
+    )
+
+    # Tasa del dólar
+    rate = forms.DecimalField(
+        label='Tasa del dólar:',
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control form-control-lg', 'data-toggle': 'tooltip',
+                'title': 'Indique la tasa del dólar',
+                'min': '0', 'step': '0.01', 'value': '0',
+            }
+        ),
+    )
+
+    # Monto en dólares
+    amount = forms.IntegerField(
+        label='Monto en dólares:',
+        widget=forms.NumberInput(
+            attrs={
+                'class': 'form-control form-control-lg', 'data-toggle': 'tooltip',
+                'title': 'Indique el monto en dólares',
+                'min': '0', 'step': '1', 'value': '0',
+            }
+        ),
+    )
+
+    class Meta:
+        """!
+        Meta clase del formulario que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        model = Condominium
+        fields = ['date', 'rate', 'amount',]

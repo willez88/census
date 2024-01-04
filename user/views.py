@@ -30,6 +30,7 @@ from base.models import (
 
 from .forms import (
     AdmonitionForm,
+    CondominiumForm,
     CommunityLeaderForm,
     FamilyGroupForm,
     MoveOutForm,
@@ -39,9 +40,11 @@ from .forms import (
 )
 from .models import (
     Admonition,
+    Condominium,
     CommunityLeader,
     FamilyGroup,
     MoveOut,
+    Payment,
     Person,
     Profile,
     StreetLeader,
@@ -1662,3 +1665,235 @@ class MoveOutUpdateView(UpdateView):
         self.object.from_address = str(person.family_group.department)
         self.object.save()
         return super().form_valid(form)
+
+
+class CondominiumListView(ListView):
+    """!
+    Clase que lista los cobros del condominio
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = Condominium
+    template_name = 'user/condominium_list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        group1 = self.request.user.groups.filter(name='Líder de Comunidad')
+        group2 = self.request.user.groups.filter(name='Líder de Calle')
+        if group1 or group2:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+    
+    def get_queryset(self):
+        """!
+        Función que obtiene la lista de pagos de condominio asociadas al usuario
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return queryset <b>{object}</b> lista de mudanzas asociadas al usuario
+        """
+
+        if StreetLeader.objects.filter(profile=self.request.user.profile):
+            street_leader = StreetLeader.objects.get(
+                profile=self.request.user.profile
+            )
+            queryset = Condominium.objects.filter(user=street_leader.community_leader.profile.user)
+            return queryset
+
+        queryset = Condominium.objects.filter(user=self.request.user)
+        return queryset
+
+
+class CondominiumCreateView(CreateView):
+    """!
+    Clase que permite a un usuario registrar pagos de condominium
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = Condominium
+    form_class = CondominiumForm
+    template_name = 'user/condominium_create.html'
+    success_url = reverse_lazy('user:condominium_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def form_valid(self, form):
+        """!
+        Función que valida si el formulario está correcto
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param form <b>{object}</b> Objeto que contiene el formulario
+        @return super <b>{object}</b> Formulario validado
+        """
+
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        family_groups = FamilyGroup.objects.filter(
+            street_leader__community_leader__profile__user=self.request.user
+        ).order_by(
+            'department__building__bridge__block__name',
+            'department__building__bridge__name',
+            'department__building__name',
+            'department__name',
+        )
+        departments = {}
+        for family_group in family_groups:
+            if family_group.person_set.all().filter(family_head=True):
+                departments[
+                    family_group.department
+                ] = family_group.person_set.all().get(family_head=True)
+        for key, value in departments.items():
+            Payment.objects.create(
+                payer=str(value),
+                department=key,
+                amount=self.object.rate * self.object.amount,
+                condominium=self.object,
+                user=value.family_group.street_leader.profile.user,
+            )
+        return super().form_valid(form)
+
+
+class CondominiumDetailView(DetailView):
+    """!
+    Clase que permite a un usuario registrar pagos de condominium
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    model = Condominium
+    template_name = 'user/condominium_detail.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        group1 = self.request.user.groups.filter(name='Líder de Comunidad')
+        group2 = self.request.user.groups.filter(name='Líder de Calle')
+        if group1 or group2:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def post(self, *args, **kwargs):
+        """!
+        Función que recibe como parámetro pagado o no pagado
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos con el id
+        @return Redirige a la vista detalles de pagos
+        """
+
+        activate = self.request.POST.get('activate')
+        deactivate = self.request.POST.get('deactivate')
+        status = False
+
+        if activate is not None:
+            payment_id = activate
+            status = True
+        elif deactivate is not None:
+            payment_id = deactivate
+            status = False
+        else:
+            messages.error(
+                self.request, 'Esta intentando hacer una acción incorrecta'
+            )
+        try:
+            payment = Payment.objects.get(pk=payment_id)
+            payment.paid = status
+            payment.save()
+            if status:
+                messages.success(
+                    self.request, 'Pagado: %s' % (str(payment))
+                )
+            else:
+                messages.warning(
+                    self.request, 'No Pagado: %s' % (str(payment))
+                )
+        except Exception as e:
+            messages.info(self.request, e)
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        condomonium = get_object_or_404(Condominium, pk=self.kwargs['pk'])
+        return reverse_lazy(
+            'user:condominium_detail',
+            kwargs={
+                'pk': condomonium.id,
+            }
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        street_leaders = StreetLeader()
+        user = self.request.user
+        if StreetLeader.objects.filter(community_leader__profile__user=user):
+            street_leaders = StreetLeader.objects.filter(
+                community_leader__profile__user=user
+            )
+        elif StreetLeader.objects.filter(profile__user=user):
+            street_leaders = StreetLeader.objects.filter(
+                profile__user=user
+            )
+        amount_street_leaders = {}
+        total_sum = 0
+        for street_leader in street_leaders:
+            payments = self.object.payment_set.filter(user=street_leader.profile.user)
+            sum = 0
+            for payment in payments:
+                if payment.paid:
+                    sum = sum + payment.amount
+                    total_sum = total_sum + payment.amount
+            amount_street_leaders[str(street_leader.profile.user)] = (sum, sum/self.object.rate)
+        context['amount_street_leaders'] = amount_street_leaders
+        context['total_sum'] = (total_sum, total_sum/self.object.rate)
+        return context

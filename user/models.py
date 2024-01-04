@@ -1,5 +1,6 @@
 import datetime
 
+from decimal import Decimal
 from django.contrib.auth.models import User
 from django.core import validators
 from django.db import models
@@ -453,3 +454,151 @@ class MoveOut(models.Model):
 
         verbose_name = 'Mudanza'
         verbose_name_plural = 'Mudanzas'
+
+
+class Condominium(models.Model):
+    """!
+    Clase que contiene pagos del condominio
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Fecha
+    date = models.DateField('fecha', unique=True, db_comment='Fecha')
+
+    # Tasa del dólar
+    rate = models.DecimalField(
+        'tasa', max_digits=6, decimal_places=2, default=Decimal('0.00'),
+        db_comment='Tasa del dólar'
+    )
+
+    # Monto en dólares
+    amount = models.IntegerField(
+        'monto', default=0, db_comment='Monto del condominio en dolares'
+    )
+
+    # Relación con el modelo User
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name='usuario',
+        db_comment='Relación con el modelo usuario'
+    )
+
+    def total_amount_bs(self):
+        """!
+        Método que calcula la suma de todos los pagos del conominio por departamento en bs
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna un número entero que representa el total de pagos de condominios
+        """
+
+        sum = 0
+        for payment in self.payment_set.all():
+            if payment.paid:
+                sum = sum + payment.amount
+        return sum
+    
+    def total_amount_usd(self):
+        """!
+        Método que calcula la suma de todos los pagos del conominio por departamento en dólares
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna un número entero que representa el total de pagos de condominios
+        """
+
+        return self.total_amount_bs() / self.rate
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con fecha, tasa y monto
+        """
+
+        return str(self.date) + ' | ' + str(self.rate) + ' | ' + str(self.amount)
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Condominio'
+        verbose_name_plural = 'Condominios'
+
+
+class Payment(models.Model):
+    """!
+    Clase que contiene pagos del condominio
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombre, apellido y cédula del pagador
+    payer = models.CharField(
+        'pagador', max_length=200, db_comment='Nombre, apellido y cédula del Pagador',
+    )
+
+    # ¿Pagado?
+    paid = models.BooleanField(
+        '¿pagado?', default=True, db_comment='¿Pagado?',
+    )
+
+    # Monto en bs del condominio (condominium.rate * condominium.amount)
+    amount = models.DecimalField(
+        'monto en bs del condominio', max_digits=10, decimal_places=2, default=Decimal('0.00'),
+        db_comment='Monto en bs a pagar: tasa del dolar * monto del condominio',
+    )
+
+    # Dirección del departamento
+    department = models.ForeignKey(
+        Department, on_delete=models.CASCADE, verbose_name='departamento', null=True,
+        db_comment='Relación con el modelo departamento'
+    )
+
+    # Relación con el modelo Condominium
+    condominium = models.ForeignKey(
+        Condominium, on_delete=models.CASCADE, verbose_name='condominio',
+        db_comment='Relación con el modelo condominio',
+    )
+
+    # Relación con el modelo User
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name='usuario', null=True,
+        db_comment='Relación con el modelo usuario',
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con los nombres y apellidos
+        """
+
+        return self.payer
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        ordering = [
+            'department__building__bridge__block__name',
+            'department__building__bridge__name',
+            'department__building__name',
+            'department__name',
+        ]
+        verbose_name = 'Pago'
+        verbose_name_plural = 'pagos'
