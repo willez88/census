@@ -15,7 +15,6 @@ from user.models import CommunityLeader, FamilyGroup, Person, StreetLeader
 from .models import (
     Block,
     Building,
-    CommunalCouncil,
     Department,
     Gender,
     Relationship,

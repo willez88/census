@@ -138,16 +138,32 @@ Vue.component('family-group', {
      */
     deletePerson(index, el) {
       const vm = this;
-      if( typeof(el[index].id) != 'undefined' ) {
-        axios.get(`/user/person/delete/${el[index].id}/`).then(response => {
-          el.splice(index, 1);
-          vm.errors.people.pop();
-        });
-      }
-      else {
-        el.splice(index, 1);
-        vm.errors.people.pop();
-      }
+      bootbox.confirm({
+        title: '¿Eliminar persona?',
+        message: '¿Está seguro que desea eliminar este dato? Esto no se puede deshacer.',
+        buttons: {
+          cancel: {
+            label: '<i class="fa fa-times"></i> Cancel'
+          },
+          confirm: {
+            label: '<i class="fa fa-check"></i> Confirm'
+          }
+        },
+        callback: function (result) {
+          if (result) {
+            if( typeof(el[index].id) != 'undefined' ) {
+              axios.get(`/user/person/delete/${el[index].id}/`).then(response => {
+                el.splice(index, 1);
+                vm.errors.people.pop();
+              });
+            }
+            else {
+              el.splice(index, 1);
+              vm.errors.people.pop();
+            }
+          }
+        }
+      });
     },
 
     /**
@@ -220,7 +236,14 @@ Vue.component('family-group', {
                 </label>
                 <div class="col-sm">
                   <div class="form-inline">
-                    <input type="text" class="form-control input-sm" data-toggle="tooltip" title="Indique el nombre de usuario" v-model="record.username">
+                    <input
+                      type="text"
+                      class="form-control input-sm"
+                      data-toggle="tooltip"
+                      title="Indique el nombre de usuario"
+                      :disabled="record.id == '' ? false : true"
+                      v-model="record.username"
+                    >
                     <input type="hidden" v-model="record.id">
                   </div>
                 </div>
@@ -240,7 +263,14 @@ Vue.component('family-group', {
                 </label>
                 <div class="col-sm">
                   <div class="form-inline">
-                    <input type="email" class="form-control input-sm" data-toggle="tooltip" title="Indique el correo electrónico" v-model="record.email">
+                    <input
+                      type="email"
+                      class="form-control input-sm"
+                      data-toggle="tooltip"
+                      title="Indique el correo electrónico"
+                      :disabled="record.id == '' ? false : true"
+                      v-model="record.email"
+                    >
                   </div>
                 </div>
               </div>

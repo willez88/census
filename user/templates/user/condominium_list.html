@@ -26,7 +26,6 @@
               {% if request.user|has_group:'Líder de Comunidad' %}
                 <th>Recaudado</th>
               {% endif %}
-              <th>Operación</th>
             </tr>
           </thead>
           <tbody>
@@ -38,7 +37,6 @@
                 {% if request.user|has_group:'Líder de Comunidad' %}
                   <td> Bs: {{ condominium.total_amount_bs }} | usd: {{ condominium.total_amount_usd }} </td>
                 {% endif %}
-                <td> <a href="#" title="Actualizar"><i class="far fa-edit" aria-hidden="true"></i></a> </td>
               </tr>
             {% endfor %}
           </tbody>

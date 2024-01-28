@@ -429,6 +429,27 @@ class FamilyGroupForm(forms.Form):
         return email
 
 
+class FamilyGroupUpdateForm(FamilyGroupForm):
+    """!
+    Clase que contiene los campos del formulario
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    def __init__(self, *args, **kwargs):
+        """!
+        Función que inicializa el formulario
+
+        @author William Páez <paez.william8@gmail.com>
+        """
+
+        super().__init__(*args, **kwargs)
+        self.fields.pop('username')
+        self.fields.pop('email')
+
+
 class PersonForm(forms.Form):
     """!
     Clase que contiene los campos del formulario

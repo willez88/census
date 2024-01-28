@@ -33,6 +33,7 @@ from .forms import (
     CondominiumForm,
     CommunityLeaderForm,
     FamilyGroupForm,
+    FamilyGroupUpdateForm,
     MoveOutForm,
     PersonFormSet,
     ProfileUpdateForm,
@@ -127,7 +128,6 @@ class ProfileUpdateView(UpdateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form.errors)
         return super().form_invalid(form)
 
 
@@ -326,7 +326,6 @@ class CommunityLeaderFormView(FormView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        print(form.errors)
         return super().form_invalid(form)
 
 
@@ -897,6 +896,7 @@ class FamilyGroupUpdateView(View):
         family_group_id = kwargs['pk']
         family_group = FamilyGroup.objects.get(pk=family_group_id)
         record = json.loads(self.request.body.decode('utf-8'))
+        family_group_form = FamilyGroupUpdateForm(record)
 
         i = 0
         data = {}
@@ -920,6 +920,20 @@ class FamilyGroupUpdateView(View):
                 },
                 status=422
             )
+        if not family_group_form.is_valid():
+            return JsonResponse(
+                {
+                    'status': False, 'message': 'Error en los campos',
+                    'errors': {
+                        'family_group': family_group_form.errors,
+                        'people': personformset.errors,
+                    }
+                },
+                status=422
+            )
+        department = Department.objects.get(pk=record['department_id'])
+        family_group.department = department
+        family_group.save()
         c = Person.objects.filter(
             family_group=family_group, id_number__contains='-'
         ).count() + 1
