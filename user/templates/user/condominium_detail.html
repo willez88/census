@@ -13,6 +13,12 @@
       Fecha: {{ object.date }}<br>
       Tasa del Dólar: {{ object.rate }} Bs<br>
       Monto del Condominio: {{ object.amount }} usd<br>
+      {% if object.closing %}
+        <strong>Condominio Cerrado:</strong> No se pueden aprobar o desaprobar pagos
+      {% else %}
+        <strong>Condominio Abierto:</strong> Se pueden aprobar o desaprobar pagos
+      {% endif%}
+      <br>
       {% if request.user|has_group:'Líder de Comunidad' %}
         Total Recaudado: {{ total_sum.0 }} bs | {{ total_sum.1 }} usd
       {% endif %}
@@ -75,12 +81,16 @@
                   {% if payment.paid %}
                     <td>
                       <i class="far fa-thumbs-up fa-3x text-success" title="Pagado" aria-hidden="true"></i>
-                      <input type='checkbox' id='user-{{ payment.id }}' value='{{ payment.id }}' name='deactivate' onclick='$("#form_activate").submit();'/>
+                      {% if not payment.condominium.closing %}
+                        <input type='checkbox' id='user-{{ payment.id }}' value='{{ payment.id }}' name='deactivate' onclick='$("#form_activate").submit();'/>
+                      {% endif %}
                     </td>
                   {% else %}
                     <td>
                       <i class="far fa-thumbs-down fa-3x text-danger" title="No Pagado" aria-hidden="true"></i>
-                      <input type='checkbox' id='user-{{ payment.id }}' value='{{ payment.id }}' name='activate' onclick='$("#form_activate").submit();'/>
+                      {% if not payment.condominium.closing %}
+                        <input type='checkbox' id='user-{{ payment.id }}' value='{{ payment.id }}' name='activate' onclick='$("#form_activate").submit();'/>
+                      {% endif %}
                     </td>
                   {% endif %}
                 </tr>

@@ -572,7 +572,14 @@ class FamilyGroupListView(ListView):
             street_leader = StreetLeader.objects.get(
                 profile=self.request.user.profile
             )
-            queryset = FamilyGroup.objects.filter(street_leader=street_leader)
+            queryset = FamilyGroup.objects.filter(
+                street_leader=street_leader
+            ).order_by(
+                'department__building__bridge__block__name',
+                'department__building__bridge__name',
+                'department__building__name',
+                'department__name',
+            )
             return queryset
 
     def post(self, *args, **kwargs):
@@ -1402,13 +1409,11 @@ class AdmonitionUpdateView(UpdateView):
             es su perfil
         """
 
+        admonition_id = self.kwargs['pk']
         group = self.request.user.groups.filter(name='Líder de Comunidad')
-        admonition = Admonition()
         if Admonition.objects.filter(
-            pk=self.kwargs['pk'], user=self.request.user
-        ):
-            admonition = Admonition.objects.get(pk=self.kwargs['pk'])
-        if admonition and group:
+            pk=admonition_id, user=self.request.user
+        ).exists() and group:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 
@@ -1453,13 +1458,11 @@ class AdmonitionDeleteView(DeleteView):
             es su perfil
         """
 
+        admonition_id = self.kwargs['pk']
         group = self.request.user.groups.filter(name='Líder de Comunidad')
-        admonition = Admonition()
         if Admonition.objects.filter(
-            pk=self.kwargs['pk'], user=self.request.user
-        ):
-            admonition = Admonition.objects.get(pk=self.kwargs['pk'])
-        if admonition and group:
+            pk=admonition_id, user=self.request.user
+        ).exists() and group:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 
@@ -1618,12 +1621,13 @@ class MoveOutUpdateView(UpdateView):
             es su perfil
         """
 
+        move_out_id = self.kwargs['pk']
         group = self.request.user.groups.filter(name='Líder de Calle')
-        move_out = MoveOut()
-        if MoveOut.objects.filter(
-            pk=self.kwargs['pk'], user=self.request.user
-        ):
-            move_out = MoveOut.objects.get(pk=self.kwargs['pk'])
+        if not MoveOut.objects.filter(
+            pk=move_out_id, user=self.request.user
+        ).exists():
+            return redirect('base:error_403')
+        move_out = MoveOut.objects.get(pk=move_out_id)
         if move_out and not move_out.approved and group:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
@@ -1692,6 +1696,7 @@ class CondominiumListView(ListView):
 
     model = Condominium
     template_name = 'user/condominium_list.html'
+    success_url = reverse_lazy('user:condominium_list')
 
     def dispatch(self, request, *args, **kwargs):
         """!
@@ -1731,6 +1736,48 @@ class CondominiumListView(ListView):
 
         queryset = Condominium.objects.filter(user=self.request.user)
         return queryset
+    
+    def post(self, *args, **kwargs):
+        """!
+        Función que recibe como parámetro pagado o no pagado
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos con el id
+        @return Redirige a la vista detalles de pagos
+        """
+
+        activate = self.request.POST.get('activate')
+        deactivate = self.request.POST.get('deactivate')
+        status = False
+
+        if activate is not None:
+            condominium_id = activate
+            status = True
+        elif deactivate is not None:
+            condominium_id = deactivate
+            status = False
+        else:
+            messages.error(
+                self.request, 'Esta intentando hacer una acción incorrecta'
+            )
+        try:
+            condominium = Condominium.objects.get(pk=condominium_id)
+            condominium.closing = status
+            condominium.save()
+            if status:
+                messages.success(
+                    self.request, 'Cerrado: %s' % (str(condominium))
+                )
+            else:
+                messages.warning(
+                    self.request, 'Abierto: %s' % (str(condominium))
+                )
+        except Exception as e:
+            messages.info(self.request, e)
+        return redirect(self.success_url)
 
 
 class CondominiumCreateView(CreateView):

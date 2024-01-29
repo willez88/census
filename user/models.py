@@ -479,6 +479,11 @@ class Condominium(models.Model):
         'monto', default=0, db_comment='Monto del condominio en dolares'
     )
 
+    # Cierre de cuentas del condominio
+    closing = models.BooleanField(
+        'cierre', default=False, db_comment='Cierre de cuentas del condominio',
+    )
+
     # Relación con el modelo User
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name='usuario',
@@ -531,6 +536,7 @@ class Condominium(models.Model):
 
         verbose_name = 'Condominio'
         verbose_name_plural = 'Condominios'
+        ordering = ['-date']
 
 
 class Payment(models.Model):
