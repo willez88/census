@@ -1251,19 +1251,11 @@ class SearchForAgeView(View):
             community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
             people = Person.objects.filter(
                 family_group__street_leader__community_leader=community_leader
-            ).order_by(
-                'family_group__department__building__bridge__block__name',
-                'family_group__department__building__name',
-                'family_group__department__name'
             )
         elif StreetLeader.objects.filter(profile__user=self.request.user):
             street_leader = StreetLeader.objects.get(profile__user=self.request.user)
             people = Person.objects.filter(
                 family_group__street_leader=street_leader
-            ).order_by(
-                'family_group__department__building__bridge__block__name',
-                'family_group__department__building__name',
-                'family_group__department__name'
             )
         # people = Person.objects.all()
         person_list = []
@@ -1827,11 +1819,6 @@ class CondominiumCreateView(CreateView):
         self.object.save()
         family_groups = FamilyGroup.objects.filter(
             street_leader__community_leader__profile__user=self.request.user
-        ).order_by(
-            'department__building__bridge__block__name',
-            'department__building__bridge__name',
-            'department__building__name',
-            'department__name',
         )
         departments = {}
         for family_group in family_groups:

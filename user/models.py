@@ -250,6 +250,11 @@ class FamilyGroup(models.Model):
 
         verbose_name = 'Grupo Familiar'
         verbose_name_plural = 'Grupos Familiares'
+        ordering= [
+            'department__building__bridge__block__name',
+            'department__building__name',
+            'department__name'
+        ]
 
 
 class Person(models.Model):
@@ -348,6 +353,11 @@ class Person(models.Model):
 
         verbose_name = 'Persona'
         verbose_name_plural = 'Personas'
+        ordering = [
+            'family_group__department__building__bridge__block__name',
+            'family_group__department__building__name',
+            'family_group__department__name'
+        ]
 
 
 class Admonition(models.Model):

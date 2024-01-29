@@ -10,7 +10,12 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from weasyprint import HTML
 from weasyprint.text.fonts import FontConfiguration
 
-from user.models import CommunityLeader, FamilyGroup, Person, StreetLeader
+from user.models import (
+    CommunityLeader,
+    FamilyGroup,
+    Person,
+    StreetLeader,
+)
 
 from .models import (
     Block,
@@ -687,19 +692,11 @@ class VoterTemplateView(TemplateView):
             community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
             people = Person.objects.filter(
                 family_group__street_leader__community_leader=community_leader
-            ).order_by(
-                'family_group__department__building__bridge__block__name',
-                'family_group__department__building__name',
-                'family_group__department__name'
-            )   
+            )
         elif StreetLeader.objects.filter(profile__user=self.request.user):
             street_leader = StreetLeader.objects.get(profile__user=self.request.user)
             people = Person.objects.filter(
                 family_group__street_leader=street_leader
-            ).order_by(
-                'family_group__department__building__bridge__block__name',
-                'family_group__department__building__name',
-                'family_group__department__name'
             )
         response = HttpResponse(content_type='application/pdf')
         response[
@@ -954,19 +951,11 @@ class FilterAgeTemplateView(TemplateView):
             community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
             people = Person.objects.filter(
                 family_group__street_leader__community_leader=community_leader
-            ).order_by(
-                'family_group__department__building__bridge__block__name',
-                'family_group__department__building__name',
-                'family_group__department__name'
-            )   
+            )
         elif StreetLeader.objects.filter(profile__user=self.request.user):
             street_leader = StreetLeader.objects.get(profile__user=self.request.user)
             people = Person.objects.filter(
                 family_group__street_leader=street_leader
-            ).order_by(
-                'family_group__department__building__bridge__block__name',
-                'family_group__department__building__name',
-                'family_group__department__name'
             )
         response = HttpResponse(content_type='application/pdf')
         response[
