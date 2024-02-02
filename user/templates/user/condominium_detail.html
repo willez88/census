@@ -31,6 +31,7 @@
             <tr>
               <th>Lider de Calle</th>
               <th>Recaudado</th>
+              <th>Exonerados</th>
             </tr>
           </thead>
           <tbody>
@@ -38,6 +39,7 @@
               <tr>
                 <td> {{ key }} </td>
                 <td> {{ value.0 }} Bs |  {{ value.1 }} usd </td>
+                <td> {{ value.2 }} </td>
               </tr>
             {% endfor %}
           </tbody>
@@ -54,6 +56,7 @@
               <th>Departamento</th>
               <th>Monto del Condominio</th>
               <th>¿Pagado?</th>
+              <th>¿Exonerado?</th>
               {% if request.user|has_group:'Líder de Comunidad' %}
                 <th>Líder de Calle</th>
               {% endif %}
@@ -63,36 +66,84 @@
             {% for payment in object.payment_set.all %}
               {% if object.user == request.user %}
                 <tr>
-                  <td> {{ payment.payer }} </td>
+                  <td>
+                    {% for family_head in payment.familyhead_set.all %}
+                      {{ family_head.payer }}<br><br>
+                    {% endfor %}
+                  </td>
                   <td> {{ payment.department }}</td>
-                  <td> {{ payment.amount }} Bs</td>
-                  {% if payment.paid %}
-                    <td> <i class="far fa-thumbs-up fa-3x text-success" title="Pagado" aria-hidden="true"></i> </td>
-                  {% else %}
-                    <td> <i class="far fa-thumbs-down fa-3x text-danger" title="No Pagado" aria-hidden="true"></i> </td>
-                  {% endif %}
+                  <td>
+                    {% for family_head in payment.familyhead_set.all %}
+                      {{ family_head.amount }} Bs<br><br>
+                    {% endfor %}
+                  </td>
+                  <td>
+                    {% for family_head in payment.familyhead_set.all %}
+                      {% if family_head.paid %}
+                        <i class="far fa-thumbs-up fa-3x text-success" title="Pagado" aria-hidden="true"></i><br>
+                      {% else %}
+                        <i class="far fa-thumbs-down fa-3x text-danger" title="No Pagado" aria-hidden="true"></i><br>
+                      {% endif %}
+                    {% endfor %}
+                  </td>
+                  <td>
+                    {% for family_head in payment.familyhead_set.all %}
+                      {% if family_head.exonerated %}
+                        <i class="far fa-thumbs-up fa-3x text-success" title="Exonerado" aria-hidden="true"></i><br>
+                      {% else %}
+                        <i class="far fa-thumbs-down fa-3x text-danger" title="No Exonerado" aria-hidden="true"></i><br>
+                      {% endif %}
+                    {% endfor %}
+                  </td>
                   <td> {{ payment.user }} </td>
                 </tr>
               {% elif payment.user == request.user %}
                 <tr>
-                  <td> {{ payment.payer }} </td>
+                  <td>
+                    {% for family_head in payment.familyhead_set.all %}
+                      {{ family_head.payer }}<br><br>
+                    {% endfor %}
+                  </td>
                   <td> {{ payment.department }}</td>
-                  <td> {{ payment.amount }} Bs</td>
-                  {% if payment.paid %}
-                    <td>
-                      <i class="far fa-thumbs-up fa-3x text-success" title="Pagado" aria-hidden="true"></i>
-                      {% if not payment.condominium.closing %}
-                        <input type='checkbox' id='user-{{ payment.id }}' value='{{ payment.id }}' name='deactivate' onclick='$("#form_activate").submit();'/>
+                  <td>
+                    {% for family_head in payment.familyhead_set.all %}
+                      {{ family_head.amount }} Bs<br><br>
+                    {% endfor %}
+                  </td>
+                  <td>
+                    {% for family_head in payment.familyhead_set.all %}
+                      {% if family_head.paid %}
+                        <i class="far fa-thumbs-up fa-3x text-success" title="Pagado" aria-hidden="true"></i>
+                        {% if not family_head.payment.condominium.closing %}
+                          <input type='checkbox' id='user-{{ family_head.id }}' value='{{ family_head.id }}' name='deactivate_paid' onclick='$("#form_activate").submit();'/>
+                        {% endif %}
+                        <br>
+                      {% else %}
+                        <i class="far fa-thumbs-down fa-3x text-danger" title="No Pagado" aria-hidden="true"></i>
+                        {% if not family_head.payment.condominium.closing %}
+                          <input type='checkbox' id='user-{{ family_head.id }}' value='{{ family_head.id }}' name='activate_paid' onclick='$("#form_activate").submit();'/>
+                        {% endif %}
+                        <br>
                       {% endif %}
-                    </td>
-                  {% else %}
-                    <td>
-                      <i class="far fa-thumbs-down fa-3x text-danger" title="No Pagado" aria-hidden="true"></i>
-                      {% if not payment.condominium.closing %}
-                        <input type='checkbox' id='user-{{ payment.id }}' value='{{ payment.id }}' name='activate' onclick='$("#form_activate").submit();'/>
+                    {% endfor %}
+                  </td>
+                  <td>
+                    {% for family_head in payment.familyhead_set.all %}
+                      {% if family_head.exonerated %}
+                        <i class="far fa-thumbs-up fa-3x text-success" title="Exonerado" aria-hidden="true"></i>
+                        {% if not family_head.payment.condominium.closing %}
+                          <input type='checkbox' id='user-{{ family_head.id }}' value='{{ family_head.id }}' name='deactivate_exonerated' onclick='$("#form_activate").submit();'/>
+                        {% endif %}
+                        <br>
+                      {% else %}
+                        <i class="far fa-thumbs-down fa-3x text-danger" title="No Exonerado" aria-hidden="true"></i>
+                        {% if not family_head.payment.condominium.closing %}
+                          <input type='checkbox' id='user-{{ family_head.id }}' value='{{ family_head.id }}' name='activate_exonerated' onclick='$("#form_activate").submit();'/>
+                        {% endif %}
+                        <br>
                       {% endif %}
-                    </td>
-                  {% endif %}
+                    {% endfor %}
+                  </td>
                 </tr>
               {% endif %}
             {% endfor %}

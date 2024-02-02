@@ -511,8 +511,9 @@ class Condominium(models.Model):
 
         sum = 0
         for payment in self.payment_set.all():
-            if payment.paid:
-                sum = sum + payment.amount
+            for family_head in payment.familypayment_set.all():
+                if family_head.paid and not family_head.exonerated:
+                    sum = sum + family_head.amount
         return sum
     
     def total_amount_usd(self):
@@ -551,28 +552,12 @@ class Condominium(models.Model):
 
 class Payment(models.Model):
     """!
-    Clase que contiene pagos del condominio
+    Clase que contiene pagos del condominio por departamento
 
     @author William Páez (paez.william8 at gmail.com)
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
-
-    # Nombre, apellido y cédula del pagador
-    payer = models.CharField(
-        'pagador', max_length=200, db_comment='Nombre, apellido y cédula del Pagador',
-    )
-
-    # ¿Pagado?
-    paid = models.BooleanField(
-        '¿pagado?', default=True, db_comment='¿Pagado?',
-    )
-
-    # Monto en bs del condominio (condominium.rate * condominium.amount)
-    amount = models.DecimalField(
-        'monto en bs del condominio', max_digits=10, decimal_places=2, default=Decimal('0.00'),
-        db_comment='Monto en bs a pagar: tasa del dolar * monto del condominio',
-    )
 
     # Dirección del departamento
     department = models.ForeignKey(
@@ -601,7 +586,7 @@ class Payment(models.Model):
         @return string <b>{object}</b> Objeto con los nombres y apellidos
         """
 
-        return self.payer
+        return str(self.department)
 
     class Meta:
         """!
@@ -617,4 +602,62 @@ class Payment(models.Model):
             'department__name',
         ]
         verbose_name = 'Pago'
-        verbose_name_plural = 'pagos'
+        verbose_name_plural = 'Pagos'
+
+
+class FamilyHead(models.Model):
+    """!
+    Clase que contiene pagos del jefe de familia
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombre, apellido y cédula del pagador
+    payer = models.CharField(
+        'pagador', max_length=200, db_comment='Nombre, apellido y cédula del Pagador',
+    )
+
+    # ¿Pagado?
+    paid = models.BooleanField(
+        '¿pagado?', default=True, db_comment='¿Pagado?',
+    )
+
+    # ¿Exonerado?
+    exonerated = models.BooleanField(
+        '¿exonerado?', default=False, db_comment='¿Pago exonerado?',
+    )
+
+    # Monto en bs del condominio (condominium.rate * condominium.amount) / total_family_group
+    amount = models.DecimalField(
+        'monto en bs del condominio', max_digits=10, decimal_places=2, default=Decimal('0.00'),
+        db_comment='Monto en bs a pagar: (tasa del dolar * monto del condominio) / total familias',
+    )
+
+    # Relación con el modelo Payment
+    payment = models.ForeignKey(
+        Payment, on_delete=models.CASCADE, verbose_name='pago',
+        db_comment='Relación con el modelo pago',
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con los nombres y apellidos
+        """
+
+        return self.payer
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Jefe de familia'
+        verbose_name_plural = 'Jefes de familia'

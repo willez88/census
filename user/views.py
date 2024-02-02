@@ -44,6 +44,7 @@ from .models import (
     Condominium,
     CommunityLeader,
     FamilyGroup,
+    FamilyHead,
     MoveOut,
     Payment,
     Person,
@@ -1817,6 +1818,29 @@ class CondominiumCreateView(CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
+
+        ###
+        for department in Department.objects.all():
+            family_groups = department.familygroup_set.filter(
+                street_leader__community_leader__profile__user=self.request.user
+            )
+            if family_groups:
+                payment = Payment.objects.create(
+                    department=department,
+                    condominium=self.object,
+                    user=family_groups[0].street_leader.profile.user
+                )
+                total_family_group = family_groups.count()
+                for family_group in family_groups:
+                    if family_group.person_set.filter(family_head=True).exists():
+                        FamilyPayment.objects.create(
+                            payer=str(family_group.person_set.get(family_head=True)),
+                            amount=(self.object.rate * self.object.amount) / total_family_group,
+                            payment=payment
+                        )
+        ###
+
+        """
         family_groups = FamilyGroup.objects.filter(
             street_leader__community_leader__profile__user=self.request.user
         )
@@ -1834,6 +1858,7 @@ class CondominiumCreateView(CreateView):
                 condominium=self.object,
                 user=value.family_group.street_leader.profile.user,
             )
+        """
         return super().form_valid(form)
 
 
@@ -1881,34 +1906,44 @@ class CondominiumDetailView(DetailView):
         @return Redirige a la vista detalles de pagos
         """
 
-        activate = self.request.POST.get('activate')
-        deactivate = self.request.POST.get('deactivate')
-        status = False
+        activate_paid = self.request.POST.get('activate_paid')
+        deactivate_paid = self.request.POST.get('deactivate_paid')
+        activate_exonerated = self.request.POST.get('activate_exonerated')
+        deactivate_exonerated = self.request.POST.get('deactivate_exonerated')
 
-        if activate is not None:
-            payment_id = activate
-            status = True
-        elif deactivate is not None:
-            payment_id = deactivate
-            status = False
+        if activate_paid is not None:
+            family_head = FamilyHead.objects.get(pk=activate_paid)
+            family_head.paid = True
+            family_head.save()
+            messages.success(
+                self.request, 'Pagado: %s' % (str(family_head))
+            )
+        elif deactivate_paid is not None:
+            family_head = FamilyHead.objects.get(pk=deactivate_paid)
+            family_head.paid = False
+            family_head.save()
+            messages.warning(
+                self.request, 'No Pagado: %s' % (str(family_head))
+            )
+        elif activate_exonerated is not None:
+            family_head = FamilyHead.objects.get(pk=activate_exonerated)
+            family_head.exonerated = True
+            family_head.paid = False
+            family_head.save()
+            messages.success(
+                self.request, 'Exonerado: %s' % (str(family_head))
+            )
+        elif deactivate_exonerated is not None:
+            family_head = FamilyHead.objects.get(pk=deactivate_exonerated)
+            family_head.exonerated = False
+            family_head.save()
+            messages.warning(
+                self.request, 'No Exonerado: %s' % (str(family_head))
+            )
         else:
             messages.error(
                 self.request, 'Esta intentando hacer una acción incorrecta'
             )
-        try:
-            payment = Payment.objects.get(pk=payment_id)
-            payment.paid = status
-            payment.save()
-            if status:
-                messages.success(
-                    self.request, 'Pagado: %s' % (str(payment))
-                )
-            else:
-                messages.warning(
-                    self.request, 'No Pagado: %s' % (str(payment))
-                )
-        except Exception as e:
-            messages.info(self.request, e)
         return redirect(self.get_success_url())
 
     def get_success_url(self):
@@ -1936,12 +1971,18 @@ class CondominiumDetailView(DetailView):
         total_sum = 0
         for street_leader in street_leaders:
             payments = self.object.payment_set.filter(user=street_leader.profile.user)
+            total_exonerated = 0
             sum = 0
             for payment in payments:
-                if payment.paid:
-                    sum = sum + payment.amount
-                    total_sum = total_sum + payment.amount
-            amount_street_leaders[str(street_leader.profile.user)] = (sum, sum/self.object.rate)
+                for family_head in payment.familyhead_set.all():
+                    if family_head.paid and not family_head.exonerated:
+                        sum = sum + family_head.amount
+                        total_sum = total_sum + family_head.amount
+                    elif family_head.exonerated:
+                        total_exonerated = total_exonerated + 1
+            amount_street_leaders[
+                str(street_leader.profile.user)
+            ] = (sum, sum/self.object.rate, total_exonerated)
         context['amount_street_leaders'] = amount_street_leaders
         context['total_sum'] = (total_sum, total_sum/self.object.rate)
         return context

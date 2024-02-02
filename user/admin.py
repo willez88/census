@@ -6,6 +6,7 @@ from .models import (
     Condominium,
     CommunityLeader,
     FamilyGroup,
+    FamilyHead,
     MoveOut,
     Payment,
     Person,
@@ -181,7 +182,30 @@ class PaymentAdmin(admin.ModelAdmin):
 
     # Mostrar los campos de la clase
     list_display = (
-        'payer', 'department', 'paid', 'amount', 'condominium', 'user',
+        'department', 'condominium', 'user',
+    )
+
+    # Buscar por campos
+    search_fields = (
+        'department__name',
+    )
+
+    # Filtrar por campos
+    list_filter = ('condominium__date',)
+
+
+class FamilyHeadAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo FamilyHead al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Mostrar los campos de la clase
+    list_display = (
+        'payer', 'paid', 'exonerated', 'amount', 'payment',
     )
 
     # Buscar por campos
@@ -190,7 +214,7 @@ class PaymentAdmin(admin.ModelAdmin):
     )
 
     # Filtrar por campos
-    list_filter = ('condominium__date',)
+    # list_filter = ('condominium__date',)
 
 
 admin.site.register(Profile, ProfileAdmin)
@@ -203,3 +227,4 @@ admin.site.register(MoveOut, MoveOutAdmin)
 admin.site.register(Admonition, AdmonitionAdmin)
 admin.site.register(Condominium, CondominiumAdmin)
 admin.site.register(Payment, PaymentAdmin)
+admin.site.register(FamilyHead, FamilyHeadAdmin)
