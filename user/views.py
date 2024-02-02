@@ -1818,8 +1818,6 @@ class CondominiumCreateView(CreateView):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()
-
-        ###
         for department in Department.objects.all():
             family_groups = department.familygroup_set.filter(
                 street_leader__community_leader__profile__user=self.request.user
@@ -1833,32 +1831,11 @@ class CondominiumCreateView(CreateView):
                 total_family_group = family_groups.count()
                 for family_group in family_groups:
                     if family_group.person_set.filter(family_head=True).exists():
-                        FamilyPayment.objects.create(
+                        FamilyHead.objects.create(
                             payer=str(family_group.person_set.get(family_head=True)),
                             amount=(self.object.rate * self.object.amount) / total_family_group,
                             payment=payment
                         )
-        ###
-
-        """
-        family_groups = FamilyGroup.objects.filter(
-            street_leader__community_leader__profile__user=self.request.user
-        )
-        departments = {}
-        for family_group in family_groups:
-            if family_group.person_set.all().filter(family_head=True):
-                departments[
-                    family_group.department
-                ] = family_group.person_set.all().get(family_head=True)
-        for key, value in departments.items():
-            Payment.objects.create(
-                payer=str(value),
-                department=key,
-                amount=self.object.rate * self.object.amount,
-                condominium=self.object,
-                user=value.family_group.street_leader.profile.user,
-            )
-        """
         return super().form_valid(form)
 
 
