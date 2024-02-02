@@ -511,7 +511,7 @@ class Condominium(models.Model):
 
         sum = 0
         for payment in self.payment_set.all():
-            for family_head in payment.familypayment_set.all():
+            for family_head in payment.familyhead_set.all():
                 if family_head.paid and not family_head.exonerated:
                     sum = sum + family_head.amount
         return sum
