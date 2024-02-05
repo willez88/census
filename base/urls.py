@@ -15,6 +15,7 @@ from .views import (
     GetDepartmentView,
     HomeView,
     RelationshipListView,
+    ResidenceProofTemplateView,
     SociodemographicTemplateView,
     VacationPlanTemplateView,
     VoterTemplateView,
@@ -85,14 +86,19 @@ urlpatterns = [
         login_required(FilterAgeTemplateView.as_view()),
         name='filter-age'
     ),
-
-    path(
-        'ajax/combo-update/', login_required(ComboUpdateView.as_view()),
-        name='combo_update'
-    ),
     path(
         'descargar-sociodemografico/',
         login_required(SociodemographicTemplateView.as_view()),
         name='sociodemographic'
+    ),
+    path(
+        'descargar-carta-residencia/<slug:id_number>/',
+        login_required(ResidenceProofTemplateView.as_view()),
+        name='residence_proof'
+    ),
+
+    path(
+        'ajax/combo-update/', login_required(ComboUpdateView.as_view()),
+        name='combo_update'
     ),
 ]

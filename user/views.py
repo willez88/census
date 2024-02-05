@@ -575,11 +575,6 @@ class FamilyGroupListView(ListView):
             )
             queryset = FamilyGroup.objects.filter(
                 street_leader=street_leader
-            ).order_by(
-                'department__building__bridge__block__name',
-                'department__building__bridge__name',
-                'department__building__name',
-                'department__name',
             )
             return queryset
 
@@ -764,6 +759,7 @@ class FamilyGroupSaveView(View):
                     email=person['email'],
                     phone=person['phone'],
                     birthdate=person['birthdate'],
+                    admission_date=person['admission_date'],
                     gender=gender,
                     vote_type=vote_type,
                     relationship=relationship,
@@ -781,6 +777,7 @@ class FamilyGroupSaveView(View):
                     email=person['email'],
                     phone=person['phone'],
                     birthdate=person['birthdate'],
+                    admission_date=person['admission_date'],
                     gender=gender,
                     vote_type=vote_type,
                     relationship=relationship,
@@ -961,6 +958,7 @@ class FamilyGroupUpdateView(View):
                         'email': person['email'],
                         'phone': person['phone'],
                         'birthdate': person['birthdate'],
+                        'admission_date': person['admission_date'],
                         'gender': gender,
                         'vote_type': vote_type,
                         'relationship': relationship,
@@ -981,6 +979,7 @@ class FamilyGroupUpdateView(View):
                         'email': person['email'],
                         'phone': person['phone'],
                         'birthdate': person['birthdate'],
+                        'admission_date': person['admission_date'],
                         'gender': gender,
                         'vote_type': vote_type,
                         'relationship': relationship,
@@ -1078,8 +1077,9 @@ class FamilyGroupDetailView(View):
                 'vote_type_id': p.vote_type.id if p.vote_type else '',
                 'relationship_id': p.relationship.id if p.relationship else '',
                 'phone': p.phone, 'birthdate': p.birthdate,
+                'admission_date': p.admission_date,
                 'gender_id': p.gender.id if p.gender else '',
-                'family_head': p.family_head
+                'family_head': p.family_head,
             })
         record = {
             'id': family_group.id,
@@ -1222,6 +1222,7 @@ class SearchView(View):
                 'vote_type': person.vote_type.name if person.vote_type else '',
                 'relationship': relationship.name if relationship else '',
                 'phone': person.phone, 'birthdate': person.birthdate,
+                'admission_date': person.admission_date,
                 'gender': person.gender.name if person.gender else '',
                 'age': person.age(),
                 'family_head': person.family_head
@@ -1268,6 +1269,7 @@ class SearchForAgeView(View):
                     'last_name': person.last_name,
                     'id_number': person.id_number,
                     'birthdate': person.birthdate,
+                    'admission_date': person.admission_date,
                     'gender': person.gender.name if person.gender else '',
                     'age': person.age(),
                     'department': str(person.family_group.department),

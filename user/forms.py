@@ -555,6 +555,18 @@ class PersonForm(forms.Form):
         )
     )
 
+    # Fecha de ingreso
+    admission_date = forms.DateField(
+        label='Fecha de Ingreso:',
+        widget=forms.DateInput(
+            attrs={
+                'class': 'form-control form-control-lg datepicker',
+                'data-toggle': 'tooltip',
+                'title': 'Indique la fecha de ingreso.',
+            }
+        )
+    )
+
     # Género
     gender_id = forms.ModelChoiceField(
         label='Género:', queryset=Gender.objects.all(),

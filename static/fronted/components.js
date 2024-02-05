@@ -112,6 +112,7 @@ Vue.component('family-group', {
         email: [],
         phone: [],
         birthdate: [],
+        admission_date: [],
         gender_id: [],
         vote_type_id: [],
         relationship_id: [],
@@ -124,6 +125,7 @@ Vue.component('family-group', {
         email: '',
         phone: '',
         birthdate: '',
+        admission_date: '',
         gender_id: '',
         vote_type_id: '',
         relationship_id: '',
@@ -203,6 +205,7 @@ Vue.component('family-group', {
             email: [],
             phone: [],
             birthdate: [],
+            admission_date: [],
             gender_id: [],
             vote_type_id: [],
             relationship_id: [],
@@ -511,6 +514,21 @@ Vue.component('family-group', {
                 </div>
               </div>
               <div class="col-sm">
+                <div class="form-group ">
+                  <label class="control-label" for="">
+                    Fecha de Ingreso:
+                  </label>
+                  <input type="date" class="form-control input-sm" data-toggle="tooltip" title="Indique la fecha de ingreso" v-model="person.admission_date">
+                </div>
+                <div v-if="errors.people[index].admission_date">
+                  <div class="alert alert-danger" v-if="errors.people[index].admission_date.length > 0">
+                    <ul>
+                      <li v-for="error in errors.people[index].admission_date">{{ error }}</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm">
                 <div class="form-group">
                   <label class="control-label" for="">
                     ¿Jefe Familiar?
@@ -672,8 +690,8 @@ Vue.component('search', {
           <div v-for="(person, index) in record.people">
             <hr>
             <!-- row - BEGIN -->
-            <div class="row" :class="{'text-info' : person.family_head }">
-              <div class="col-sm">
+            <div class="row">
+              <div class="col-sm" :class="{'text-info' : person.family_head }">
                 <div class="form-group">
                   <label class="col-sm control-label font-weight-bold">
                     Nombres y Apellidos
@@ -725,7 +743,7 @@ Vue.component('search', {
             <!-- row - END -->
 
             <!-- row - BEGIN -->
-            <div class="row" :class="{'text-info' : person.family_head }">
+            <div class="row">
               <div class="col-sm">
                 <div class="form-group">
                   <label class="col-sm control-label font-weight-bold">
@@ -778,8 +796,8 @@ Vue.component('search', {
             <!-- row - END -->
 
             <!-- row - BEGIN -->
-            <div class="row" :class="{'text-info' : person.family_head }">
-              <div class="col-sm">
+            <div class="row">
+              <div class="col-sm-3">
                 <div class="form-group">
                   <label class="col-sm control-label font-weight-bold">
                     Edad
@@ -787,6 +805,30 @@ Vue.component('search', {
                   <div class="col-sm">
                     <div class="form-inline">
                       {{ person.age }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Fecha de Ingreso
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      {{ person.admission_date }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Carta de Residencia
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                    <a :href="'/descargar-carta-residencia/' + person.id_number + '/'" target="_blank"> Descargar </a>
                     </div>
                   </div>
                 </div>

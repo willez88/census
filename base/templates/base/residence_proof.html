@@ -1,0 +1,115 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Carta de Residencia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+      @page {
+        size: "A4";
+        margin: 1.0cm 1.5cm 1.0cm 1.5cm;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
+      <br>
+      <div class="text-center">
+        <img src="{% static 'img/logo-rdsr.jpg' %}" alt="Residencias Domingo Salazar Rojas" />
+      </div>
+      <br>
+      <h5 class="text-center">REPÚBLICA BOLIVARIANA DE VENEZUELA</h5>
+      <h5 class="text-center">CONSEJO COMUNAL "DOMINGO SALAZAR ROJAS"</h5>
+      <h5 class="text-center">MÉRIDA ESTADO MÉRIDA</h5>
+      <br><br>
+      <h2 class="text-center">Constancia de Residencia</h2>
+      <br><br>
+      <p class="text-justify" style="font-size:20px;">
+        El Consejo Comunal "Domingo Salazar Rojas", de la Residencia Estudiantil Mixta
+        "Domingo Salazar Rojas", inscrito inscrito en el registro de información fiscal
+        C-299884472, ubicada en la Avenida Alberto Carnevalli, sector Santa Ana, de la
+        Parroquia Antonio Spinetti Dini, Municipio Libertador de la ciudad de Mérida,
+        Estado Mérida,
+      </p>
+      <br><br>
+      <h2 class="text-center">Hace Constar</h2>
+      <br><br>
+      <p class="text-justify" style="font-size:20px;">
+        Que el (la) ciudadano (a): {{ person.first_name|title }} {{ person.last_name|title }}
+        Titular de la C.I. N° {{ person.id_number }}, reside en el
+        {{ person.family_group.department.building.bridge.block.name }},
+        {{ person.family_group.department.building.name }},
+        Piso {{ person.family_group.department.name.0 }}{{ person.family_group.department.name.1 }},
+        Apartamento {{ person.family_group.department.name }},
+        desde hace
+        {% if person.living.0 == 0 %}
+          {{ person.living.1 }} mes{{ person.living.1|pluralize:"es" }}
+        {% endif %}
+        {% if person.living.1 == 0 %}
+          {{ person.living.0 }} año{{ person.living.0|pluralize }}
+        {% endif %}
+        {% if person.living.0 > 0 and person.living.1 > 0 %}
+          {{ person.living.0 }} año{{ person.living.0|pluralize }} y
+          {{ person.living.1 }} mes{{ person.living.1|pluralize:"es" }}
+        {% endif %}
+        . Del mismo modo se hace constar que los servicios básicos
+        (agua, luz, aseo urbano), los asume el Estado Mérida, por tanto no posee recibo de
+        pagos de servicio.
+
+        Constancia que se expide, a solicitud de parte interesada, en la ciudad de Mérida,
+        a los {% now 'd' %} días, del mes de {% now 'F' %} del año {% now 'Y' %}.
+      </p>
+      <br><br>
+      <table class="table table-borderless">
+        <tbody>
+          <tr class="text-center">
+            <td>
+              ___________________________<br>
+              Wilmer Valero<br>
+              C.I.N° V-16.656.996<br>
+              Vocero Unidad Contralora<br>
+              Telf. 0414-732.76.94
+            </td>
+            <td>
+              ___________________________<br>
+              Maranyelin Y. Meza<br>
+              C.I.N° V-16.201.648<br>
+              Vocera Comité Hábitat y Vivienda<br>
+              Telf. 0426-477.66.24
+            </td>
+            <td>
+              ___________________________<br>
+              Jairo Hernández<br>
+              C.I.N° V-13.830.003<br>
+              Vocero Unidad Administrativa<br>
+              Telf. 0426-436.38.80
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br><br><br>
+      <p class="text-right">
+        Consejo Comunal “Domingo Salazar Rojas”
+        <br>
+        Rif C-299884472
+      </p>
+      <br><br>
+      <p class="text-left">
+        C.C.R.D.S.R _______
+      </p>
+      <br><br><br>
+      <p class="text-center">
+        Aquí no se rinde nadie, aquí no se cansa nadie…”Rendirse es traición, cansarse
+        es falta de conciencia, el que se cansa de una lucha es que no tiene conciencia,
+        por más dificultades que haya en el camino…” <strong>Hugo Rafael Chávez Frías.</strong>
+      </p>
+      <p class="text-center fs-sm">
+        “Para el logro del triunfo siempre ha sido indispensable pasar por la senda de los
+        sacrificios" <strong>Simón Bolívar.</strong>
+      </p>
+    </main>
+  </body>
+</html>

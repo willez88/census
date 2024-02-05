@@ -1,5 +1,6 @@
 import datetime
 
+from dateutil.relativedelta import relativedelta
 from decimal import Decimal
 from django.contrib.auth.models import User
 from django.core import validators
@@ -297,6 +298,9 @@ class Person(models.Model):
     # Estalece si la persona es jefe familiar o no
     family_head = models.BooleanField('jefe de familia')
 
+    # Fecha de ingreso
+    admission_date = models.DateField('fecha de ingreso', blank=True, null=True)
+
     # Relación con el modelo Gender
     gender = models.ForeignKey(
         Gender, on_delete=models.CASCADE, verbose_name='género',
@@ -332,6 +336,20 @@ class Person(models.Model):
         if self.birthdate:
             return int((datetime.date.today() - self.birthdate).days / 365.25)
         return 0
+
+    def living(self):
+        """!
+        Método que calcula tiempo viviendo en la residencia
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return Retorna una tupla con los años y la edad
+        """
+
+        if self.admission_date:
+            data = relativedelta(datetime.date.today(), self.admission_date)
+            return (data.years, data.months)
+        return (0, 0)
 
     def __str__(self):
         """!
