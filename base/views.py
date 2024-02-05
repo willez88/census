@@ -1146,7 +1146,9 @@ class ResidenceProofTemplateView(TemplateView):
             sino redirecciona hacia la vista de error de permisos
         """
 
-        if self.request.user.groups.filter(name='Líder de Calle'):
+        group1 = self.request.user.groups.filter(name='Líder de Comunidad')
+        group2 = self.request.user.groups.filter(name='Líder de Calle')
+        if group1 or group2:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 

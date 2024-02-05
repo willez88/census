@@ -1,7 +1,21 @@
-{% extends 'base/base.html' %}
 {% load static %}
-    {% block content %}
-    <div class="container">
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Carta de Residencia</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+      @page {
+        size: "A4";
+        margin: 1.0cm 1.5cm 1.0cm 1.5cm;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="container">
       <br><br><br>
       <div class="text-center">
         <img src="{% static 'img/logo-rdsr.jpg' %}" alt="Residencias Domingo Salazar Rojas" />
@@ -92,5 +106,6 @@
         “Para el logro del triunfo siempre ha sido indispensable pasar por la senda de los
         sacrificios" <strong>Simón Bolívar.</strong>
       </p>
-    </div>
-    {% endblock %}
+    </main>
+  </body>
+</html>
