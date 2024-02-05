@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from django.views.generic import TemplateView, View
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
-from weasyprint import HTML
+from weasyprint import HTML, CSS
 from weasyprint.text.fonts import FontConfiguration
 
 from user.models import (
@@ -1174,5 +1174,9 @@ class ResidenceProofTemplateView(TemplateView):
         html = render_to_string(self.template_name, context)
         HTML(
             string=html, base_url=request.build_absolute_uri()
-        ).write_pdf(response, font_config=font_config)
+        ).write_pdf(
+            response,
+            font_config=font_config,
+            stylesheets=[CSS('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css',)]
+        )
         return response
