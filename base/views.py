@@ -1177,6 +1177,5 @@ class ResidenceProofTemplateView(TemplateView):
         ).write_pdf(
             response,
             font_config=font_config,
-            stylesheets=[CSS('https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css',)]
         )
         return response
