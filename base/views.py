@@ -711,7 +711,13 @@ class VoterTemplateView(TemplateView):
                 person_list.append(person)
         context['people'] = person_list
         html = render_to_string(self.template_name, context)
-        HTML(string=html).write_pdf(response, font_config=font_config)
+        HTML(string=html).write_pdf(
+            response,
+            font_config=font_config,
+            stylesheets=[
+                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
+            ],
+        )
         return response
 
 
@@ -843,7 +849,13 @@ class DemographicCensusTemplateView(TemplateView):
             })
         context['census'] = census
         html = render_to_string(self.template_name, context)
-        HTML(string=html).write_pdf(response, font_config=font_config)
+        HTML(string=html).write_pdf(
+            response,
+            font_config=font_config,
+            stylesheets=[
+                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
+            ],
+        )
         return response
 
 
@@ -907,7 +919,13 @@ class VacationPlanTemplateView(TemplateView):
                         })
         context['people'] = childrens
         html = render_to_string(self.template_name, context)
-        HTML(string=html).write_pdf(response, font_config=font_config)
+        HTML(string=html).write_pdf(
+            response,
+            font_config=font_config,
+            stylesheets=[
+                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
+            ],
+        )
         return response
 
 
@@ -976,7 +994,13 @@ class FilterAgeTemplateView(TemplateView):
                         })
         context['people'] = childrens
         html = render_to_string(self.template_name, context)
-        HTML(string=html).write_pdf(response, font_config=font_config)
+        HTML(string=html).write_pdf(
+            response,
+            font_config=font_config,
+            stylesheets=[
+                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
+            ],
+        )
         return response
 
 
@@ -1117,7 +1141,13 @@ class SociodemographicTemplateView(TemplateView):
             })
         context['census'] = census
         html = render_to_string(self.template_name, context)
-        HTML(string=html).write_pdf(response, font_config=font_config)
+        HTML(string=html).write_pdf(
+            response,
+            font_config=font_config,
+            stylesheets=[
+                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
+            ],
+        )
         return response
 
 
