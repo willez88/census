@@ -1,13 +1,14 @@
 import datetime
 from tempfile import NamedTemporaryFile
 
+from django.conf import settings
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.views.generic import TemplateView, View
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
-from weasyprint import HTML
+from weasyprint import CSS, HTML
 from weasyprint.text.fonts import FontConfiguration
 
 from user.models import (
@@ -1179,5 +1180,8 @@ class ResidenceProofTemplateView(TemplateView):
         ).write_pdf(
             response,
             font_config=font_config,
+            stylesheets=[
+                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
+            ]
         )
         return response
