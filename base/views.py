@@ -1174,6 +1174,7 @@ class ResidenceProofTemplateView(TemplateView):
         font_config = FontConfiguration()
         context = {}
         context['person'] = person
+        context['logo_url'] = settings.BASE_DIR / 'static/img/logo-rdsr.jpg'
         html = render_to_string(self.template_name, context)
         HTML(
             string=html, base_url=request.build_absolute_uri()
