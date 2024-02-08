@@ -1182,6 +1182,7 @@ class ResidenceProofTemplateView(TemplateView):
             font_config=font_config,
             stylesheets=[
                 CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
-            ]
+            ],
+            presentational_hints=True
         )
         return response
