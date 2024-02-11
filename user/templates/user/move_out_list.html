@@ -22,7 +22,7 @@
               <th>Líder de Calle</th>
               <th>Fecha</th>
               <th>Descripción</th>
-              <th>Aprovado</th>
+              <th>Aprobado</th>
               <th>Operación</th>
             </tr>
           </thead>
@@ -36,9 +36,9 @@
                 <td> {{ move_out.date }} </td>
                 <td> {{ move_out.description }} </td>
                 {% if move_out.approved %}
-                  <td> <i class="far fa-thumbs-up fa-3x text-success" title="Aprovado" aria-hidden="true"></i> </td>
+                  <td> <i class="far fa-thumbs-up fa-3x text-success" title="Aprobado" aria-hidden="true"></i> </td>
                 {% else %}
-                  <td> <i class="far fa-thumbs-down fa-3x text-danger" title="No Aprovado" aria-hidden="true"></i> </td>
+                  <td> <i class="far fa-thumbs-down fa-3x text-danger" title="No Aprobado" aria-hidden="true"></i> </td>
                 {% endif %}
                 {% if move_out.approved %}
                   <td></td>
