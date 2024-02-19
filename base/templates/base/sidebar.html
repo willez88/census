@@ -39,6 +39,18 @@
           <span>Amonestaciones</span>
         </a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'base:filter' %}">
+          <i class="fas fa-fw fa-search"></i>
+          <span>Filtros</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user:condominium_list' %}">
+          <i class="fas fa-fw fa-chart-bar"></i>
+          <span>Condominios</span>
+        </a>
+      </li>
     {% elif request.user|has_group:'Líder de Calle' %}
       <li class="nav-item" id="street_leader">
         <a class="nav-link" href="{% url 'user:family_group_list' %}">
@@ -58,7 +70,6 @@
           <span>Mudanzas</span>
         </a>
       </li>
-    {% endif %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'base:filter' %}">
           <i class="fas fa-fw fa-search"></i>
@@ -71,5 +82,19 @@
           <span>Condominios</span>
         </a>
       </li>
+    {% elif request.user|has_group:'Grupo Familiar' %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user:family_detail' request.user.profile.familygroup.id %}">
+          <i class="fas fa-fw fa-users"></i>
+          <span>Grupo Familiar</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user:condominium_list' %}">
+          <i class="fas fa-fw fa-chart-bar"></i>
+          <span>Condominios</span>
+        </a>
+      </li>
+    {% endif %}
   {% endif %}
 </ul>

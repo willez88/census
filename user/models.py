@@ -632,9 +632,15 @@ class FamilyHead(models.Model):
         GNU Public License versión 2 (GPLv2)</a>
     """
 
-    # Nombre, apellido y cédula del pagador
+    # Nombres y apellidos del pagador
     payer = models.CharField(
-        'pagador', max_length=200, db_comment='Nombre, apellido y cédula del Pagador',
+        'pagador', max_length=200, db_comment='Nombre y apellido del Pagador',
+    )
+
+    # Cédula de identidad
+    id_number = models.CharField(
+        'cédula de identidad', max_length=11, null=True,
+        db_comment='Cédula del Pagador',
     )
 
     # ¿Pagado?

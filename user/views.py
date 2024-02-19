@@ -1025,7 +1025,13 @@ class FamilyDetailView(DetailView):
             es su perfil
         """
 
-        if self.request.user.groups.filter(name='Líder de Comunidad'):
+        group1 = self.request.user.groups.filter(name='Líder de Comunidad')
+        group2 = self.request.user.groups.filter(name='Grupo Familiar')
+        family_group_id = kwargs['pk']
+        family_group = FamilyGroup.objects.filter(
+            id=family_group_id, profile__user=self.request.user
+        )
+        if group1 or (group2 and family_group):
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 
@@ -1196,6 +1202,26 @@ class SearchView(View):
         GNU Public License versión 2 (GPLv2)</a>
     """
 
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        group1 = self.request.user.groups.filter(name='Líder de Comunidad')
+        group2 = self.request.user.groups.filter(name='Líder de Calle')
+        if group1 or group2:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
     def get(self, request, *args, **kwargs):
         id_number = kwargs['id_number']
         if CommunityLeader.objects.filter(profile__user=self.request.user):
@@ -1246,6 +1272,26 @@ class SearchForAgeView(View):
     @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
         GNU Public License versión 2 (GPLv2)</a>
     """
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Metodo que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Redirecciona al usuario a la página de error de permisos si no
+            es su perfil
+        """
+
+        group1 = self.request.user.groups.filter(name='Líder de Comunidad')
+        group2 = self.request.user.groups.filter(name='Líder de Calle')
+        if group1 or group2:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
 
     def get(self, request, *args, **kwargs):
         age = kwargs['age']
@@ -1709,7 +1755,8 @@ class CondominiumListView(ListView):
 
         group1 = self.request.user.groups.filter(name='Líder de Comunidad')
         group2 = self.request.user.groups.filter(name='Líder de Calle')
-        if group1 or group2:
+        group3 = self.request.user.groups.filter(name='Grupo Familiar')
+        if group1 or group2 or group3:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
     
@@ -1727,6 +1774,14 @@ class CondominiumListView(ListView):
                 profile=self.request.user.profile
             )
             queryset = Condominium.objects.filter(user=street_leader.community_leader.profile.user)
+            return queryset
+        elif FamilyGroup.objects.filter(profile__user=self.request.user):
+            family_group = FamilyGroup.objects.get(
+                profile__user=self.request.user
+            )
+            queryset = Condominium.objects.filter(
+                user=family_group.street_leader.community_leader.profile.user
+            )
             return queryset
 
         queryset = Condominium.objects.filter(user=self.request.user)
@@ -1833,8 +1888,10 @@ class CondominiumCreateView(CreateView):
                 total_family_group = family_groups.count()
                 for family_group in family_groups:
                     if family_group.person_set.filter(family_head=True).exists():
+                        person = family_group.person_set.get(family_head=True)
                         FamilyHead.objects.create(
-                            payer=str(family_group.person_set.get(family_head=True)),
+                            payer='{} {}'.format(person.first_name, person.last_name),
+                            id_number=person.id_number,
                             amount=(self.object.rate * self.object.amount) / total_family_group,
                             payment=payment
                         )
@@ -1869,7 +1926,8 @@ class CondominiumDetailView(DetailView):
 
         group1 = self.request.user.groups.filter(name='Líder de Comunidad')
         group2 = self.request.user.groups.filter(name='Líder de Calle')
-        if group1 or group2:
+        group3 = self.request.user.groups.filter(name='Grupo Familiar')
+        if group1 or group2 or group3:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 
@@ -1946,6 +2004,12 @@ class CondominiumDetailView(DetailView):
             street_leaders = StreetLeader.objects.filter(
                 profile__user=user
             )
+        elif FamilyGroup.objects.filter(profile__user=user):
+            family_group = FamilyGroup.objects.get(profile__user=user)
+            street_leaders = StreetLeader.objects.filter(
+                profile=family_group.street_leader.profile
+            )
+            context['person'] = family_group.person_set.get(family_head=True)
         amount_street_leaders = {}
         total_sum = 0
         for street_leader in street_leaders:
