@@ -205,16 +205,16 @@ class FamilyHeadAdmin(admin.ModelAdmin):
 
     # Mostrar los campos de la clase
     list_display = (
-        'payer', 'paid', 'exonerated', 'amount', 'payment',
+        'payer', 'id_number', 'paid', 'exonerated', 'amount', 'payment',
     )
 
     # Buscar por campos
     search_fields = (
-        'payer',
+        'payer', 'id_number',
     )
 
     # Filtrar por campos
-    # list_filter = ('condominium__date',)
+    list_filter = ('payment__condominium__date',)
 
 
 admin.site.register(Profile, ProfileAdmin)

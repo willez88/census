@@ -683,5 +683,11 @@ class FamilyHead(models.Model):
         @author William Páez (paez.william8 at gmail.com)
         """
 
+        ordering = [
+            'payment__department__building__bridge__block__name',
+            'payment__department__building__bridge__name',
+            'payment__department__building__name',
+            'payment__department__name',
+        ]
         verbose_name = 'Jefe de familia'
         verbose_name_plural = 'Jefes de familia'
