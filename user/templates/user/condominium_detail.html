@@ -14,9 +14,9 @@
       Tasa del Dólar: {{ object.rate }} Bs<br>
       Monto del Condominio: {{ object.amount }} usd<br>
       {% if object.closing %}
-        <strong>Condominio Cerrado:</strong> No se pueden aprobar o desaprobar pagos
+        <strong>Condominio Cerrado</strong>
       {% else %}
-        <strong>Condominio Abierto:</strong> Se pueden aprobar o desaprobar pagos
+        <strong>Condominio Abierto</strong>
       {% endif%}
       <br>
       {% if request.user|has_group:'Líder de Comunidad' %}
