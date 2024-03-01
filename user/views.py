@@ -2030,7 +2030,14 @@ class CondominiumDetailView(DetailView):
                         total_unpaid = total_unpaid + 1
             amount_street_leaders[
                 str(street_leader.profile.user)
-            ] = (sum, sum/self.object.rate, total_paid, total_unpaid, total_exonerated)
+            ] = (
+                sum,
+                sum/self.object.rate,
+                total_paid,
+                total_unpaid,
+                total_paid + total_unpaid,
+                total_exonerated,
+            )
         context['amount_street_leaders'] = amount_street_leaders
         context['total_sum'] = (total_sum, total_sum/self.object.rate)
         return context
