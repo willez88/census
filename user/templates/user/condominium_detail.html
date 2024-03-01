@@ -32,6 +32,7 @@
               <tr>
                 <th>Lider de Calle</th>
                 <th>Recaudado</th>
+                <th>Pagados | No Pagados</th>
                 <th>Exonerados</th>
               </tr>
             </thead>
@@ -40,7 +41,8 @@
                 <tr>
                   <td> {{ key }} </td>
                   <td> {{ value.0 }} Bs |  {{ value.1 }} usd </td>
-                  <td> {{ value.2 }} </td>
+                  <td> {{ value.2 }} | {{ value.3 }} </td>
+                  <td> {{ value.4 }} </td>
                 </tr>
               {% endfor %}
             </tbody>
