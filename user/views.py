@@ -2018,6 +2018,7 @@ class CondominiumDetailView(DetailView):
             total_paid = 0
             total_unpaid = 0
             sum = 0
+            total_departments = 0
             for payment in payments:
                 for family_head in payment.familyhead_set.all():
                     if family_head.paid and not family_head.exonerated:
@@ -2028,6 +2029,7 @@ class CondominiumDetailView(DetailView):
                         total_exonerated = total_exonerated + 1
                     elif not family_head.paid:
                         total_unpaid = total_unpaid + 1
+                total_departments = total_departments + 1
             amount_street_leaders[
                 str(street_leader.profile.user)
             ] = (
@@ -2037,6 +2039,7 @@ class CondominiumDetailView(DetailView):
                 total_unpaid,
                 total_paid + total_unpaid,
                 total_exonerated,
+                total_departments,
             )
         context['amount_street_leaders'] = amount_street_leaders
         context['total_sum'] = (total_sum, total_sum/self.object.rate)
