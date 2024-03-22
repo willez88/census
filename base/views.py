@@ -1239,7 +1239,8 @@ class ResidenceProofTemplateView(TemplateView):
 
         group1 = self.request.user.groups.filter(name='Líder de Comunidad')
         group2 = self.request.user.groups.filter(name='Líder de Calle')
-        if group1 or group2:
+        group3 = self.request.user.groups.filter(name='Grupo Familiar')
+        if group1 or group2 or group3:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 
