@@ -124,7 +124,7 @@ class CommunityLeader(models.Model):
     """
 
     # Relación con el modelo CommunalCouncil
-    communal_council = models.OneToOneField(
+    communal_council = models.ForeignKey(
         CommunalCouncil, on_delete=models.CASCADE,
         verbose_name='consejo comunal', null=True
     )

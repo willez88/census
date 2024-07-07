@@ -1028,8 +1028,9 @@ class FilterAgeTemplateView(TemplateView):
         age2 = int(request.GET.get('age2'))
         if CommunityLeader.objects.filter(profile__user=self.request.user):
             community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
+            communal_council = community_leader.communal_council
             people = Person.objects.filter(
-                family_group__street_leader__community_leader=community_leader
+                family_group__street_leader__community_leader__communal_council=communal_council
             )
         elif StreetLeader.objects.filter(profile__user=self.request.user):
             street_leader = StreetLeader.objects.get(profile__user=self.request.user)
@@ -1114,23 +1115,28 @@ class SociodemographicTemplateView(TemplateView):
         context = {}
         census = []
         community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
+        communal_council = community_leader.communal_council
         # Total de familias
         families = Person.objects.filter(
             family_head=True,
-            family_group__department__building__bridge__block__communal_council=community_leader.communal_council
+            family_group__department__building__bridge__block__communal_council=communal_council
         ).count()
 
         # Total de viviendas
         departments = Person.objects.filter(
             family_head=True,
-            family_group__department__building__bridge__block__communal_council=community_leader.communal_council
-        ).distinct('family_group__department').count()
+            family_group__department__building__bridge__block__communal_council=communal_council
+        )
+        departments_unique = {}
+        for department in departments:
+            departments_unique[department.family_group.department] = department
+        departments = len(departments_unique)
 
         MALE = 1
         # Personas masculinas
         males = Person.objects.filter(
             gender__id=MALE,
-            family_group__department__building__bridge__block__communal_council=community_leader.communal_council
+            family_group__department__building__bridge__block__communal_council=communal_council
         )
         i = 0
         for male in males:
@@ -1161,7 +1167,7 @@ class SociodemographicTemplateView(TemplateView):
         # Personas femeninas
         females = Person.objects.filter(
             gender__id=FEMALE,
-            family_group__department__building__bridge__block__communal_council=community_leader.communal_council
+            family_group__department__building__bridge__block__communal_council=communal_council
         )
         for female in females:
             if female.age() >= 0 and female.age() <= 12:

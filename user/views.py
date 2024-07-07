@@ -1188,7 +1188,7 @@ class CensusListView(ListView):
                 profile=self.request.user.profile
             )
             queryset = StreetLeader.objects.filter(
-                community_leader=community_leader
+                community_leader__communal_council=community_leader.communal_council
             )
             return queryset
 
@@ -1226,7 +1226,11 @@ class SearchView(View):
         id_number = kwargs['id_number']
         if CommunityLeader.objects.filter(profile__user=self.request.user):
             community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
-            person = Person.objects.filter(id_number=id_number, family_group__street_leader__community_leader=community_leader)
+            communal_council = community_leader.communal_council
+            person = Person.objects.filter(
+                id_number=id_number,
+                family_group__street_leader__community_leader__communal_council=communal_council
+            )
         elif StreetLeader.objects.filter(profile__user=self.request.user):
             street_leader = StreetLeader.objects.get(profile__user=self.request.user)
             person = Person.objects.filter(id_number=id_number, family_group__street_leader=street_leader)
@@ -1297,8 +1301,9 @@ class SearchForAgeView(View):
         age = kwargs['age']
         if CommunityLeader.objects.filter(profile__user=self.request.user):
             community_leader = CommunityLeader.objects.get(profile__user=self.request.user)
+            communal_council = community_leader.communal_council
             people = Person.objects.filter(
-                family_group__street_leader__community_leader=community_leader
+                family_group__street_leader__community_leader__communal_council=communal_council
             )
         elif StreetLeader.objects.filter(profile__user=self.request.user):
             street_leader = StreetLeader.objects.get(profile__user=self.request.user)
@@ -1858,7 +1863,9 @@ class CondominiumCreateView(CreateView):
             es su perfil
         """
 
-        if self.request.user.groups.filter(name='Líder de Comunidad'):
+        # usuario comunidad
+        user_id = self.request.user.id
+        if self.request.user.groups.filter(name='Líder de Comunidad') and user_id == 3:
             return super().dispatch(request, *args, **kwargs)
         return redirect('base:error_403')
 
