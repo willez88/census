@@ -659,6 +659,11 @@ class FamilyHead(models.Model):
         db_comment='Monto en bs a pagar: (tasa del dolar * monto del condominio) / total familias',
     )
 
+    # Descripción
+    description = models.TextField(
+        'Descripción', blank=True, db_comment='Descripción del pago',
+    )
+
     # Relación con el modelo Payment
     payment = models.ForeignKey(
         Payment, on_delete=models.CASCADE, verbose_name='pago',

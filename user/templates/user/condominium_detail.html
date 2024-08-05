@@ -79,7 +79,11 @@
                     <td> {{ payment.department }}</td>
                     <td>
                       {% for family_head in payment.familyhead_set.all %}
-                        {{ family_head.amount }} Bs<br><br>
+                        {{ family_head.amount }} Bs
+                        {% if family_head.description %}
+                          <br><strong>Nota:</strong> {{ family_head.description }}
+                        {% endif %}
+                        <br><br>
                       {% endfor %}
                     </td>
                     <td>
@@ -112,7 +116,11 @@
                     <td> {{ payment.department }}</td>
                     <td>
                       {% for family_head in payment.familyhead_set.all %}
-                        {{ family_head.amount }} Bs<br><br>
+                        {{ family_head.amount }} Bs
+                        {% if family_head.description %}
+                          <br><strong>Nota:</strong> {{ family_head.description }}
+                        {% endif %}
+                        <br><br>
                       {% endfor %}
                     </td>
                     <td>
@@ -174,9 +182,14 @@
                 {% for family_head in payment.familyhead_set.all %}
                   {% if family_head.id_number == person.id_number %}
                     <tr>
-                      <td> {{ family_head.payer }} {{ family_head.id_number }}</td>
-                      <td> {{ payment.department }}</td>
-                      <td> {{ family_head.amount }} </td>
+                      <td> {{ family_head.payer }} {{ family_head.id_number }} </td>
+                      <td> {{ payment.department }} </td>
+                      <td>
+                        {{ family_head.amount }} Bs
+                        {% if family_head.description %}
+                          <br><strong>Nota:</strong> {{ family_head.description }}
+                        {% endif %}
+                      </td>
                       <td>
                         {% if family_head.paid %}
                           <i class="far fa-thumbs-up fa-3x text-success" title="Pagado" aria-hidden="true"></i><br>
