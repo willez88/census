@@ -8,3 +8,4 @@ db
 static/node_modules
 logs
 .vscode/settings.json
+media/*

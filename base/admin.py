@@ -9,6 +9,7 @@ from .models import (
     Department,
     Gender,
     Relationship,
+    Signature,
     Ubch,
     VoteType,
 )
@@ -142,6 +143,22 @@ class GenderAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
+class SignatureAdmin(admin.ModelAdmin):
+    """!
+    Clase que agrega modelo Signature al panel administrativo
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Mostrar los campos
+    list_display = (
+        'first_name', 'last_name', 'id_number', 'phone', 'image', 'position',
+        'communal_council',
+    )
+
+
 admin.site.register(Ubch, UbchAdmin)
 admin.site.register(CommunalCouncil, CommunalCouncilAdmin)
 admin.site.register(Block, BlockAdmin)
@@ -151,3 +168,4 @@ admin.site.register(Department, DepartmentAdmin)
 admin.site.register(VoteType, VoteTypeAdmin)
 admin.site.register(Relationship, RelationshipAdmin)
 admin.site.register(Gender, GenderAdmin)
+admin.site.register(Signature, SignatureAdmin)

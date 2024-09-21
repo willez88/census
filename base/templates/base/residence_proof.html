@@ -65,25 +65,28 @@
         <tbody>
           <tr class="text-center">
             <td>
+              <img src="{{ signatures.0.image.url }}" width="200" height="100" /><br>
               ___________________________<br>
-              Wilmer Valero<br>
-              C.I.N° V-16.656.996<br>
-              Vocero Unidad Contralora<br>
-              Telf. 0414-732.76.94
+              {{ signatures.0.first_name }} {{ signatures.0.last_name }}<br>
+              C.I.N° {{ signatures.0.id_number }}<br>
+              Vocero {{ signatures.0.position }}<br>
+              Telf. {{ signatures.0.phone }}
             </td>
             <td>
+              <img src="{{ signatures.1.image.url }}" width="200" height="100" /><br>
               ___________________________<br>
-              Maranyelin Y. Meza<br>
-              C.I.N° V-16.201.648<br>
-              Vocera Comité Hábitat y Vivienda<br>
-              Telf. 0426-477.66.24
+              {{ signatures.1.first_name }} {{ signatures.1.last_name }}<br>
+              C.I.N° {{ signatures.1.id_number }}<br>
+              Vocero {{ signatures.1.position }}<br>
+              Telf. {{ signatures.1.phone }}
             </td>
             <td>
+              <img src="{{ signatures.2.image.url }}" width="200" height="100" /><br>
               ___________________________<br>
-              Jairo Hernández<br>
-              C.I.N° V-13.830.003<br>
-              Vocero Unidad Administrativa<br>
-              Telf. 0426-436.38.80
+              {{ signatures.2.first_name }} {{ signatures.2.last_name }}<br>
+              C.I.N° {{ signatures.2.id_number }}<br>
+              Vocero {{ signatures.2.position }}<br>
+              Telf. {{ signatures.2.phone }}
             </td>
           </tr>
         </tbody>

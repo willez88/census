@@ -500,3 +500,68 @@ class Gender(models.Model):
 
         verbose_name = 'Género'
         verbose_name_plural = 'Géneros'
+
+
+class Signature(models.Model):
+    """!
+    Clase que contiene la firma de personas autorizadas por la comunidad
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    # Nombres
+    first_name = models.CharField(
+        'nombres', max_length=50, db_comment='Nombres del firmante',
+    )
+
+    # Apellidos
+    last_name = models.CharField(
+        'apellidos', max_length=50, db_comment='Apellidos del firmante',
+    )
+
+    # Cédula de identidad
+    id_number = models.CharField(
+        'cédula de identidad', max_length=12, unique=True, db_comment='Nombre del firmante',
+    )
+
+    # Teléfono
+    phone = models.CharField(
+        'teléfono', max_length=15, db_comment='Teléfono del firmante',
+    )
+
+    # Imagen
+    image = models.ImageField('imagen', blank=True, db_comment='Imagen de la firma',)
+
+    # Cargo o vocería
+    position = models.CharField(
+        'cargo', max_length=100, db_comment='Cargo o vocería del firmante',
+    )
+
+    # Relación con el modelo CommunalCouncil
+    communal_council = models.ForeignKey(
+        CommunalCouncil, on_delete=models.CASCADE, verbose_name='consejo comunal',
+        db_comment='Relación con el modelo consejo comunal',
+    )
+
+    def __str__(self):
+        """!
+        Función para representar la clase de forma amigable
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @return string <b>{object}</b> Objeto con el nombre del sexo
+        """
+
+        return self.first_name + ' ' + self.last_name
+
+    class Meta:
+        """!
+        Meta clase del modelo que establece algunas propiedades
+
+        @author William Páez (paez.william8 at gmail.com)
+        """
+
+        verbose_name = 'Firma'
+        verbose_name_plural = 'Firmas'
