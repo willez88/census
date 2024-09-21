@@ -24,7 +24,6 @@ from .models import (
     Department,
     Gender,
     Relationship,
-    Signature,
     VoteType,
 )
 
@@ -1273,9 +1272,9 @@ class ResidenceProofTemplateView(TemplateView):
         context = {}
         context['person'] = person
         context['logo_url'] = settings.BASE_DIR / 'static/img/logo-rdsr.jpg'
-        communal_council = person.family_group.street_leader.community_leader.communal_council
-        if Signature.objects.filter(communal_council=communal_council):
-            context['signatures'] = Signature.objects.filter(communal_council=communal_council)
+        context['imagen1'] = settings.BASE_DIR / 'static/img/imagen1.png'
+        context['imagen2'] = settings.BASE_DIR / 'static/img/imagen2.png'
+        context['imagen3'] = settings.BASE_DIR / 'static/img/imagen3.png'
         html = render_to_string(self.template_name, context)
         HTML(
             string=html, base_url=request.build_absolute_uri()
