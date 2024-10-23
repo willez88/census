@@ -1273,8 +1273,80 @@ class ResidenceProofTemplateView(TemplateView):
         context['person'] = person
         context['logo_url'] = settings.BASE_DIR / 'static/img/logo-rdsr.jpg'
         context['imagen1'] = settings.BASE_DIR / 'static/img/imagen1.png'
-        context['imagen2'] = settings.BASE_DIR / 'static/img/imagen2.png'
-        context['imagen3'] = settings.BASE_DIR / 'static/img/imagen3.png'
+        context['mara'] = settings.BASE_DIR / 'static/img/mara.png'
+        context['jairo'] = settings.BASE_DIR / 'static/img/jairo.png'
+        html = render_to_string(self.template_name, context)
+        HTML(
+            string=html, base_url=request.build_absolute_uri()
+        ).write_pdf(
+            response,
+            font_config=font_config,
+            stylesheets=[
+                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
+            ],
+            presentational_hints=True
+        )
+        return response
+
+
+class LowResourcesTemplateView(TemplateView):
+    """!
+    Clase que exporta la carta de bajos recursos
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-2.0.html'>
+        GNU Public License versión 2 (GPLv2)</a>
+    """
+
+    template_name = 'base/low_resources.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Función que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene los datos de la
+            petición
+        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return super <b>{object}</b> Entra a la vista correspondiente
+            sino redirecciona hacia la vista de error de permisos
+        """
+
+        group1 = self.request.user.groups.filter(name='Líder de Comunidad')
+        group2 = self.request.user.groups.filter(name='Líder de Calle')
+        group3 = self.request.user.groups.filter(name='Grupo Familiar')
+        if group1 or group2 or group3:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+
+    def get(self, request, *args, **kwargs):
+        """!
+        Función que descarga un archivo pdf
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Retorna datos en un archivo pdf
+        """
+
+        id_number = kwargs['id_number']
+        person = get_object_or_404(Person, id_number=id_number)
+        response = HttpResponse(content_type='application/pdf')
+        response[
+            'Content-Disposition'
+        ] = 'inline; filename=carta-residencia.pdf'
+        font_config = FontConfiguration()
+        context = {}
+        context['person'] = person
+        context['logo_url'] = settings.BASE_DIR / 'static/img/logo-rdsr.jpg'
+        context['imagen1'] = settings.BASE_DIR / 'static/img/imagen1.png'
+        context['mara'] = settings.BASE_DIR / 'static/img/mara.png'
+        context['jairo'] = settings.BASE_DIR / 'static/img/jairo.png'
         html = render_to_string(self.template_name, context)
         HTML(
             string=html, base_url=request.build_absolute_uri()

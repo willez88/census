@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Carta de Residencia</title>
+    <title>Carta de Bajos Recursos</title>
     <style>
       @page {
         size: "A4";
@@ -23,12 +23,11 @@
       <h5 class="text-center">CONSEJO COMUNAL "DOMINGO SALAZAR ROJAS"</h5>
       <h5 class="text-center">MÉRIDA ESTADO MÉRIDA</h5>
       <br><br>
-      <h2 class="text-center">Constancia de Residencia</h2>
       <br><br>
       <p class="text-justify" style="font-size:20px;">
-        El Consejo Comunal "Domingo Salazar Rojas", de la Residencia Estudiantil Mixta
-        "Domingo Salazar Rojas", inscrito inscrito en el registro de información fiscal
-        C-299884472, ubicada en la Avenida Alberto Carnevalli, sector Santa Ana, de la
+        Por medio del presente, el Consejo Comunal "Domingo Salazar Rojas", de la Residencia
+        Estudiantil Mixta "Domingo Salazar Rojas", inscrito inscrito en el registro de información
+        fiscal C-299884472, ubicada en la Avenida Alberto Carnevalli, sector Santa Ana, de la
         Parroquia Antonio Spinetti Dini, Municipio Libertador de la ciudad de Mérida,
         Estado Mérida.
       </p>
@@ -36,31 +35,14 @@
       <h2 class="text-center">Hace Constar</h2>
       <br><br>
       <p class="text-justify" style="font-size:20px;">
-        Que el (la) ciudadano (a): {{ person.first_name|title }} {{ person.last_name|title }},
-        Titular de la C.I. N° {{ person.id_number }}, reside en el
-        {{ person.family_group.department.building.bridge.block.name }},
-        {{ person.family_group.department.building.name }},
-        Piso {{ person.family_group.department.name.0 }}{{ person.family_group.department.name.1 }},
-        Apartamento {{ person.family_group.department.name }},
-        desde hace
-        {% if person.living.0 == 0 %}
-          {{ person.living.1 }} mes{{ person.living.1|pluralize:"es" }}
-        {% endif %}
-        {% if person.living.1 == 0 %}
-          {{ person.living.0 }} año{{ person.living.0|pluralize }}
-        {% endif %}
-        {% if person.living.0 > 0 and person.living.1 > 0 %}
-          {{ person.living.0 }} año{{ person.living.0|pluralize }} y
-          {{ person.living.1 }} mes{{ person.living.1|pluralize:"es" }}
-        {% endif %}
-        . Del mismo modo se hace constar que los servicios básicos
-        (agua, luz, aseo urbano), los asume el Estado Mérida, por tanto no posee recibo de
-        pagos de servicio.
-
+        Que el (la) ciudadano (a): {{ person.first_name|title }} {{ person.last_name|title }}, mayor de edad,
+        Titular de la C.I. N° {{ person.id_number }}, <strong>se encuentra en una situación social de
+        bajo recursos</strong>, agradecemos cualquier ayuda que puedan prestarle.
+        <br><br>
         Constancia que se expide, a solicitud de parte interesada, en la ciudad de Mérida,
         a los {% now 'd' %} días, del mes de {% now 'F' %} del año {% now 'Y' %}.
       </p>
-      <br><br>
+      <br><br><br>
       <table class="table table-borderless">
         <tbody>
           <tr class="text-center">

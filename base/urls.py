@@ -14,6 +14,7 @@ from .views import (
     GenderListView,
     GetDepartmentView,
     HomeView,
+    LowResourcesTemplateView,
     RelationshipListView,
     ResidenceProofTemplateView,
     SociodemographicTemplateView,
@@ -95,6 +96,12 @@ urlpatterns = [
         'descargar-carta-residencia/<slug:id_number>/',
         login_required(ResidenceProofTemplateView.as_view()),
         name='residence_proof'
+    ),
+
+    path(
+        'descargar-carta-bajos-recursos/<slug:id_number>/',
+        login_required(LowResourcesTemplateView.as_view()),
+        name='low_resources'
     ),
 
     path(
