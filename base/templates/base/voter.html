@@ -19,6 +19,14 @@
           <tr>
             <th>Nombres y Apellidos</th>
             <th>Cédula</th>
+            
+            <!-- datos temporales -->
+            <th>Fecha de Nacimiento</th>
+            <th>Edad</th>
+            <th>Teléfono</th>
+            <th>Tipo de Voto</th>
+            <!-- datos temporales -->
+            
             <th>Bloque / Edificio</th>
             <th>Apto</th>
             <th>Firma</th>
@@ -30,6 +38,14 @@
             <tr>
               <td>{{ person.first_name|title }} {{ person.last_name|title }}</td>
               <td>{{ person.id_number }}</td>
+
+              <!-- datos temporales -->
+              <td>{{ person.birthdate }}</td>
+              <td>{{ person.age }}</td>
+              <td>{{ person.phone }}</td>
+              <td>{{ person.vote_type }}</td>
+              <!-- datos temporales -->
+
               <td>{{ person.family_group.department.building.bridge.block.name }} / {{ person.family_group.department.building.name }}</td>
               <td>{{ person.family_group.department.name }}</td>
               <td></td>
