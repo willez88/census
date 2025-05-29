@@ -256,6 +256,7 @@ class ExportExcelView(View):
             worksheet['E21'] = 'TIPO DE VOTO'
             worksheet['F21'] = 'PARENTESCO'
             worksheet['G21'] = 'ES JEFE DE FAMILIA'
+            worksheet['H21'] = 'Apartamento'
             c = 22
             for family_group in FamilyGroup.objects.filter(
                 street_leader=street_leader
@@ -283,13 +284,14 @@ class ExportExcelView(View):
                     worksheet[column6] = str(person.relationship)
 
                     column7 = 'G'+str(c)
+                    column8 = 'h'+str(c)
                     if person.family_head:
                         worksheet[column7] = 'SI'
+                        worksheet[column8] = str(family_group.department)
                     else:
                         worksheet[column7] = 'No'
 
                     c = c + 1
-
                 column8 = 'A'+str(c)
                 worksheet[column8] = ' '
                 c = c + 1
