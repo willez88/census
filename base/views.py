@@ -1361,3 +1361,266 @@ class LowResourcesTemplateView(TemplateView):
             presentational_hints=True
         )
         return response
+
+
+class ExportExcelOlderAdultView(View):
+    """!
+    Clase que descarga adultos mayores relacionados a los usuarios Líder de Comunidad
+
+    @author William Páez (paez.william8 at gmail.com)
+    @copyright <a href='http://www.gnu.org/licenses/gpl-3.0.html'>
+        GNU Public License versión 3 (GPLv3)</a>
+    """
+
+    def dispatch(self, request, *args, **kwargs):
+        """!
+        Función que valida si el usuario del sistema tiene permisos para entrar
+        a esta vista
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene los datos de la
+            petición
+        @param *args <b>{tuple}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return super <b>{object}</b> Entra a la vista correspondiente
+            sino redirecciona hacia la vista de error de permisos
+        """
+
+        if self.request.user.groups.filter(name='Líder de Comunidad'):
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('base:error_403')
+    
+    def get(self, request, *args, **kwargs):
+        """!
+        Función que descarga un archivo excel
+
+        @author William Páez (paez.william8 at gmail.com)
+        @param self <b>{object}</b> Objeto que instancia la clase
+        @param request <b>{object}</b> Objeto que contiene la petición
+        @param *args <b>{tupla}</b> Tupla de valores, inicialmente vacia
+        @param **kwargs <b>{dict}</b> Diccionario de datos, inicialmente vacio
+        @return Retorna datos en un archivo excel
+        """
+
+        workbook = Workbook()
+        worksheet = workbook.active
+        worksheet.title = 'Hoja 1'
+        community_leader = CommunityLeader.objects.get(
+            profile=self.request.user.profile
+        )
+        worksheet.column_dimensions['A'].width = 30
+        worksheet.row_dimensions[1].height = 60
+        worksheet[
+                'A1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['A1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['A1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['B'].width = 30
+        worksheet[
+            'B1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['B1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['B1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['C'].width = 30
+        worksheet[
+            'C1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['C1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['C1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['D'].width = 30
+        worksheet[
+            'D1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['D1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['D1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['E'].width = 50
+        worksheet[
+            'E1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['E1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['E1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['F'].width = 50
+        worksheet[
+            'F1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['F1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['F1'].alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+
+        worksheet.column_dimensions['G'].width = 50
+        worksheet[
+            'G1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['G1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['G1'].alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+
+        worksheet.column_dimensions['H'].width = 30
+        worksheet[
+            'H1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['H1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['H1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['I'].width = 50
+        worksheet[
+            'I1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['I1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['I1'].alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+
+        worksheet.column_dimensions['J'].width = 50
+        worksheet[
+            'J1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['J1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['J1'].alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+
+        worksheet.column_dimensions['K'].width = 30
+        worksheet[
+            'K1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['K1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['K1'].alignment = Alignment(horizontal='center', vertical='center', wrap_text=True)
+
+        worksheet.column_dimensions['L'].width = 30
+        worksheet[
+            'L1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['L1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['L1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['M'].width = 30
+        worksheet[
+            'M1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['M1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['M1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['N'].width = 30
+        worksheet[
+            'N1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['N1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['N1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['O'].width = 30
+        worksheet[
+            'O1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['O1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['O1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['P'].width = 30
+        worksheet[
+            'P1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['P1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['P1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['Q'].width = 30
+        worksheet[
+            'Q1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['Q1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['Q1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['R'].width = 30
+        worksheet[
+            'R1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['R1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['R1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['S'].width = 30
+        worksheet[
+            'S1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['S1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['S1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet.column_dimensions['T'].width = 30
+        worksheet[
+            'T1'
+        ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+        worksheet['T1'].font = Font(color='FFFFFF', bold=True)
+        worksheet['T1'].alignment = Alignment(horizontal='center', vertical='center')
+
+        worksheet['A1'] = 'Municipio'
+        worksheet['B1'] = 'Parroquia'
+        worksheet['C1'] = 'Nombre del CLAP'
+        worksheet['D1'] = 'Comunidades Asociadas al CLAP'
+        worksheet['E1'] = 'Jefe de Calle'
+        worksheet['F1'] = 'Cédula de Identidad del Jefe de Familia (Solo números)'
+        worksheet['G1'] = 'Nombres y Apellidos del Jefe de Familia'
+        worksheet['H1'] = 'Teléfono'
+        worksheet['I1'] = 'Dirección Exacta (Calle/Edif/Avenida,numero)'
+        worksheet['J1'] = 'Cantidad de Carga Familiar (incluyendo del Jefe de Familia)'
+        worksheet['K1'] = 'Cédula Carga Familiar 1'
+        worksheet['L1'] = 'Cédula Carga Familiar 2'
+        worksheet['M1'] = 'Cédula Carga Familiar 3'
+        worksheet['N1'] = 'Cédula Carga Familiar 4'
+        worksheet['O1'] = 'Cédula Carga Familiar 5'
+        worksheet['P1'] = 'Cédula Carga Familiar 6'
+        worksheet['Q1'] = 'Cédula Carga Familiar 7'
+        worksheet['R1'] = 'Cédula Carga Familiar 8'
+        worksheet['S1'] = 'Cédula Carga Familiar 9'
+        worksheet['T1'] = 'Cédula Carga Familiar 10'
+        columns = ['K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T']
+        c = 2
+        for street_leader in StreetLeader.objects.filter(
+            community_leader=community_leader
+        ):
+            for family_group in FamilyGroup.objects.filter(
+                street_leader=street_leader
+            ):
+                family_head = family_group.person_set.filter(family_head=True)
+                for person in Person.objects.filter(family_group=family_group):
+                    if person.age() >= 55:
+                        column1 = 'A'+str(c)
+                        worksheet[column1] = str(community_leader.communal_council.ubch.parish.municipality)
+
+                        column2 = 'B'+str(c)
+                        worksheet[column2] = str(community_leader.communal_council.ubch.parish)
+                        
+                        column3 = 'C'+str(c)
+                        worksheet[column3] = 'Domingo Salazar Rojas'
+
+                        column5 = 'E'+str(c)
+                        worksheet[column5] = str(street_leader.profile)
+
+                        column6 = 'F'+str(c)
+                        worksheet[column6] = str(family_head[0].id_number)
+
+                        column7 = 'G'+str(c)
+                        worksheet[column7] = family_head[0].first_name + ' ' + family_head[0].last_name
+
+                        column8 = 'H'+str(c)
+                        worksheet[column8] = family_head[0].phone
+
+                        column9 = 'I'+str(c)
+                        worksheet[column9] = str(family_head[0].family_group.department)
+
+                        column10 = 'J'+str(c)
+                        worksheet[column10] = family_group.person_set.count()
+
+                        i = 0
+                        for person in family_group.person_set.all():
+                            worksheet[columns[i]+str(c)] = person.id_number
+                            i = i + 1
+
+                        c = c + 1
+        with NamedTemporaryFile() as tmp:
+            workbook.save(tmp.name)
+            tmp.seek(0)
+            stream = tmp.read()
+        response = HttpResponse(
+            content=stream,
+            content_type='application/ms-excel'
+        )
+        response['Content-Disposition'] = 'attachment; filename="censo_estado_mayor.xlsx"'
+        return response

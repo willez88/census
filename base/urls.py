@@ -7,6 +7,7 @@ from .views import (
     DemographicCensusTemplateView,
     DepartmentListView,
     Error403View,
+    ExportExcelOlderAdultView,
     ExportExcelStreetLeaderView,
     ExportExcelView,
     FilterTemplateView,
@@ -36,6 +37,11 @@ urlpatterns = [
         'descargar-archivo-lider-calle/',
         login_required(ExportExcelStreetLeaderView.as_view()),
         name='export_excel_street_leader'
+    ),
+    path(
+        'descargar-archivo-adulto-mayor/',
+        login_required(ExportExcelOlderAdultView.as_view()),
+        name='export_excel_older_adult'
     ),
     path(
         'vote-types/list/', login_required(VoteTypeListView.as_view()),
