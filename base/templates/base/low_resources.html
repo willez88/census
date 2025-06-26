@@ -35,7 +35,8 @@
       <h2 class="text-center">Hace Constar</h2>
       <br><br>
       <p class="text-justify" style="font-size:20px;">
-        Que el (la) ciudadano (a): {{ person.first_name|title }} {{ person.last_name|title }}, mayor de edad,
+        Que el (la) ciudadano (a): {{ person.first_name|title }} {{ person.last_name|title }},
+        {% if person.age >= 18 %} mayor de edad, {% else %} menor de edad, {% endif %}
         Titular de la C.I. N° {{ person.id_number }},<strong> se encuentra en una situación social de
         bajo recursos</strong>, agradecemos cualquier ayuda que puedan prestarle.
         <br><br>
