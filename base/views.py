@@ -1269,7 +1269,7 @@ class ResidenceProofTemplateView(TemplateView):
         response = HttpResponse(content_type='application/pdf')
         response[
             'Content-Disposition'
-        ] = 'inline; filename=carta-residencia.pdf'
+        ] = 'inline; filename=carta_residencia.pdf'
         font_config = FontConfiguration()
         context = {}
         context['person'] = person
@@ -1341,7 +1341,7 @@ class LowResourcesTemplateView(TemplateView):
         response = HttpResponse(content_type='application/pdf')
         response[
             'Content-Disposition'
-        ] = 'inline; filename=carta-residencia.pdf'
+        ] = 'inline; filename=carta_bajos_recursos.pdf'
         font_config = FontConfiguration()
         context = {}
         context['person'] = person
