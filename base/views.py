@@ -1580,7 +1580,7 @@ class ExportExcelOlderAdultView(View):
             ):
                 family_head = family_group.person_set.filter(family_head=True)
                 for person in Person.objects.filter(family_group=family_group):
-                    if person.age() >= 55:
+                    if person.age() >= 50:
                         column1 = 'A'+str(c)
                         worksheet[column1] = str(community_leader.communal_council.ubch.parish.municipality)
 
