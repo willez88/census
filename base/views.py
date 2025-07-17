@@ -146,9 +146,9 @@ class ExportExcelView(View):
             community_leader=community_leader
         ):
             worksheet = workbook.create_sheet(title='Hoja ' + str(i))
-            worksheet.merge_cells('A1:H1')
-            worksheet.merge_cells('A2:H2')
-            worksheet.merge_cells('A3:H3')
+            worksheet.merge_cells('A1:J1')
+            worksheet.merge_cells('A2:J2')
+            worksheet.merge_cells('A3:J3')
             worksheet.column_dimensions['A'].width = 16
             worksheet.column_dimensions['B'].width = 25
             worksheet.column_dimensions['C'].width = 16
@@ -199,8 +199,8 @@ class ExportExcelView(View):
             worksheet['A16'] = 'Lider de Calle:'
             worksheet['B16'] = str(street_leader.profile)
 
-            worksheet.merge_cells('A19:H19')
-            worksheet.merge_cells('A20:H20')
+            worksheet.merge_cells('A19:J19')
+            worksheet.merge_cells('A20:J20')
             worksheet['A19'] = 'CENSO REGISTRADO'
             worksheet['A19'].alignment = Alignment(horizontal='center')
             worksheet['A20'] = 'NOTA: TIPO DE VOTOS PERMITIDOS: DURO, BLANDO, \
@@ -218,6 +218,7 @@ class ExportExcelView(View):
             ].fill = PatternFill(start_color='FF0000', fill_type='solid')
             worksheet['B21'].font = Font(color='FFFFFF')
             worksheet['B21'].alignment = Alignment(horizontal='center')
+            worksheet.column_dimensions['B'].width = 30
 
             worksheet[
                 'C21'
@@ -249,6 +250,27 @@ class ExportExcelView(View):
             worksheet['G21'].font = Font(color='FFFFFF')
             worksheet['G21'].alignment = Alignment(horizontal='center')
 
+            worksheet[
+                'H21'
+            ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+            worksheet['H21'].font = Font(color='FFFFFF')
+            worksheet['H21'].alignment = Alignment(horizontal='center')
+            worksheet.column_dimensions['H'].width = 15
+
+            worksheet[
+                'I21'
+            ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+            worksheet['I21'].font = Font(color='FFFFFF')
+            worksheet['I21'].alignment = Alignment(horizontal='center')
+            worksheet.column_dimensions['I'].width = 10
+
+            worksheet[
+                'J21'
+            ].fill = PatternFill(start_color='FF0000', fill_type='solid')
+            worksheet['J21'].font = Font(color='FFFFFF')
+            worksheet['I21'].alignment = Alignment(horizontal='center')
+            worksheet.column_dimensions['J'].width = 10
+
             worksheet['A21'] = 'CÉDULA'
             worksheet['B21'] = 'NOMBRES Y APELLIDOS'
             worksheet['C21'] = 'TELÉFONO'
@@ -257,37 +279,42 @@ class ExportExcelView(View):
             worksheet['F21'] = 'PARENTESCO'
             worksheet['G21'] = 'ES JEFE DE FAMILIA'
             worksheet['H21'] = 'Apartamento'
+            worksheet['I21'] = 'Edificio'
+            worksheet['J21'] = 'Bloque'
             c = 22
             for family_group in FamilyGroup.objects.filter(
                 street_leader=street_leader
             ):
-                # print(Person.objects.filter(family_group=family_group))
                 for person in Person.objects.filter(family_group=family_group):
-                    column1 = 'A'+str(c)
+                    column1 = 'A' + str(c)
                     worksheet[column1] = person.id_number
 
-                    column2 = 'B'+str(c)
+                    column2 = 'B' + str(c)
                     worksheet[
                         column2
                     ] = person.first_name + ' ' + person.last_name
 
-                    column3 = 'C'+str(c)
+                    column3 = 'C' + str(c)
                     worksheet[column3] = person.phone
 
-                    column4 = 'D'+str(c)
+                    column4 = 'D' + str(c)
                     worksheet[column4] = person.email
 
-                    column5 = 'E'+str(c)
+                    column5 = 'E' + str(c)
                     worksheet[column5] = str(person.vote_type)
 
                     column6 = 'F'+str(c)
                     worksheet[column6] = str(person.relationship)
 
-                    column7 = 'G'+str(c)
-                    column8 = 'h'+str(c)
+                    column7 = 'G' + str(c)
+                    column8 = 'H' + str(c)
+                    column9 = 'I' + str(c)
+                    column10 = 'J' + str(c)
                     if person.family_head:
                         worksheet[column7] = 'SI'
-                        worksheet[column8] = str(family_group.department)
+                        worksheet[column8] = family_group.department.name
+                        worksheet[column9] = family_group.department.building.name
+                        worksheet[column10] = family_group.department.building.bridge.block.name
                     else:
                         worksheet[column7] = 'No'
 
