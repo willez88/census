@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.contrib.sites.shortcuts import get_current_site
+from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -1879,29 +1880,44 @@ class CondominiumCreateView(CreateView):
         @return super <b>{object}</b> Formulario validado
         """
 
-        self.object = form.save(commit=False)
-        self.object.user = self.request.user
-        self.object.save()
-        for department in Department.objects.all():
-            family_groups = department.familygroup_set.filter(
-                street_leader__community_leader__profile__user=self.request.user
-            )
-            if family_groups:
-                payment = Payment.objects.create(
-                    department=department,
-                    condominium=self.object,
-                    user=family_groups[0].street_leader.profile.user
+        family_heads = []
+        with transaction.atomic():
+            self.object = form.save(commit=False)
+            self.object.user = self.request.user
+            self.object.save()
+            for department in Department.objects.all():
+                family_groups = department.familygroup_set.filter(
+                    street_leader__community_leader__profile__user=self.request.user
                 )
-                total_family_group = family_groups.count()
-                for family_group in family_groups:
-                    if family_group.person_set.filter(family_head=True).exists():
-                        person = family_group.person_set.get(family_head=True)
-                        FamilyHead.objects.create(
-                            payer='{} {}'.format(person.first_name, person.last_name),
-                            id_number=person.id_number,
-                            amount=(self.object.rate * self.object.amount) / total_family_group,
-                            payment=payment
-                        )
+                if family_groups:
+                    payment = Payment.objects.create(
+                        department=department,
+                        condominium=self.object,
+                        user=family_groups[0].street_leader.profile.user
+                    )
+                    total_family_group = family_groups.count()
+                    for family_group in family_groups:
+                        if family_group.person_set.filter(family_head=True).exists():
+                            people = family_group.person_set.filter(family_head=True)
+                            if people.count() > 1:
+                                family_heads.append(people.first())
+                                FamilyHead.objects.create(
+                                    payer='{} {}'.format(people.first().first_name, people.first().last_name),
+                                    id_number=people.first().id_number,
+                                    amount=(self.object.rate * self.object.amount) / total_family_group,
+                                    payment=payment
+                                )
+                            else:
+                                FamilyHead.objects.create(
+                                    payer='{} {}'.format(people.first().first_name, people.first().last_name),
+                                    id_number=people.first().id_number,
+                                    amount=(self.object.rate * self.object.amount) / total_family_group,
+                                    payment=payment
+                                )
+        if family_heads:
+            messages.warning(
+                self.request, 'Jefe Familiar repetido: %s' % (family_heads)
+            )
         return super().form_valid(form)
 
 
