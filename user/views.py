@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.models import Group, User
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect
@@ -542,6 +543,7 @@ class FamilyGroupListView(ListView):
     model = FamilyGroup
     template_name = 'user/family_group_list.html'
     success_url = reverse_lazy('user:family_group_list')
+    paginate_by = 10
 
     def dispatch(self, request, *args, **kwargs):
         """!
@@ -574,10 +576,10 @@ class FamilyGroupListView(ListView):
             street_leader = StreetLeader.objects.get(
                 profile=self.request.user.profile
             )
-            queryset = FamilyGroup.objects.filter(
+            return FamilyGroup.objects.filter(
                 street_leader=street_leader
-            )
-            return queryset
+            ).select_related('profile__user').prefetch_related('person_set')
+        return FamilyGroup.objects.none()
 
     def post(self, *args, **kwargs):
         """!
@@ -1188,10 +1190,12 @@ class CensusListView(ListView):
             community_leader = CommunityLeader.objects.get(
                 profile=self.request.user.profile
             )
-            queryset = StreetLeader.objects.filter(
+            return StreetLeader.objects.filter(
                 community_leader__communal_council=community_leader.communal_council
+            ).prefetch_related(
+                'familygroup_set__person_set'  # Optimiza las consultas
             )
-            return queryset
+        return StreetLeader.objects.none()
 
 
 class SearchView(View):
@@ -1744,6 +1748,7 @@ class CondominiumListView(ListView):
     model = Condominium
     template_name = 'user/condominium_list.html'
     success_url = reverse_lazy('user:condominium_list')
+    paginate_by = 10
 
     def dispatch(self, request, *args, **kwargs):
         """!
@@ -1932,6 +1937,7 @@ class CondominiumDetailView(DetailView):
 
     model = Condominium
     template_name = 'user/condominium_detail.html'
+    paginate_by = 10
 
     def dispatch(self, request, *args, **kwargs):
         """!
@@ -2066,4 +2072,11 @@ class CondominiumDetailView(DetailView):
             )
         context['amount_street_leaders'] = amount_street_leaders
         context['total_sum'] = (total_sum, total_sum/self.object.rate)
+
+        # Paginación de los pagos
+        payment_list = self.object.payment_set.all()
+        paginator = Paginator(payment_list, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context['page_obj'] = page_obj
         return context

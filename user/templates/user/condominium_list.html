@@ -1,11 +1,11 @@
 {% extends 'base/base.html' %}
 {% load i18n %}
 {% load auth_extra %}
+
 {% block breadcrumb %}
-  <li class="breadcrumb-item active">
-    Condominios
-  </li>
+  <li class="breadcrumb-item active">Condominios</li>
 {% endblock %}
+
 {% block content %}
   <div class="card">
     <div class="card-header">
@@ -20,6 +20,7 @@
         <form id="form_activate" method="post">
           {% csrf_token %}
           <table class="table table-striped table-hover table-bordered display dataTable" id="table" style="width:100%;">
+            <!-- Cabecera de la tabla (igual que antes) -->
             <thead>
               <tr>
                 <th>Fecha</th>
@@ -31,39 +32,83 @@
                 {% endif %}
               </tr>
             </thead>
+            <!-- Cuerpo de la tabla -->
             <tbody>
-              {% for condominium in object_list %}
+              {% for condominium in page_obj %}  <!-- Cambiado object_list por page_obj -->
                 <tr>
-                  <td> <a href="{% url 'user:condominium_detail' condominium.id %}"> {{ condominium.date }} </a> </td>
-                  <td> {{ condominium.rate }}</td>
-                  <td> {{ condominium.amount }}</td>
+                  <!-- Contenido de cada fila (igual que antes) -->
+                  <td><a href="{% url 'user:condominium_detail' condominium.id %}">{{ condominium.date }}</a></td>
+                  <td>{{ condominium.rate }}</td>
+                  <td>{{ condominium.amount }}</td>
                   {% if request.user|has_group:'Líder de Comunidad' %}
-                    <td> Bs: {{ condominium.total_amount_bs }} | usd: {{ condominium.total_amount_usd }} </td>
-                    {% if condominium.closing %}
-                      <td>
+                    <td>Bs: {{ condominium.total_amount_bs }} | usd: {{ condominium.total_amount_usd }}</td>
+                    <td>
+                      {% if condominium.closing %}
                         <i class="far fa-thumbs-up fa-3x text-success" title="Cerrado" aria-hidden="true"></i>
                         <input type='checkbox' id='user-{{ condominium.id }}' value='{{ condominium.id }}' name='deactivate' onclick='$("#form_activate").submit();'/>
-                      </td>
-                    {% else %}
-                      <td>
+                      {% else %}
                         <i class="far fa-thumbs-down fa-3x text-danger" title="Abierto" aria-hidden="true"></i>
                         <input type='checkbox' id='user-{{ condominium.id }}' value='{{ condominium.id }}' name='activate' onclick='$("#form_activate").submit();'/>
-                      </td>
-                    {% endif %}
+                      {% endif %}
+                    </td>
                   {% endif %}
                 </tr>
               {% endfor %}
             </tbody>
           </table>
         </form>
+        
+        <!-- Paginación -->
+        <div class="d-flex justify-content-between">
+          <div>
+            Mostrando {{ page_obj.start_index }} a {{ page_obj.end_index }} de {{ page_obj.paginator.count }} registros
+          </div>
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page=1">&laquo; Primera</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+              </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+                <li class="page-item active">
+                  <a class="page-link" href="#">{{ num }}</a>
+                </li>
+              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 {% endblock %}
+
 {% block extra_footer %}
   <script type="text/javascript">
     $(document).ready(function() {
-      var table = $('#table').DataTable();
+      // Deshabilitar la paginación de DataTables para usar la de Django
+      var table = $('#table').DataTable({
+        "paging": false,  // Desactiva paginación de DataTables
+        "info": false,    // Desactiva el info de DataTables
+        "searching": true // Mantiene la búsqueda
+      });
     });
   </script>
 {% endblock %}
