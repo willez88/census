@@ -41,7 +41,7 @@
                   <td>{{ condominium.rate }}</td>
                   <td>{{ condominium.amount }}</td>
                   {% if request.user|has_group:'Líder de Comunidad' %}
-                    <td>Bs: {{ condominium.total_amount_bs }} | usd: {{ condominium.total_amount_usd }}</td>
+                    <td>Bs: {{ condominium.total_amount_bs }} | usd: {{ condominium.total_amount_usd|floatformat:2 }}</td>
                     <td>
                       {% if condominium.closing %}
                         <i class="far fa-thumbs-up fa-3x text-success" title="Cerrado" aria-hidden="true"></i>
