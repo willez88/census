@@ -1,21 +1,18 @@
-Django==4.2
-django-extensions==3.2.1
-openpyxl==3.1.2
-weasyprint==59.0
-pymysql==1.0.3
-mysqlclient==2.1.1
+Django==5.2.*
+django-auditlog==3.2.1
+django-extensions==4.1
 ndg-httpsclient==0.5.1
-pyopenssl==23.1.1
+openpyxl==3.1.5
 pyasn1==0.4.8
-django-auditlog==2.3.0
+pyopenssl==23.1.1
+weasyprint==66.0
 
 # Actualizaciones
 # Django
+# django-auditlog
 # django-extensions
-# openpyxl
-# weasyprint==59.0
-# pymysql
-# mysqlclient
 # ndg-httpsclient
-# pyopenssl
+# openpyxl
 # pyasn1
+# pyopenssl
+# weasyprint

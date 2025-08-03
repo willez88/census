@@ -9,33 +9,100 @@
         size: "A4";
         margin: 1.0cm 1.5cm 1.0cm 1.5cm;
       }
+
+      body {
+        font-family: "Times New Roman", Times, serif;
+        font-size: 12pt;
+        line-height: 1.5;
+        padding: 0;
+        margin: 0;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .text-justify {
+        text-align: justify;
+      }
+
+      .signatures {
+        display: flex;
+        justify-content: space-between;
+        margin: 25px 0;
+        text-align: center;
+      }
+
+      .signature {
+        flex: 1;
+        padding: 0 10px;
+        white-space: nowrap;
+      }
+
+      .signature-font-size {
+        font-size: 10pt;
+      }
+
+      .signature-img {
+        width: 120px; /* Tamaño reducido */
+        height: 80px; /* Tamaño reducido */
+        object-fit: contain; /* Mantiene proporciones */
+        margin-bottom: 5px; /* Espacio entre imagen y línea */
+      }
+
+      h2 {
+        font-size: 2rem;        /* 32px si el tamaño base es 16px */
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.2;
+        color: inherit;
+        margin-top: 0;
+        margin-bottom: 0.5rem;  /* 8px */
+      }
+
+      h5 {
+        font-size: 1.25rem;  /* Equivale a 20px si el root es 16px */
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.2;
+        color: inherit;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+      }
+
+      .font-size {
+        font-size: 10pt;
+      }
+
+      .text-right {
+        text-align: right;
+      }
     </style>
   </head>
 
   <body>
-    <main class="container">
-      <br><br><br>
+    <main>
+      <br>
       <div class="text-center">
         <img src="file://{{ logo_url }}" alt="Residencias Domingo Salazar Rojas" />
       </div>
-      <br>
       <h5 class="text-center">REPÚBLICA BOLIVARIANA DE VENEZUELA</h5>
       <h5 class="text-center">CONSEJO COMUNAL "DOMINGO SALAZAR ROJAS"</h5>
       <h5 class="text-center">MÉRIDA ESTADO MÉRIDA</h5>
-      <br><br>
+      <br>
       <h2 class="text-center">Constancia de Residencia</h2>
-      <br><br>
-      <p class="text-justify" style="font-size:20px;">
+
+      <p class="text-justify">
         El Consejo Comunal "Domingo Salazar Rojas", de la Residencia Estudiantil Mixta
         "Domingo Salazar Rojas", inscrito en el registro de información fiscal
         C-299884472, ubicada en la Avenida Alberto Carnevalli, sector Santa Ana, de la
         Parroquia Antonio Spinetti Dini, Municipio Libertador de la ciudad de Mérida,
         Estado Mérida.
       </p>
-      <br><br>
+
       <h2 class="text-center">Hace Constar</h2>
-      <br><br>
-      <p class="text-justify" style="font-size:20px;">
+
+      <p class="text-justify">
         Que el (la) ciudadano (a): {{ person.first_name|title }} {{ person.last_name|title }},
         Titular de la C.I. N° {{ person.id_number }}, reside en el
         {{ person.family_group.department.building.bridge.block.name }},
@@ -55,55 +122,51 @@
         {% endif %}
         . Del mismo modo se hace constar que los servicios básicos
         (agua, luz, aseo urbano), los asume el Estado Mérida, por tanto no posee recibo de
-        pagos de servicio.
-
-        Constancia que se expide, a solicitud de parte interesada, en la ciudad de Mérida,
-        a los {% now 'd' %} días, del mes de {% now 'F' %} del año {% now 'Y' %}.
+        pagos de servicio. Constancia que se expide, a solicitud de parte interesada, en
+        la ciudad de Mérida, a los {% now 'd' %} días, del mes de {% now 'F' %} del año {% now 'Y' %}.
       </p>
-      <br><br>
-      <table class="table table-borderless">
-        <tbody>
-          <tr class="text-center">
-            <td>
-              <img src="file://{{ imagen1 }}" width="200" height="100" /><br>
-              ___________________________<br>
-              Wilmer Valero<br>
-              C.I.N° V-16.656.996<br>
-              Vocero Unidad Contralora<br>
-              Telf. 0414-732.76.94
-            </td>
-            <td>
-              <img src="file://{{ mara }}" width="200" height="100" /><br>
-              ___________________________<br>
-              Maranyelin Y. Meza<br>
-              C.I.N° V-16.201.648<br>
-              Vocera Comité Hábitat y Vivienda<br>
-              Telf. 0426-477.66.24
-            </td>
-            <td>
-              <img src="file://{{ jairo }}" width="200" height="100" /><br>
-              ___________________________<br>
-              Jairo Hernández<br>
-              C.I.N° V-13.830.003<br>
-              Vocero Unidad Administrativa<br>
-              Telf. 0426-436.38.80
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <br><br>
-      <p class="text-right">
+      
+      <div class="signatures">
+        <div class="signature">
+          <img src="file://{{ imagen1 }}" class="signature-img" />
+          <div>___________________________</div>
+          <div>Wilmer Valero</div>
+          <div>C.I.N° V-16.656.996</div>
+          <div>Vocero Unidad Contralora</div>
+          <div>Telf. 0414-732.76.94</div>
+        </div>
+        
+        <div class="signature">
+          <img src="file://{{ mara }}" class="signature-img" />
+          <div>___________________________</div>
+          <div>Maranyelin Y. Meza</div>
+          <div>C.I.N° V-16.201.648</div>
+          <div>Vocera Comité Hábitat y Vivienda</div>
+          <div>Telf. 0426-477.66.24</div>
+        </div>
+        
+        <div class="signature">
+          <img src="file://{{ jairo }}" class="signature-img" />
+          <div>___________________________</div>
+          <div>Jairo Hernández</div>
+          <div>C.I.N° V-13.830.003</div>
+          <div>Vocero Unidad Administrativa</div>
+          <div>Telf. 0426-436.38.80</div>
+        </div>
+      </div>
+
+      <p class="font-size text-right">
         Consejo Comunal “Domingo Salazar Rojas”
         <br>
         Rif C-299884472
       </p>
-      <br><br>
-      <p class="text-center">
+      <br>
+      <p class="text-center font-size">
         Aquí no se rinde nadie, aquí no se cansa nadie…”Rendirse es traición, cansarse
         es falta de conciencia, el que se cansa de una lucha es que no tiene conciencia,
         por más dificultades que haya en el camino…” <strong>Hugo Rafael Chávez Frías.</strong>
       </p>
-      <p class="text-center fs-sm">
+      <p class="text-center font-size">
         “Para el logro del triunfo siempre ha sido indispensable pasar por la senda de los
         sacrificios" <strong>Simón Bolívar.</strong>
       </p>

@@ -12,16 +12,6 @@ Probado en últimas versiones estables de Debian y Ubuntu. Instalar los siguient
 
     ~# apt install curl git graphviz graphviz-dev phppgadmin postgresql python3-dev virtualenv
 
-Para instalar npm hacer lo siguiente
-
-    // Ubuntu
-    ~$ curl -sL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-
-    // Debian
-    ~# curl -sL https://deb.nodesource.com/setup_lts.x | bash -
-
-    ~# apt install -y nodejs
-
 Crear las siguientes carpetas
 
     ~$ mkdir Programación

@@ -158,6 +158,8 @@ STATICFILES_DIRS = (
     BASE_DIR / 'static/',
 )
 
+STATIC_ROOT = BASE_DIR / 'static_root'
+
 LOGIN_URL = 'user:login'
 
 LOGIN_REDIRECT_URL = 'base:home'
@@ -234,3 +236,10 @@ AUDITLOG_INCLUDE_ALL_MODELS=True
 
 # No registra los datos cargados usando loaddata
 AUDITLOG_DISABLE_ON_RAW_SAVE=True
+
+AUDITLOG_TWO_STEP_MIGRATION = True
+
+# Antes de migrar a auditlog versión 3 cambiar a True
+# Aplicar el comando python manage.py auditlogmigratejson
+# Luego cambiar valor a False
+AUDITLOG_USE_TEXT_CHANGES_IF_JSON_IS_NOT_PRESENT = False

@@ -1306,15 +1306,9 @@ class ResidenceProofTemplateView(TemplateView):
         context['jairo'] = settings.BASE_DIR / 'static/img/jairo.png'
         html = render_to_string(self.template_name, context)
         HTML(
-            string=html, base_url=request.build_absolute_uri()
-        ).write_pdf(
-            response,
-            font_config=font_config,
-            stylesheets=[
-                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
-            ],
-            presentational_hints=True
-        )
+            string=html,
+            base_url=request.build_absolute_uri(),
+        ).write_pdf(response, font_config=font_config)
         return response
 
 
