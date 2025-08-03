@@ -1376,10 +1376,6 @@ class LowResourcesTemplateView(TemplateView):
         ).write_pdf(
             response,
             font_config=font_config,
-            stylesheets=[
-                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
-            ],
-            presentational_hints=True
         )
         return response
 
