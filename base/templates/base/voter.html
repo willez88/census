@@ -4,23 +4,94 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Residentes</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
     <style>
       @page {
-        size: "A4";
-        margin: 1.0cm 1.5cm 1.0cm 1.5cm;
+        size: A4 landscape;
+        /* Cambio a horizontal para más espacio */
+        margin: 1cm;
       }
-
+    
       body {
         font-family: "Times New Roman", Times, serif;
-        font-size: 12pt;
-        line-height: 1.5;
+        font-size: 10pt;
+        /* Reducir tamaño de fuente */
+        line-height: 1.3;
+      }
+    
+      .tabla-container {
+        width: 100%;
+        overflow-x: auto;
+      }
+    
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        /* Forzar distribución uniforme */
+        word-wrap: break-word;
+        page-break-inside: auto;
+      }
+    
+      th,
+      td {
+        border: 1px solid #000;
+        padding: 5px;
+        text-align: left;
+        vertical-align: top;
+      }
+    
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+    
+      /* Anchuras específicas para columnas */
+      .col-nombre {
+        width: 15%;
+      }
+    
+      .col-cedula {
+        width: 8%;
+      }
+    
+      .col-fecha {
+        width: 12%;
+      }
+    
+      .col-edad {
+        width: 5%;
+      }
+    
+      .col-telefono {
+        width: 10%;
+      }
+    
+      .col-voto {
+        width: 8%;
+      }
+    
+      .col-direccion {
+        width: 15%;
+      }
+    
+      .col-apto {
+        width: 7%;
+      }
+    
+      .col-firma {
+        width: 10%;
+      }
+    
+      /* Evitar saltos de página en filas */
+      tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
       }
     </style>
   </head>
 
   <body>
-    <main class="container">
+    <main class="tabla-container">
       <table class="table table-bordered">
         <thead>
           <tr>

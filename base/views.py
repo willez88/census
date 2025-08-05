@@ -1227,9 +1227,6 @@ class SociodemographicTemplateView(TemplateView):
         HTML(string=html).write_pdf(
             response,
             font_config=font_config,
-            stylesheets=[
-                CSS(settings.BASE_DIR / 'static/css/bootstrap.min.css')
-            ],
         )
         return response
 
