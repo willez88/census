@@ -232,10 +232,10 @@ LOGGING = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Registra todos los modelos
-AUDITLOG_INCLUDE_ALL_MODELS=True
+AUDITLOG_INCLUDE_ALL_MODELS = True
 
 # No registra los datos cargados usando loaddata
-AUDITLOG_DISABLE_ON_RAW_SAVE=True
+AUDITLOG_DISABLE_ON_RAW_SAVE = True
 
 AUDITLOG_TWO_STEP_MIGRATION = True
 

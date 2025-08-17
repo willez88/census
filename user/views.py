@@ -29,6 +29,7 @@ from base.models import (
     Relationship,
     VoteType,
 )
+from user.functions import generate_password
 
 from .forms import (
     AdmonitionForm,
@@ -719,7 +720,7 @@ class FamilyGroupSaveView(View):
                 },
                 status=422
             )
-        password = User.objects.make_random_password()
+        password = generate_password()
         user = User.objects.create_user(
             record['username'],
             record['email'],
