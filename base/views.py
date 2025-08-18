@@ -497,33 +497,35 @@ class ExportExcelStreetLeaderView(View):
             street_leader=street_leader
         ):
             for person in Person.objects.filter(family_group=family_group):
-                column1 = 'A'+str(c)
-                worksheet[column1] = person.id_number
-
-                column2 = 'B'+str(c)
-                worksheet[
-                    column2
-                ] = person.first_name + ' ' + person.last_name
-
-                column3 = 'C'+str(c)
-                worksheet[column3] = person.phone
-
-                column4 = 'D'+str(c)
-                worksheet[column4] = person.email
-
-                column5 = 'E'+str(c)
-                worksheet[column5] = str(person.vote_type)
-
-                column6 = 'F'+str(c)
-                worksheet[column6] = str(person.relationship)
-
-                column7 = 'G'+str(c)
+                # Solo jefes familiares
                 if person.family_head:
-                    worksheet[column7] = 'SI'
-                else:
-                    worksheet[column7] = 'No'
+                    column1 = 'A'+str(c)
+                    worksheet[column1] = person.id_number
 
-                c = c + 1
+                    column2 = 'B'+str(c)
+                    worksheet[
+                        column2
+                    ] = person.first_name + ' ' + person.last_name
+
+                    column3 = 'C'+str(c)
+                    worksheet[column3] = person.phone
+
+                    column4 = 'D'+str(c)
+                    worksheet[column4] = person.email
+
+                    column5 = 'E'+str(c)
+                    worksheet[column5] = str(person.vote_type)
+
+                    column6 = 'F'+str(c)
+                    worksheet[column6] = str(person.relationship)
+
+                    column7 = 'G'+str(c)
+                    if person.family_head:
+                        worksheet[column7] = 'SI'
+                    else:
+                        worksheet[column7] = 'No'
+
+                    c = c + 1
 
             column8 = 'A'+str(c)
             worksheet[column8] = ' '
