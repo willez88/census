@@ -2030,16 +2030,19 @@ class CondominiumDetailView(DetailView):
             street_leaders = StreetLeader.objects.filter(
                 community_leader__profile__user=user
             )
+            is_community_leader = True
         elif StreetLeader.objects.filter(profile__user=user):
             street_leaders = StreetLeader.objects.filter(
                 profile__user=user
             )
+            is_community_leader = False
         elif FamilyGroup.objects.filter(profile__user=user):
             family_group = FamilyGroup.objects.get(profile__user=user)
             street_leaders = StreetLeader.objects.filter(
                 profile=family_group.street_leader.profile
             )
             context['person'] = family_group.person_set.get(family_head=True)
+            is_community_leader = False
         amount_street_leaders = {}
         total_sum = 0
         for street_leader in street_leaders:
@@ -2075,7 +2078,10 @@ class CondominiumDetailView(DetailView):
         context['total_sum'] = (total_sum, total_sum/self.object.rate)
 
         # Paginación de los pagos
-        payment_list = self.object.payment_set.all()
+        if is_community_leader:
+            payment_list = self.object.payment_set.all()
+        else:
+            payment_list = self.object.payment_set.filter(user=street_leaders[0].profile.user)
         paginator = Paginator(payment_list, self.paginate_by)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
