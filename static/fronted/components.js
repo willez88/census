@@ -847,6 +847,24 @@ Vue.component('search', {
               </div>
             </div>
             <!-- row - END -->
+
+            <!-- row - BEGIN -->
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="col-sm control-label font-weight-bold">
+                    Carta de Buena Conducta
+                  </label>
+                  <div class="col-sm">
+                    <div class="form-inline">
+                      <a :href="'/descargar-carta-buena-conducta/' + person.id_number + '/'" target="_blank"> Descargar </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- row - END -->
+
           </div>
         </div>
       </div>

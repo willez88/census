@@ -14,6 +14,7 @@ from .views import (
     FilterAgeTemplateView,
     GenderListView,
     GetDepartmentView,
+    GoodConductTemplateView,
     HomeView,
     LowResourcesTemplateView,
     RelationshipListView,
@@ -108,6 +109,12 @@ urlpatterns = [
         'descargar-carta-bajos-recursos/<slug:id_number>/',
         login_required(LowResourcesTemplateView.as_view()),
         name='low_resources'
+    ),
+
+    path(
+        'descargar-carta-buena-conducta/<slug:id_number>/',
+        login_required(GoodConductTemplateView.as_view()),
+        name='good_conduct'
     ),
 
     path(
