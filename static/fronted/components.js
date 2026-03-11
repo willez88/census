@@ -108,6 +108,7 @@ Vue.component('family-group', {
       vm.errors.people.push({
         first_name: [],
         last_name: [],
+        nationality: [],
         id_number: [],
         email: [],
         phone: [],
@@ -121,6 +122,7 @@ Vue.component('family-group', {
         first_name: '',
         last_name: '',
         has_id_number: 'y',
+        nationality: 'V',
         id_number: '',
         email: '',
         phone: '',
@@ -201,6 +203,7 @@ Vue.component('family-group', {
           vm.errors.people.push({
             first_name: [],
             last_name: [],
+            nationality: [],
             id_number: [],
             email: [],
             phone: [],
@@ -394,6 +397,10 @@ Vue.component('family-group', {
                     <select class="select2" title="¿Tiene cédula de identidad?" v-model="person.has_id_number">
                       <option value="y">Si</option>
                       <option value="n">No</option>
+                    </select>
+                    <select class="select2" title="Indique la nacionalidad" v-model="person.nationality" v-show="person.has_id_number=='y'">
+                      <option value="V">Venezolano</option>
+                      <option value="E">Extranjero</option>
                     </select>
                   </div>
                   <div class="form-group" v-show="person.has_id_number=='y'">

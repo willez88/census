@@ -258,6 +258,13 @@ class FamilyGroup(models.Model):
         ]
 
 
+## Nacionalidades
+NATIONALITY = (
+    ('V', 'Venezolano'),
+    ('E', 'Extranjero')
+)
+
+
 class Person(models.Model):
     """!
     Clase que contiene los datos principales de las personas
@@ -272,6 +279,11 @@ class Person(models.Model):
 
     # Apellidos
     last_name = models.CharField('apellidos', max_length=100)
+
+    # Nacionalidad
+    nationality = models.CharField(
+        'nacionalidad', max_length=1, choices=NATIONALITY, default='V',
+    )
 
     # Cédula de identidad
     id_number = models.CharField(

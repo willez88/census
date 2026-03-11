@@ -759,6 +759,7 @@ class FamilyGroupSaveView(View):
                 Person.objects.create(
                     first_name=person['first_name'],
                     last_name=person['last_name'],
+                    nationality=person['nationality'],
                     id_number=person['id_number'],
                     email=person['email'],
                     phone=person['phone'],
@@ -958,6 +959,7 @@ class FamilyGroupUpdateView(View):
                     defaults={
                         'first_name': person['first_name'],
                         'last_name': person['last_name'],
+                        'nationality': person['nationality'],
                         'id_number': person['id_number'],
                         'email': person['email'],
                         'phone': person['phone'],
@@ -1083,7 +1085,7 @@ class FamilyGroupDetailView(View):
             person.append({
                 'id': p.id, 'first_name': p.first_name,
                 'last_name': p.last_name, 'has_id_number': 'y',
-                'id_number': p.id_number, 'email': p.email,
+                 'nationality': p.nationality, 'id_number': p.id_number, 'email': p.email,
                 'vote_type_id': p.vote_type.id if p.vote_type else '',
                 'relationship_id': p.relationship.id if p.relationship else '',
                 'phone': p.phone, 'birthdate': p.birthdate,

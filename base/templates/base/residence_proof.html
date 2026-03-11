@@ -104,7 +104,7 @@
 
       <p class="text-justify">
         Que el (la) ciudadano (a): {{ person.first_name|title }} {{ person.last_name|title }},
-        Titular de la C.I. N° {{ person.id_number }}, reside en el
+        Titular de la C.I. N° {{ person.nationality }} {{ person.id_number }}, reside en el
         {{ person.family_group.department.building.bridge.block.name }},
         {{ person.family_group.department.building.name }},
         Piso {{ person.family_group.department.name.0 }}{{ person.family_group.department.name.1 }},

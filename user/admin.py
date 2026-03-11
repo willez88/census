@@ -100,7 +100,7 @@ class PersonAdmin(admin.ModelAdmin):
 
     # Mostrar los campos de la clase
     list_display = (
-        'first_name', 'last_name', 'id_number', 'email', 'phone',
+        'first_name', 'last_name', 'nationality', 'id_number', 'email', 'phone',
         'family_head', 'vote_type', 'relationship', 'family_group',
     )
 
